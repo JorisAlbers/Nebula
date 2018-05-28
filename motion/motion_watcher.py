@@ -52,12 +52,8 @@ class MotionWatcher(threading.Thread):
             while not self.stop_event.is_set():
                 #TODO LOCK
                 self.signals = 0
-                time_start = Timing.millis()
                 Timing.delay(wait_ms)
                 signals_passed_in_period = self.signals
-                time_stop = Timing.millis()
-                actual_time_passed = time_stop - time_start
-                print(actual_time_passed)
                 self.rpm = (signals_passed_in_period / self.PULSES_PER_ROTION) * periods_in_minute
         except KeyboardInterrupt:
             print("Quitting motion_watcher due to keyboard interrupt")
