@@ -20,7 +20,7 @@ class MotionWatcher(threading.Thread):
         
         self.signals = 0
         self.direction = 0 # 0 = forward, 1 = backwards
-        self.rpm = 0
+        self.rpm = 0.0
         #GPIO
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(pinA , GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -53,8 +53,9 @@ class MotionWatcher(threading.Thread):
                 #TODO LOCK
                 self.signals = 0
                 Timing.delay(wait_ms)
-                signals_passed_in_period = self.signals
-                self.rpm = (signals_passed_in_period / self.PULSES_PER_ROTION) * periods_in_minute
+                signals_passed_in_period = float(self.signals)
+                rotations_in_period = signals_passed_in_period/ self.PULSES_PER_ROTION
+                self.rpm = rotations_in_period / periods_in_minute
         except KeyboardInterrupt:
             print("Quitting motion_watcher due to keyboard interrupt")
         except Exception, e:
