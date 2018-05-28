@@ -47,7 +47,7 @@ class MotionWatcher(threading.Thread):
         Start the motion watcher.
         int wait_ms - The period in miliseconds to count pulses."""
         minute_in_miliseconds = 60000
-        periods_in_minute = minute_in_miliseconds / 200
+        periods_in_minute = minute_in_miliseconds / wait_ms
         try:
             while not self.stop_event.is_set():
                 #TODO LOCK
