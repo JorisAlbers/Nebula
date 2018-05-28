@@ -55,7 +55,7 @@ class MotionWatcher(threading.Thread):
                 Timing.delay(wait_ms)
                 signals_passed_in_period = float(self.signals)
                 rotations_in_period = signals_passed_in_period/ self.PULSES_PER_ROTION
-                self.rpm = rotations_in_period / periods_in_minute
+                self.rpm = rotations_in_period * periods_in_minute
         except KeyboardInterrupt:
             print("Quitting motion_watcher due to keyboard interrupt")
         except Exception, e:
