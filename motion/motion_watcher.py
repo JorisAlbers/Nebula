@@ -52,15 +52,18 @@ class MotionWatcher(threading.Thread):
             while not self.stop_event.is_set():
                 #TODO LOCK
                 self.signals = 0
-                time_start = Timing.clock_gettime()
+                time_start = Timing.millis()
                 Timing.delay(wait_ms)
                 signals_passed_in_period = self.signals
-                time_stop = Timing.clock_gettime()
+                time_stop = Timing.millis()
                 actual_time_passed = time_stop - time_start
                 print(actual_time_passed)
                 self.rpm = (signals_passed_in_period / self.PULSES_PER_ROTION) * periods_in_minute
-        except:
+        except KeyboardInterrupt:
+            print("Quitting motion_watcher due to keyboard interrupt")
+        except Exception, e:
             print("Error during run of MotionWatcher")
+            raise e
         finally:
             GPIO.cleanup() #TODO check if this does not interfere with other GPIO using classes. If so, add wrapper
 
