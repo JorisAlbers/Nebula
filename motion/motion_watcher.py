@@ -56,7 +56,7 @@ class MotionWatcher(threading.Thread):
                 Timing.delay(wait_ms)
                 signals_passed_in_period = self.signals
                 time_stop = Timing.clock_gettime()
-                actual_time_passed = time_stop - time.start
+                actual_time_passed = time_stop - time_start
                 print(actual_time_passed)
                 self.rpm = (signals_passed_in_period / self.PULSES_PER_ROTION) * periods_in_minute
         except:
