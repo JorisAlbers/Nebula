@@ -1,6 +1,7 @@
 import threading
 import motion_watcher
 from .. import Timing
+import RPi.GPIO as GPIO
 
 class motion_controller(threading.Thread):
     """
@@ -9,12 +10,26 @@ class motion_controller(threading.Thread):
     
     #The maximum rounds per minute allowed
     MAXIMUM_RPM = 20
+    PWM_FREQ_IN_HERTZ = 10
+    PWM_DUTYCYCLE = 100 #0-100
 
-    def __init__(self,motion_watcher):
+    def __init__(self,pinPWM, pinDIR, motion_watcher):
         """
-        MotionWatcher motion_watcher - class providing speed and direction feedback
+        MotionWatcher motion_watcher - class providing speed and direction feedback\n
+        int pinPWM - The GPIO pin outputing PWM to the control board to control the speed.\t
+        int pinDIR - The GPIO pin outputting signal to the control board to control the direction.
         """
         self.motion_watcher = motion_watcher
+
+        #GPIO
+        #   PWM
+        self.pinPWM = pinPWM
+        self.pinDIR = pinDIR
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(pinPWM , GPIO.OUT)
+        self.PWM = GPIO.PWM(pinPWM, self.PWM_FREQ_IN_HERTZ)
+        #   DIR
+        GPIO.setup(pinDIR , GPIO.OUT)
 
         #Threading
         threading.Thread.__init__(self)
@@ -24,7 +39,8 @@ class motion_controller(threading.Thread):
         """
         Start the motion controller.
         """
-        
+        self.PWM.start(self.PWM_DUTYCYCLE)
+
 
     def stop(self, stop_motion_watcher = True):
         """Stop the motion controller"""
