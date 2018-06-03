@@ -10,8 +10,8 @@ class motion_controller(threading.Thread):
     
     #The maximum rounds per minute allowed
     MAXIMUM_RPM = 20
-    PWM_FREQ_IN_HERTZ = 10
-    PWM_DUTYCYCLE = 100 #0-100
+    PWM_FREQ_IN_HERTZ = 2000
+    PWM_MAX_DUTYCYCLE = 100
 
     def __init__(self,pinPWM, pinDIR, motion_watcher):
         """
@@ -39,9 +39,8 @@ class motion_controller(threading.Thread):
         """
         Start the motion controller.
         """
-        self.PWM.start(self.PWM_DUTYCYCLE)
-
-
+        self.PWM.start(0)
+            
     def stop(self, stop_motion_watcher = True):
         """Stop the motion controller"""
         print("Stopping motion controller")
