@@ -2,7 +2,7 @@ import threading
 import motion_watcher
 from .. import Timing
 import RPi.GPIO as GPIO
-from config import *
+from ..config import *
 
 
 class motion_controller(threading.Thread):

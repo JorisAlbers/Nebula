@@ -1,6 +1,6 @@
 from Cheetah.Template import Template
 import os
-from config import *
+from ..config import *
 
 
 class Controller(object):

@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 from .. import Timing
 import threading
-from config import *
+from ..config import *
 
 
 class MotionWatcher(threading.Thread):
@@ -9,7 +9,8 @@ class MotionWatcher(threading.Thread):
     Watches the movement speed and direction of a motor.
     """
 
-    def __init__(self, pinA=motion_config.hall_sensor_a, pinB=motion_config.hall_sensor_b, pinC=motion_config.hall_sensor_c):
+    def __init__(self, pinA=motion_config.hall_sensor_a, pinB=motion_config.hall_sensor_b,
+                 pinC=motion_config.hall_sensor_c):
         """
         int pinA - the GPIO BCM pin number of pin A.
         int pinB - the GPIO BCM pin number of pin B.
@@ -48,7 +49,6 @@ class MotionWatcher(threading.Thread):
             print 'hello world'
         elif channel == self.pinC:
             print 'hall sensor activated'
-
 
     def run(self, wait_ms=200):
         """
