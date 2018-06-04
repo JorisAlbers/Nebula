@@ -1,10 +1,10 @@
 class WebConfig:
-	port = 8000
+    port = 8000
 
 
 class LedConfig:
-	leds = []
+    leds = []
 
 
 class MotorConfig:
-	motors = []
+    motors = []
