@@ -9,13 +9,15 @@ class MotionWatcher(threading.Thread):
     Watches the movement speed and direction of a motor.
     """
 
-    def __init__(self, pinA, pinB):
+    def __init__(self, pinA=motion_config.hall_sensor_a, pinB=motion_config.hall_sensor_b, pinC=motion_config.hall_sensor_c):
         """
         int pinA - the GPIO BCM pin number of pin A.
         int pinB - the GPIO BCM pin number of pin B.
+        int pinC - the GPIO BCM pin number of pin C.
         """
         self.pinA = pinA
         self.pinB = pinB
+        self.pinC = pinC
 
         self.signals = 0
         self.direction = 0  # 0 = forward, 1 = backwards
@@ -24,8 +26,10 @@ class MotionWatcher(threading.Thread):
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(pinA, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.setup(pinB, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(pinC, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(pinA, GPIO.BOTH, callback=self.sensor_callback, bouncetime=10)
         GPIO.add_event_detect(pinB, GPIO.BOTH, callback=self.sensor_callback, bouncetime=10)
+        GPIO.add_event_detect(pinC, GPIO.BOTH, callback=self.sensor_callback, bouncetime=10)
 
         # Threading
         threading.Thread.__init__(self)
@@ -40,6 +44,11 @@ class MotionWatcher(threading.Thread):
         if channel == self.pinA:
             if signal:
                 self.signals += 1
+        elif channel == self.pinB:
+            print 'hello world'
+        elif channel == self.pinC:
+            print 'hall sensor activated'
+
 
     def run(self, wait_ms=200):
         """
