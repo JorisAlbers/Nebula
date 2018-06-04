@@ -22,7 +22,7 @@ class motion_controller(threading.Thread):
         """
         self.motion_watcher = motion_watcher
 
-        self.fifo = Queue()
+        # self.fifo = Queue()
         # GPIO
         #   PWM
         self.pinPWM = pinPWM
@@ -43,7 +43,7 @@ class motion_controller(threading.Thread):
         """
         self.PWM.start(0)
 
-    def add_motion(speed, forwards, until):
+    def add_motion(self, speed, forwards, until):
         """
         Adds a new motion to the FIFO\n
         int speed - the RPM at which to rotate.

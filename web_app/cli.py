@@ -1,12 +1,12 @@
 #!/usr/bin/python
 from BaseHTTPServer import HTTPServer
 from routes import *
-from config import WebConfig
+from config import web_config
 
 
 def main():
     try:
-        httpd = HTTPServer(('', WebConfig.port), MyRequestHandler)
+        httpd = HTTPServer(('', web_config.port), MyRequestHandler)
         print 'Server started...'
         httpd.serve_forever()
     except:

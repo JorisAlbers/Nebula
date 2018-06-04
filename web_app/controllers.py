@@ -13,7 +13,7 @@ class Controller(object):
 
 
 class ContentController(Controller):
-    CONTENT_BASE_PATH = 'app/public/'
+    CONTENT_BASE_PATH = 'web_app/public/'
 
     def __init__(self, server):
         Controller.__init__(self, server)
@@ -43,10 +43,10 @@ class IndexController(Controller):
         Controller.__init__(self, server)
 
     def indexAction(self):
-        nameSpace = {'title': 'Nebula', 'config': WebConfig}
+        nameSpace = {'title': 'Nebula', 'config': web_config}
 
         self.server.send_response(200)
         self.server.send_header('Content-type', 'text/html')
         self.server.end_headers()
-        self.server.wfile.write(Template(file='app/views/index.tmpl', searchList=[nameSpace]))
+        self.server.wfile.write(Template(file='web_app/views/index.tmpl', searchList=[nameSpace]))
         return
