@@ -7,7 +7,7 @@ class MotionWatcher(threading.Thread):
     """
     Watches the movement speed and direction of a motor.
     """
-    PULSES_PER_ROTION = 16
+    PULSES_PER_ROTION = 3
     REDUCTION = 100
 
     def __init__(self,pinA,pinB):
@@ -80,4 +80,3 @@ class MotionWatcher(threading.Thread):
     def stopped(self):
         """Check if the motion watcher is or has stopped"""
         return self.stop_event.is_set()
-
