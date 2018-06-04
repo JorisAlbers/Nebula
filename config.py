@@ -7,4 +7,11 @@ class led_config:
 
 
 class motion_config:
-    motors = []
+    # Controller settings
+    maximum_rpm = 80
+    pwm_freq_in_hertz = 20000
+    pwm_max_dutycycle = 100
+
+    # Watcher settings
+    pulses_per_rotation = 16
+    reduction = 100

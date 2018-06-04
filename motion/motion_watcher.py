@@ -1,14 +1,13 @@
 import RPi.GPIO as GPIO
 from .. import Timing
 import threading
+from config import *
 
 
 class MotionWatcher(threading.Thread):
     """
     Watches the movement speed and direction of a motor.
     """
-    PULSES_PER_ROTION = 16
-    REDUCTION = 100
 
     def __init__(self, pinA, pinB):
         """
@@ -38,8 +37,8 @@ class MotionWatcher(threading.Thread):
         # Direction is measured utilising both pins
 
         # RPM is measured utilizing one pin, pinA
-        if (channel == self.pinA):
-            if (signal):
+        if channel == self.pinA:
+            if signal:
                 self.signals += 1
 
     def run(self, wait_ms=200):
@@ -54,7 +53,7 @@ class MotionWatcher(threading.Thread):
                 self.signals = 0
                 Timing.delay(wait_ms)
                 signals_passed_in_period = float(self.signals)
-                rotations_in_period = signals_passed_in_period / self.PULSES_PER_ROTION
+                rotations_in_period = signals_passed_in_period / motion_config.pulses_per_rotation
                 self.rpm = rotations_in_period * periods_in_minute
         except KeyboardInterrupt:
             print("Quitting motion_watcher due to keyboard interrupt")
@@ -71,7 +70,7 @@ class MotionWatcher(threading.Thread):
     def get_axial_rpm(self):
         """Get the rpm of the axis"""
         motor_rpm = self.get_motor_rpm()
-        return motor_rpm / self.REDUCTION
+        return motor_rpm / motion_config.reduction
 
     def stop(self):
         """Stop the motion watcher"""
