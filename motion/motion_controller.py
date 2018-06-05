@@ -3,7 +3,7 @@ import motion_watcher
 from .. import Timing
 import RPi.GPIO as GPIO
 from ..config import *
-
+import Queue
 
 class motion_controller(threading.Thread):
     """
@@ -20,7 +20,7 @@ class motion_controller(threading.Thread):
         """
         self.motion_watcher = motion_watcher
 
-        self.fifo = Queue()
+        self.fifo = Queue.Queue()
         # GPIO
         #   PWM
         self.pinPWM = pinPWM
