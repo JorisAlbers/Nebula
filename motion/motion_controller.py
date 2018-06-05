@@ -10,7 +10,7 @@ class motion_controller(threading.Thread):
     Controls the motion of a motor
     """
 
-    def __init__(self, pinPWM, pinDIR, motion_watcher):
+    def __init__(self, pinPWM=motion_config.pwm_pin, pinDIR=motion_config.dir_pin, motion_watcher=None):
         """
         MotionWatcher motion_watcher - class providing speed and direction feedback\n
         int pinPWM - The GPIO pin outputing PWM to the control board to control the speed.\t
