@@ -20,7 +20,7 @@ class motion_controller(threading.Thread):
         """
         self.motion_watcher = motion_watcher
 
-        self.fifo = Queue()
+        # self.fifo = Queue()
         # GPIO
         #   PWM
         self.pinPWM = pinPWM
@@ -39,7 +39,7 @@ class motion_controller(threading.Thread):
         """
         Start the motion controller.
         """
-        self.PWM.start(0)
+        self.PWM.start(motion_config.pwm_max_dutycycle)
 
     def add_motion(self, speed, forwards, until):
         """

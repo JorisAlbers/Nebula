@@ -13,7 +13,7 @@ class motion_config:
     pwm_max_dutycycle = 100
 
     # Watcher settings
-    pulses_per_rotation = 3
+    pulses_per_rotation = 16
     reduction = 100
     hall_sensor_a = 5
     hall_sensor_b = 17
