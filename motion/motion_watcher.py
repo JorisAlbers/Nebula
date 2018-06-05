@@ -45,10 +45,6 @@ class MotionWatcher(threading.Thread):
         if channel == self.pinA:
             if signal:
                 self.signals += 1
-        elif channel == self.pinB:
-            print 'hello world'
-        elif channel == self.pinC:
-            print 'hall sensor activated'
 
     def run(self, wait_ms=200):
         """
