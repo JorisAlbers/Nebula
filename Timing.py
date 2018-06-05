@@ -35,6 +35,7 @@ LINUX:
 """
 
 import ctypes, os
+import time
 
 # Constants:
 VERSION = '0.2.0'
@@ -136,3 +137,7 @@ def delayMicroseconds(delay_us):
     while (micros() - t_start < delay_us):
         pass  # do nothing
     return
+
+def unix_timestamp():
+    "Get the UNIX timestamp"
+    return time.time()
