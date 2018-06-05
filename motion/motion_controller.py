@@ -40,6 +40,34 @@ class motion_controller(threading.Thread):
         Start the motion controller.
         """
         self.PWM.start(0)
+        # motion is a 1d array, [int speed, bool forwards, int until]
+        movement = None
+        try:
+            while not self.stop_event.is_set():
+                if(movement is not None):
+                    # display motion until time
+                    while not self.stop_event.is_set() and movement[2] > Timing.unix_timestamp:
+                        time_start = Timing.micros()
+                        #do stuff
+                        time_end = Timing.micros()
+                        #Delay for a bit to reduce stress
+                        Timing.delayMicroseconds(2000 - (time_end - time_start))
+                else:
+                    if(not self.fifo.empty()):
+                        movement = self.fifo.get()
+                    else:
+                        Timing.delay(500)
+        except Exception, e:
+            print("Error during run of motion_controller, "+str(e))
+            raise e
+        finally:
+            self.set_speed(0)
+            self.PWM.stop()
+            GPIO.cleanup()  # TODO check if this does not interfere with other GPIO using classes. If so, add wrapper
+
+    def set_speed(self,rpm):
+        pass
+        
 
     def add_motion(self, speed, forwards, until):
         """
@@ -59,8 +87,8 @@ class motion_controller(threading.Thread):
             raise ValueError("The forwards parameter must be a bool")
         if not isinstance(until, int):
             raise ValueError("The until must be an integer, representing an UNIX timestamp")
-        # TODO check if until is a valid timestamp
-        # TODO check if the until timestamp has not already passed
+        if (Timing.unix_timestamp >= until):
+            raise ValueError("The until time has already passed")
         self.fifo.put([speed, forwards, until])
 
     def stop(self, stop_motion_watcher=True):
