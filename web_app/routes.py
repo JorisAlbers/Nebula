@@ -32,7 +32,7 @@ class MyRequestHandler(BaseHTTPRequestHandler):
         routes = [
 
             {'regexp': r'^/$', 'controller': 'IndexController', 'action': 'indexAction'},
-            {'regexp': r'^/content', 'controller': 'ContentController', 'action': 'showAction'},
+            {'regexp': r'^/public/', 'controller': 'ContentController', 'action': 'showAction'},
             {'regexp': r'^/update', 'controller': 'UpdateController', 'action': 'indexAction'},
 
         ]

@@ -15,13 +15,13 @@ class Controller(object):
 
 
 class ContentController(Controller):
-	CONTENT_BASE_PATH = 'web_app/public/'
+	CONTENT_BASE_PATH = '/public/'
 
 	def __init__(self, server):
 		Controller.__init__(self, server)
 
 	def showAction(self):
-		filename = ContentController.CONTENT_BASE_PATH + self.server.path[9:]
+		filename = self.server.path[1:]
 		if os.access(filename, os.R_OK) and not os.path.isdir(filename):
 			# TODO: is there any possibility to access files outside the root with ..?
 			file = open(filename, "r")
