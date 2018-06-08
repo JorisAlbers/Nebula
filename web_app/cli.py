@@ -1,7 +1,7 @@
 #!/usr/bin/python
 from BaseHTTPServer import HTTPServer
 from routes import *
-from ..config import web_config
+from config import *
 
 
 def main():

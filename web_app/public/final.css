@@ -1,0 +1,9 @@
+main {
+    position: relative
+}
+
+.update-button {
+    position: absolute;
+    bottom: 3px;
+    right: 3px;
+}

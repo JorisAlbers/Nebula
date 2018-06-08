@@ -26,10 +26,10 @@ class motion_controller(threading.Thread):
         self.pinPWM = pinPWM
         self.pinDIR = pinDIR
         GPIO.setmode(GPIO.BCM)
-        GPIO.setup(pinPWM, GPIO.OUT)
-        self.PWM = GPIO.PWM(pinPWM, motion_config.pwm_freq_in_hertz)
+        GPIO.setup(self.pinPWM, GPIO.OUT)
+        self.PWM = GPIO.PWM(self.pinPWM, motion_config.pwm_freq_in_hertz)
         #   DIR
-        GPIO.setup(pinDIR, GPIO.OUT)
+        GPIO.setup(self.pinDIR, GPIO.OUT)
 
         # Threading
         threading.Thread.__init__(self)
@@ -39,7 +39,7 @@ class motion_controller(threading.Thread):
         """
         Start the motion controller.
         """
-        self.PWM.start(motion_config.pwm_max_dutycycle)
+        self.PWM.start(0)
 
     def add_motion(self, speed, forwards, until):
         """

@@ -1,6 +1,6 @@
 from Cheetah.Template import Template
 import os
-from ..config import *
+from config import *
 
 
 class Controller(object):
@@ -49,4 +49,19 @@ class IndexController(Controller):
         self.server.send_header('Content-type', 'text/html')
         self.server.end_headers()
         self.server.wfile.write(Template(file='web_app/views/index.tmpl', searchList=[nameSpace]))
+        return
+
+
+class UpdateController(Controller):
+
+    def __init__(self, server):
+        Controller.__init__(self, server)
+
+    def indexAction(self):
+        nameSpace = {'title': 'Nebula', 'config': web_config}
+
+        self.server.send_response(200)
+        # new_path = '%s' % ('http://localhost:8000', '')
+        self.server.send_header('Location', 'http://localhost:8000/')
+        self.server.end_headers()
         return
