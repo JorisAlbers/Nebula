@@ -11,7 +11,7 @@ class LightAnimation():
         self.length_s1 = length_s1
         self.length_s2 = length_s2
 
-    def draw_frame(self):
+    def draw_frame(self,strip):
         pass
     
 
