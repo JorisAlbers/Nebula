@@ -71,7 +71,7 @@ class led_controller(threading.Thread):
         Adds a new animation to the FIFO\n
         Animation animation - the animation to show
         float speed - the percentage speed a at which to animate.
-        int until - the UNIX timestamp at which the motion will stop.
+        float until - the UNIX timestamp at which the motion will stop.
         """
         if not isinstance(animation, LightAnimation):
             raise ValueError("The animation must be an Light animation!")
@@ -79,7 +79,7 @@ class led_controller(threading.Thread):
             raise ValueError("The speed must be an float")
         if speed < 1:
             raise ValueError("The percentage speed must be larger than 0")
-        if not isinstance(until, int):
+        if not isinstance(until, float):
             raise ValueError("The until must be an integer, representing an UNIX timestamp")
         if Timing.unix_timestamp >= until:
             raise ValueError("The until time has already passed")

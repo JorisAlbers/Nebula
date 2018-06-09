@@ -72,7 +72,7 @@ class motion_controller(threading.Thread):
     def add_motion(self, speed, forwards, until):
         """
         Adds a new motion to the FIFO\n
-        int speed - the RPM at which to rotate.
+        float speed - the RPM at which to rotate.
         bool forwards - true to rotate forwards, false to rotate backwards.
         int until - the UNIX timestamp at which the motion will stop.
         :type until: int
@@ -85,7 +85,7 @@ class motion_controller(threading.Thread):
             raise ValueError("The speed must be between 0 and {0}".format(str(motion_config.maximum_rpm)))
         if not isinstance(forwards, bool):
             raise ValueError("The forwards parameter must be a bool")
-        if not isinstance(until, int):
+        if not isinstance(until, float):
             raise ValueError("The until must be an integer, representing an UNIX timestamp")
         if (Timing.unix_timestamp >= until):
             raise ValueError("The until time has already passed")
