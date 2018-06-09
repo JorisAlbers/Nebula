@@ -138,6 +138,7 @@ def delayMicroseconds(delay_us):
         pass  # do nothing
     return
 
+
 def unix_timestamp():
     "Get the UNIX timestamp"
     return time.time()

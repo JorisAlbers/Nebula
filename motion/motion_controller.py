@@ -5,6 +5,7 @@ import RPi.GPIO as GPIO
 from ..config import *
 import Queue
 
+
 class motion_controller(threading.Thread):
     """
     Controls the motion of a motor
@@ -44,30 +45,29 @@ class motion_controller(threading.Thread):
         movement = None
         try:
             while not self.stop_event.is_set():
-                if(movement is not None):
+                if (movement is not None):
                     # display motion until time
                     while not self.stop_event.is_set() and movement[2] > Timing.unix_timestamp:
                         time_start = Timing.micros()
-                        #do stuff
+                        # do stuff
                         time_end = Timing.micros()
-                        #Delay for a bit to reduce stress
+                        # Delay for a bit to reduce stress
                         Timing.delayMicroseconds(2000 - (time_end - time_start))
                 else:
-                    if(not self.fifo.empty()):
+                    if (not self.fifo.empty()):
                         movement = self.fifo.get()
                     else:
                         Timing.delay(500)
         except Exception, e:
-            print("Error during run of motion_controller, "+str(e))
+            print("Error during run of motion_controller, " + str(e))
             raise e
         finally:
             self.set_speed(0)
             self.PWM.stop()
             GPIO.cleanup()  # TODO check if this does not interfere with other GPIO using classes. If so, add wrapper
 
-    def set_speed(self,rpm):
+    def set_speed(self, rpm):
         pass
-
 
     def add_motion(self, speed, forwards, until):
         """

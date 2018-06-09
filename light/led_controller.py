@@ -3,6 +3,8 @@ import threading
 import Queue
 from .. import Timing
 from light_animation import *
+
+
 class led_controller(threading.Thread):
     """
     Controls ws2812b led strips
@@ -21,7 +23,7 @@ class led_controller(threading.Thread):
         self.pinPWM = pinPWM
         self.freq = freq
         self.dma_channel = dma_channel
-        self.led_invert = False # True to invert the signal (when using NPN transistor level shift)
+        self.led_invert = False  # True to invert the signal (when using NPN transistor level shift)
         self.length_l1 = length_l1
         self.length_l2 = length_l2
         self.length_s1 = length_s1
@@ -35,10 +37,10 @@ class led_controller(threading.Thread):
         Start the led controller.
         """
         self.strips.start()
-        animation = None # [light_animation, speed, until]
+        animation = None  # [light_animation, speed, until]
         try:
             while not self.stop_event.is_set():
-                if(animation is not None):
+                if (animation is not None):
                     # display animation until time
                     while not self.stop_event.is_set() and animation[2] > Timing.unix_timestamp:
                         time_start = Timing.micros()
@@ -46,42 +48,40 @@ class led_controller(threading.Thread):
                         animation[0].draw_frame(self.strips)
                         strip.show()
                         time_end = Timing.micros()
-                        #Delay for a bit to reduce stress
+                        # Delay for a bit to reduce stress
                         Timing.delayMicroseconds(2000 - (time_end - time_start))
                 else:
-                    if(not self.fifo.empty()):
+                    if (not self.fifo.empty()):
                         animation = self.fifo.get()
                     else:
                         Timing.delay(500)
         except Exception, e:
-            print("Error during run of motion_controller, "+str(e))
+            print("Error during run of motion_controller, " + str(e))
             raise e
         finally:
-            #todo cleanup
+            # todo cleanup
             pass
 
-
-
-    def add_animation(self,animation,speed,until):
+    def add_animation(self, animation, speed, until):
         """
         Adds a new animation to the FIFO\n
         Animation animation - the animation to show
         float speed - the percentage speed a at which to animate.
         int until - the UNIX timestamp at which the motion will stop.
         """
-        if not isinstance(animation,LightAnimation):
+        if not isinstance(animation, LightAnimation):
             raise ValueError("The animation must be an Light animation!")
-        if not isinstance(speed,float):
+        if not isinstance(speed, float):
             raise ValueError("The speed must be an float")
-        if (speed < 1):
+        if speed < 1:
             raise ValueError("The percentage speed must be larger than 0")
         if not isinstance(until, int):
             raise ValueError("The until must be an integer, representing an UNIX timestamp")
-        if (Timing.unix_timestamp >= until):
+        if Timing.unix_timestamp >= until:
             raise ValueError("The until time has already passed")
         animation.init_ring(self.length_l1, self.length_l2, self.length_s1, self.length_s2)
         self.fifo.put([animation, speed, until])
-        
+
     def stop(self):
         """Stop the led controller"""
         self.stop_event.set()
