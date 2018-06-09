@@ -1,6 +1,7 @@
 from neopixel import *
 import threading
 import Queue
+from light_animation import *
 class led_controller(threading.Thread):
     """
     Controls ws2812b led strips
@@ -40,7 +41,8 @@ class led_controller(threading.Thread):
         float speed - the percentage speed a at which to animate.
         int until - the UNIX timestamp at which the motion will stop.
         """
-        # TODO check if animation is valid
+        if not isinstance(animation,LightAnimation):
+            raise ValueError("The animation must be an Light animation!")
         if not isinstance(speed,float):
             raise ValueError("The speed must be an float")
         if (speed < 1):
