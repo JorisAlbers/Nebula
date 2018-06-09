@@ -40,7 +40,7 @@ class led_controller(threading.Thread):
         """
         Start the led controller.
         """
-        self.strips.start()
+        self.strips.begin()
         animation = None  # [light_animation, speed, until]
         try:
             while not self.stop_event.is_set():
