@@ -33,6 +33,33 @@ class led_controller(threading.Thread):
         """
         Start the led controller.
         """
+        self.strips.start()
+        animation = None # [light_animation, speed, until]
+        try:
+            while not self.stop_event.is_set():
+                if(animation is not None):
+                    # display animation until time
+                    while not self.stop_event.is_set() and movement[2] > Timing.unix_timestamp:
+                        time_start = Timing.micros()
+                        # Do stuff
+                        animation.draw_frame(self.strips)
+                        strip.show()
+                        time_end = Timing.micros()
+                        #Delay for a bit to reduce stress
+                        Timing.delayMicroseconds(2000 - (time_end - time_start))
+                else:
+                    if(not self.fifo.empty()):
+                        movement = self.fifo.get()
+                    else:
+                        Timing.delay(500)
+        except Exception, e:
+            print("Error during run of motion_controller, "+str(e))
+            raise e
+        finally:
+            #todo cleanup
+            pass
+
+
 
     def add_animation(self,animation,speed,until):
         """
@@ -51,6 +78,7 @@ class led_controller(threading.Thread):
             raise ValueError("The until must be an integer, representing an UNIX timestamp")
         # TODO check if until is a valid timestamp
         # TODO check if the until timestamp has not already passed
+        animation.init_ring(self.length_l1, self.length_l2, self.length_s1, self.length_s2):
         self.fifo.put([animation, speed, until])
         
     def stop(self):
