@@ -54,6 +54,7 @@ class led_controller(threading.Thread):
                         time_end = Timing.micros()
                         # Delay for a bit to reduce stress
                         Timing.delayMicroseconds(2000 - (time_end - time_start))
+                    animation = None
                 else:
                     if (not self.fifo.empty()):
                         animation = self.fifo.get()
