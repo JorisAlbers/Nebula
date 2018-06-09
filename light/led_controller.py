@@ -50,7 +50,7 @@ class led_controller(threading.Thread):
                         time_start = Timing.micros()
                         # Do stuff
                         animation[0].draw_frame(self.strips)
-                        strip.show()
+                        self.strip.show()
                         time_end = Timing.micros()
                         # Delay for a bit to reduce stress
                         Timing.delayMicroseconds(2000 - (time_end - time_start))
