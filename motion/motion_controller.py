@@ -87,8 +87,9 @@ class motion_controller(threading.Thread):
             raise ValueError("The forwards parameter must be a bool")
         if not isinstance(until, float):
             raise ValueError("The until must be an integer, representing an UNIX timestamp")
-        if (Timing.unix_timestamp >= until):
-            raise ValueError("The until time has already passed")
+        current_time = Timing.unix_timestamp()
+        if (current_time >= until):
+            raise ValueError("The until time has already passed, until = {0}, current time = {1}".format(until,current_time))
         self.fifo.put([speed, forwards, until])
 
     def stop(self, stop_motion_watcher=True):
