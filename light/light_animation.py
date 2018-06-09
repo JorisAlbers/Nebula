@@ -1,3 +1,5 @@
+from neopixel import Color
+
 class LightAnimation():
     def __init__(self):
         pass
@@ -24,7 +26,10 @@ class SlidingPatterns(LightAnimation):
         pattern = [[Color],[Color],[Color]]
         """
         LightAnimation.__init__(self)
-        # TODO check if patterns are correctly formatted
+        for x in range(0,len(patterns)):
+            for y in range(0,len(patterns[x])):
+                if (not patterns[x][y] is Color):
+                    raise ValueError("Pixel {0} in pattern {1} is not a Color!".format(x,y))
         self.patterns = patterns
 
 
