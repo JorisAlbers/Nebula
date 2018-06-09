@@ -1,5 +1,6 @@
 from neopixel import *
 import threading
+import Queue
 class led_controller(threading.Thread):
     """
     Controls ws2812b led strips
@@ -25,11 +26,30 @@ class led_controller(threading.Thread):
         self.length_s2 = length_s2
         self.total_length = length_l1 + length_l2 + length_s1 + length_s2
         self.strips = Adafruit_NeoPixel(self.total_length, self.pinPWM, self.freq, self.dma_channel, self.led_invert)
+        self.fifo = Queue.Queue()
 
     def run(self):
         """
         Start the led controller.
         """
+
+    def add_animation(self,animation,speed,until):
+        """
+        Adds a new animation to the FIFO\n
+        Animation animation - the animation to show
+        float speed - the percentage speed a at which to animate.
+        int until - the UNIX timestamp at which the motion will stop.
+        """
+        # TODO check if animation is valid
+        if not isinstance(speed,float):
+            raise ValueError("The speed must be an float")
+        if (speed < 1):
+            raise ValueError("The percentage speed must be larger than 0")
+        if not isinstance(until, int):
+            raise ValueError("The until must be an integer, representing an UNIX timestamp")
+        # TODO check if until is a valid timestamp
+        # TODO check if the until timestamp has not already passed
+        self.fifo.put([animation, speed, until])
         
     def stop(self):
         """Stop the led controller"""
