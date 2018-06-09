@@ -28,7 +28,7 @@ class SlidingPatterns(LightAnimation):
         LightAnimation.__init__(self)
         for x in range(0, len(patterns)):
             for y in range(0, len(patterns[x])):
-                if not patterns[x][y] is Color:
+                if not isinstance(patterns[x][y],Color):
                     raise ValueError("Pixel {0} in pattern {1} is not a Color!".format(x, y))
         self.patterns = patterns
 
