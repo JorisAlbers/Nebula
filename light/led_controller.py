@@ -77,8 +77,8 @@ class led_controller(threading.Thread):
             raise ValueError("The percentage speed must be larger than 0")
         if not isinstance(until, int):
             raise ValueError("The until must be an integer, representing an UNIX timestamp")
-        # TODO check if until is a valid timestamp
-        # TODO check if the until timestamp has not already passed
+        if (Timing.unix_timestamp >= until):
+            raise ValueError("The until time has already passed")
         animation.init_ring(self.length_l1, self.length_l2, self.length_s1, self.length_s2)
         self.fifo.put([animation, speed, until])
         
