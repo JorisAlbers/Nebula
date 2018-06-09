@@ -15,9 +15,9 @@ The cables of the motor are attached to the following components:
 
 ## Dependencies
 
-#neopixel:
+# neopixel
 
-"""
+```
 sudo apt-get update
 sudo apt-get install build-essential python-dev git scons swig
 
@@ -27,4 +27,4 @@ scons
 
 cd python
 sudo python setup.py install
-"""
+```
