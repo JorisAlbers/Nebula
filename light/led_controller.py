@@ -32,6 +32,10 @@ class led_controller(threading.Thread):
         self.strips = Adafruit_NeoPixel(self.total_length, self.pinPWM, self.freq, self.dma_channel, self.led_invert)
         self.fifo = Queue.Queue()
 
+        # Threading
+        threading.Thread.__init__(self)
+        self.stop_event = threading.Event()
+
     def run(self):
         """
         Start the led controller.
