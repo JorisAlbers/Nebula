@@ -29,7 +29,7 @@ class led_controller(threading.Thread):
         self.length_s1 = length_s1
         self.length_s2 = length_s2
         self.total_length = length_l1 + length_l2 + length_s1 + length_s2
-        self.strips = Adafruit_NeoPixel(self.total_length, self.pinPWM, self.freq, self.dma_channel, self.led_invert)
+        self.strip = Adafruit_NeoPixel(self.total_length, self.pinPWM, self.freq, self.dma_channel, self.led_invert)
         self.fifo = Queue.Queue()
 
         # Threading
@@ -40,7 +40,7 @@ class led_controller(threading.Thread):
         """
         Start the led controller.
         """
-        self.strips.begin()
+        self.strip.begin()
         animation = None  # [light_animation, speed, until]
         try:
             while not self.stop_event.is_set():
@@ -49,7 +49,7 @@ class led_controller(threading.Thread):
                     while not self.stop_event.is_set() and animation[2] > Timing.unix_timestamp():
                         time_start = Timing.micros()
                         # Do stuff
-                        animation[0].draw_frame(self.strips)
+                        animation[0].draw_frame(self.strip)
                         self.strip.show()
                         time_end = Timing.micros()
                         # Delay for a bit to reduce stress
