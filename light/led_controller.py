@@ -1,6 +1,7 @@
 from neopixel import *
 import threading
 import Queue
+from .. import Timing
 from light_animation import *
 class led_controller(threading.Thread):
     """
@@ -39,17 +40,17 @@ class led_controller(threading.Thread):
             while not self.stop_event.is_set():
                 if(animation is not None):
                     # display animation until time
-                    while not self.stop_event.is_set() and movement[2] > Timing.unix_timestamp:
+                    while not self.stop_event.is_set() and animation[2] > Timing.unix_timestamp:
                         time_start = Timing.micros()
                         # Do stuff
-                        animation.draw_frame(self.strips)
+                        animation[0].draw_frame(self.strips)
                         strip.show()
                         time_end = Timing.micros()
                         #Delay for a bit to reduce stress
                         Timing.delayMicroseconds(2000 - (time_end - time_start))
                 else:
                     if(not self.fifo.empty()):
-                        movement = self.fifo.get()
+                        animation = self.fifo.get()
                     else:
                         Timing.delay(500)
         except Exception, e:
