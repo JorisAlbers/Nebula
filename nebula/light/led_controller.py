@@ -52,7 +52,6 @@ class led_controller(threading.Thread):
                         next(animation[0])
                         self.strip.show()
                         time_end = Timing.micros()
-                        ne
                         # Delay for a bit to reduce stress
                         Timing.delayMicroseconds(2000 - (time_end - time_start))
                     animation = None
