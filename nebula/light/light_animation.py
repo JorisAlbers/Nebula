@@ -1,7 +1,7 @@
 from neopixel import Color
 
 
-class LightAnimation:
+class LightAnimation(object):
     def __init__(self):
         pass
 
