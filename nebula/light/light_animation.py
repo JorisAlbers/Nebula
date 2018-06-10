@@ -45,16 +45,16 @@ class SlidingPatterns(LightAnimation):
                 # TODO add spacing between patterns
                 for j in range(0, len(self.patterns[i])):
                     # draw ring 1
-                    pixel = iteration + j % self.length_l1
+                    pixel = (iteration % self.length_l1) + j
                     strip.setPixelColor(start_l1 + pixel, self.patterns[i][j])
                     # draw ring 2
-                    pixel = iteration + j % self.length_l2
+                    pixel = (iteration % self.length_l2) + j
                     strip.setPixelColor(start_l2 + pixel, self.patterns[i][j])
                     # draw ring 3
-                    pixel = iteration + j % self.length_s1
+                    pixel = (iteration % self.length_s1) + j
                     strip.setPixelColor(start_s1 + pixel, self.patterns[i][j])
                     # draw ring 4
-                    pixel = iteration + j % self.length_s2
+                    pixel = (iteration % self.length_s2) + j
                     strip.setPixelColor(start_s2 + pixel, self.patterns[i][j])
             iteration += 1
             yield
