@@ -49,9 +49,10 @@ class led_controller(threading.Thread):
                     while not self.stop_event.is_set() and animation[2] > Timing.unix_timestamp():
                         time_start = Timing.micros()
                         # Do stuff
-                        animation[0].draw_frame(self.strip)
+                        next(animation[0])
                         self.strip.show()
                         time_end = Timing.micros()
+                        ne
                         # Delay for a bit to reduce stress
                         Timing.delayMicroseconds(2000 - (time_end - time_start))
                     animation = None
@@ -86,7 +87,7 @@ class led_controller(threading.Thread):
         if (current_time >= until):
             raise ValueError("The until time has already passed, until = {0}, current time = {1}".format(until,current_time))
         animation.init_ring(self.length_l1, self.length_l2, self.length_s1, self.length_s2)
-        self.fifo.put([animation, speed, until])
+        self.fifo.put([animation.draw_frame(self.strip), speed, until]) #.draw_frame(self.strip) gets the enumerable.
 
     def stop(self):
         """Stop the led controller"""
