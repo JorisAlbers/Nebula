@@ -1,6 +1,6 @@
 import time
 
-def test_sliding_pattern():
+def test_sliding_pattern(time):
     from neopixel import Color
     from ...nebula.light.led_controller import led_controller
     from ...nebula.light.light_animation import SlidingPatterns
@@ -11,6 +11,10 @@ def test_sliding_pattern():
     lc.start()
 
     lc.add_animation(sp,1.0,time.time() + 5)
-    lc.join()
+    end_time = time.time() + time
+
+    while time.time() < end_time:
+        time.sleep(1)
+        
     lc.stop()
     print("end of sliding patterns test")
