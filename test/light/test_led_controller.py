@@ -19,7 +19,7 @@ def test_sliding_pattern(run_for_seconds):
     while time.time() < end_time:
         time.sleep(1)
 
-    patterns = [Color(0,0,0),[Color(0,0,255)]]
+    patterns = [[Color(0,0,0),Color(0,0,255)]]
     sp = SlidingPatterns(patterns)
     lc.set_next_animation(sp,1,time.time())
     end_time = time.time() + run_for_seconds
