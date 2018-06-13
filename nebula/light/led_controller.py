@@ -1,6 +1,5 @@
 from neopixel import *
 import threading
-import Queue
 from .. import Timing
 from light_animation import *
 
@@ -30,7 +29,7 @@ class led_controller(threading.Thread):
         self.length_s2 = length_s2
         self.total_length = length_l1 + length_l2 + length_s1 + length_s2
         self.strip = Adafruit_NeoPixel(self.total_length, self.pinPWM, self.freq, self.dma_channel, self.led_invert)
-        self.fifo = Queue.Queue()
+        self.next_animation = None # [light_animation, speed, start_at]
 
         # Threading
         threading.Thread.__init__(self)
@@ -41,25 +40,27 @@ class led_controller(threading.Thread):
         Start the led controller.
         """
         self.strip.begin()
-        animation = None  # [light_animation, speed, until]
+        current_animation = None  # [light_animation, wait_time, start_at]
+        wait_for_ms = 100
         try:
             while not self.stop_event.is_set():
-                if (animation is not None):
-                    # display animation until time
-                    while not self.stop_event.is_set() and animation[2] > Timing.unix_timestamp():
-                        time_start = Timing.micros()
-                        # Do stuff
-                        next(animation[0])
-                        self.strip.show()
-                        time_end = Timing.micros()
-                        # Delay for a bit to reduce stress
-                        Timing.delayMicroseconds(2000 - (time_end - time_start))
-                    animation = None
-                else:
-                    if (not self.fifo.empty()):
-                        animation = self.fifo.get()
-                    else:
-                        Timing.delay(500)
+                time_start = Timing.millis()
+                if (current_animation is not None):
+                    next(current_animation[0])
+                    self.strip.show()
+                    
+                if (self.next_animation is not None):
+                    #put next animation as current start_at will be reached in a single waitcycle
+                    next_cyle_start = Timing.unix_timestamp() + float(wait_for_ms) / 1000.0
+                    time_left = next_cyle_start - self.next_animation[2]
+                    if(time_left < wait_for_ms):
+                        current_animation = self.next_animation
+                        self.next_animation = None
+                        Timing.delay(time_left * 1000)
+                        # todo wait_for_ms = current_animation[1] -> set wait time from animation
+                        continue
+                Timing.delay(wait_for_ms - (Timing.millis() - time_start))
+
         except Exception, e:
             print("Error during run of motion_controller, " + str(e))
             raise e
@@ -67,26 +68,23 @@ class led_controller(threading.Thread):
             # todo cleanup
             pass
 
-    def add_animation(self, animation, speed, until):
+    def set_next_animation(self, animation, wait_ms, start_at):
         """
-        Adds a new animation to the FIFO\n
+        Sets the next animation\n
         Animation animation - the animation to show
-        float speed - the percentage speed a at which to animate.
-        float until - the UNIX timestamp at which the motion will stop.
+        int wait_ms - the number of miliseconds to wait between each frame of the animation
+        float start_at - the UNIX timestamp at which the motion will start.
         """
         if not isinstance(animation, LightAnimation):
             raise ValueError("The animation must be an Light animation!")
-        if not isinstance(speed, float):
-            raise ValueError("The speed must be an float")
-        if speed < 1:
-            raise ValueError("The percentage speed must be larger than 0")
-        if not isinstance(until, float):
-            raise ValueError("The until must be an integer, representing an UNIX timestamp")
-        current_time = Timing.unix_timestamp()
-        if (current_time >= until):
-            raise ValueError("The until time has already passed, until = {0}, current time = {1}".format(until,current_time))
+        if not isinstance(wait_ms, int):
+            raise ValueError("The wait_ms must be an int")
+        if wait_ms < 1:
+            raise ValueError("The wait_ms must be larger than 0")
+        if not isinstance(start_at, float):
+            raise ValueError("The start_at must be an integer, representing an UNIX timestamp")
         animation.init_ring(self.length_l1, self.length_l2, self.length_s1, self.length_s2)
-        self.fifo.put([animation.draw_frame(self.strip), speed, until]) #.draw_frame(self.strip) gets the enumerable.
+        self.next_animation([animation.draw_frame(self.strip), wait_ms, start_at])
 
     def stop(self):
         """Stop the led controller"""

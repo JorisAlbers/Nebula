@@ -10,7 +10,10 @@ def test_sliding_pattern(run_for_seconds):
     lc = led_controller(18,800000,5,75,75,75,75)
     lc.start()
 
-    lc.add_animation(sp,1.0,time.time() + 5)
+    start_at = time.time()
+    wait_ms = 100
+    lc.set_next_animation(sp,wait_ms,start_at)
+
     end_time = time.time() + run_for_seconds
 
     while time.time() < end_time:
