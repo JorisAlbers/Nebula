@@ -84,7 +84,7 @@ class led_controller(threading.Thread):
         if not isinstance(start_at, float):
             raise ValueError("The start_at must be an integer, representing an UNIX timestamp")
         animation.init_ring(self.length_l1, self.length_l2, self.length_s1, self.length_s2)
-        self.next_animation([animation.draw_frame(self.strip), wait_ms, start_at])
+        self.next_animation = [animation.draw_frame(self.strip), wait_ms, start_at]
 
     def stop(self):
         """Stop the led controller"""
