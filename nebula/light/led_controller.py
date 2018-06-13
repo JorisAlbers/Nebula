@@ -40,7 +40,7 @@ class led_controller(threading.Thread):
         Start the led controller.
         """
         self.strip.begin()
-        current_animation = None  # [light_animation, wait_time, start_at]
+        current_animation = None  # [light_animation, frame_duration, start_at]
         wait_for_ms = 100
         try:
             while not self.stop_event.is_set():
@@ -57,7 +57,7 @@ class led_controller(threading.Thread):
                         current_animation = self.next_animation
                         self.next_animation = None
                         Timing.delay(time_left * 1000)
-                        # todo wait_for_ms = current_animation[1] -> set wait time from animation
+                        wait_for_ms = current_animation[1]
                         continue
                 Timing.delay(wait_for_ms - (Timing.millis() - time_start))
 
@@ -68,23 +68,23 @@ class led_controller(threading.Thread):
             # todo cleanup
             pass
 
-    def set_next_animation(self, animation, wait_ms, start_at):
+    def set_next_animation(self, animation, frame_duration, start_at):
         """
         Sets the next animation\n
         Animation animation - the animation to show
-        int wait_ms - the number of miliseconds to wait between each frame of the animation
+        int frame_duration - the number of miliseconds to wait between each frame of the animation
         float start_at - the UNIX timestamp at which the motion will start.
         """
         if not isinstance(animation, LightAnimation):
             raise ValueError("The animation must be an Light animation!")
-        if not isinstance(wait_ms, int):
+        if not isinstance(frame_duration, int):
             raise ValueError("The wait_ms must be an int")
-        if wait_ms < 1:
+        if frame_duration < 1:
             raise ValueError("The wait_ms must be larger than 0")
         if not isinstance(start_at, float):
             raise ValueError("The start_at must be an integer, representing an UNIX timestamp")
         animation.init_ring(self.length_l1, self.length_l2, self.length_s1, self.length_s2)
-        self.next_animation = [animation.draw_frame(self.strip), wait_ms, start_at]
+        self.next_animation = [animation.draw_frame(self.strip), frame_duration, start_at]
 
     def stop(self):
         """Stop the led controller"""
