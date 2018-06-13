@@ -19,5 +19,14 @@ def test_sliding_pattern(run_for_seconds):
     while time.time() < end_time:
         time.sleep(1)
 
+    patterns = [[Color(0,0,255), Color(0,0,0)]]
+    sp = SlidingPatterns(patterns)
+    lc.set_next_animation(sp,10,time.time())
+    end_time = time.time() + run_for_seconds
+
+    while time.time() < end_time:
+        time.sleep(1)
+
+
     lc.stop()
     print("end of sliding patterns test")
