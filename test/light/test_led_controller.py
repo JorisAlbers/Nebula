@@ -35,7 +35,7 @@ def test_set_frame_duration():
     from neopixel import Color
     from ...nebula.light.led_controller import led_controller
     from ...nebula.light.light_animation import SlidingPatterns
-    print("starting sliding patterns test")
+    print("starting set_frame_duration test")
     patterns = [[Color(0,0,0),Color(0,0,255)]]
     sp = SlidingPatterns(patterns)
     lc = led_controller(18,800000,5,75,75,75,75)
@@ -49,9 +49,6 @@ def test_set_frame_duration():
     for x in range(100,1100,100):
         time.sleep(1)
         lc.set_frame_duration(x)
-
-    
-
-
+        
     lc.stop()
-    print("end of sliding patterns test")
+    print("end of set_frame_duration test")
