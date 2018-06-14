@@ -43,13 +43,14 @@ def test_set_frame_duration():
 
     wait_ms = 1000
     lc.set_next_animation(sp,1000,time.time())
-    for x in range(0,1000,100):
+    for x in range(0,1100,100):
         time.sleep(1)
         lc.set_frame_duration(wait_ms - x)
 
-    for x in range(0,1000,100):
+    
+    for x in range(1000,0,-100):
         time.sleep(1)
-        lc.set_frame_duration(wait_ms - (wait_ms - x))
+        lc.set_frame_duration(1+ (wait_ms - (wait_ms - x)))
 
     lc.stop()
     print("end of sliding patterns test")
