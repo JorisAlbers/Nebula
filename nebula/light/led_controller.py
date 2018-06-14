@@ -30,7 +30,7 @@ class led_controller(threading.Thread):
         self.total_length = length_l1 + length_l2 + length_s1 + length_s2
         self.strip = Adafruit_NeoPixel(self.total_length, self.pinPWM, self.freq, self.dma_channel, self.led_invert)
         self.next_animation = None # [light_animation, speed, start_at]
-
+        self.current_animation = None
         # Threading
         threading.Thread.__init__(self)
         self.stop_event = threading.Event()
@@ -38,28 +38,33 @@ class led_controller(threading.Thread):
     def run(self):
         """
         Start the led controller.
+
+        An animation is an array that looks like:
+        [light_animation, frame_duration, start_at]
         """
         self.strip.begin()
-        current_animation = None  # [light_animation, frame_duration, start_at]
-        wait_for_ms = 100
+        standard_wait_for_ms = 200
         try:
             while not self.stop_event.is_set():
                 time_start = Timing.millis()
-                if (current_animation is not None):
-                    next(current_animation[0])
+                if (self.current_animation is not None):
+                    next(self.current_animation[0])
                     self.strip.show()
                     
                 if (self.next_animation is not None):
                     #put next animation as current start_at will be reached in a single waitcycle
-                    next_cyle_start = Timing.unix_timestamp() + float(wait_for_ms) / 1000.0
+                    next_cyle_start = Timing.unix_timestamp() + float(self.current_animation[1]) / 1000.0
                     time_left = next_cyle_start - self.next_animation[2]
-                    if(time_left < wait_for_ms):
-                        current_animation = self.next_animation
+                    if(time_left < self.current_animation[1]):
+                        self.current_animation = self.next_animation
                         self.next_animation = None
                         Timing.delay(time_left * 1000)
-                        wait_for_ms = current_animation[1]
                         continue
-                Timing.delay(wait_for_ms - (Timing.millis() - time_start))
+
+                if(self.current_animation is not None):
+                    Timing.delay(self.current_animation[1] - (Timing.millis() - time_start))
+                else:
+                    Timing.delay(standard_wait_for_ms)
 
         except Exception, e:
             print("Error during run of motion_controller, " + str(e))
@@ -78,13 +83,26 @@ class led_controller(threading.Thread):
         if not isinstance(animation, LightAnimation):
             raise ValueError("The animation must be an Light animation!")
         if not isinstance(frame_duration, int):
-            raise ValueError("The wait_ms must be an int")
+            raise ValueError("The frame_duration must be an int")
         if frame_duration < 1:
-            raise ValueError("The wait_ms must be larger than 0")
+            raise ValueError("The frame_duration must be larger than 0")
         if not isinstance(start_at, float):
             raise ValueError("The start_at must be an integer, representing an UNIX timestamp")
         animation.init_ring(self.length_l1, self.length_l2, self.length_s1, self.length_s2)
         self.next_animation = [animation.draw_frame(self.strip), frame_duration, start_at]
+
+    def set_frame_duration(self, frame_duration):
+        """
+        Set the frame duration of the current animation
+        """
+        if not isinstance(frame_duration, int):
+            raise ValueError("The frame_duration must be an int")
+        if frame_duration < 1:
+            raise ValueError("The frame_duration must be larger than 0")
+        if self.current_animation is None:
+            raise Exception("There is no animation active at the moment!")
+        
+        self.current_animation[1] = frame_duration
 
     def stop(self):
         """Stop the led controller"""
