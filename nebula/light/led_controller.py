@@ -52,15 +52,24 @@ class led_controller(threading.Thread):
                     self.strip.show()
                     
                 if (self.next_animation is not None):
-                    #put next animation as current start_at will be reached in a single waitcycle
-                    next_cyle_start = Timing.unix_timestamp() + float(self.current_animation[1]) / 1000.0
-                    time_left = next_cyle_start - self.next_animation[2]
-                    if(time_left < self.current_animation[1]):
+                    #There is a new animation to display.
+                    if(self.current_animation is not None):
+                        # There already was an aniamtion playing
+                        next_cyle_start = Timing.unix_timestamp() + float(self.current_animation[1]) / 1000.0
+                        time_left = next_cyle_start - self.next_animation[2]
+                        if(time_left < self.current_animation[1]):
+                            self.current_animation = self.next_animation
+                            self.next_animation = None
+                            Timing.delay(time_left * 1000)
+                            continue
+                    else:
+                        # There was no animation playing.
+                        wait_ms = (self.next_animation[1] - Timing.unix_timestamp()) / 1000.0
                         self.current_animation = self.next_animation
                         self.next_animation = None
-                        Timing.delay(time_left * 1000)
+                        Timing.delay(wait_ms)
                         continue
-
+                    
                 if(self.current_animation is not None):
                     Timing.delay(self.current_animation[1] - (Timing.millis() - time_start))
                 else:
