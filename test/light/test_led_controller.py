@@ -45,8 +45,8 @@ def test_set_frame_duration():
     for x in range(1000,0,-100):
         time.sleep(1)
         lc.set_frame_duration(x)
-        
-    for x in range(0,1100,100):
+
+    for x in range(100,1100,100):
         time.sleep(1)
         lc.set_frame_duration(x)
 
