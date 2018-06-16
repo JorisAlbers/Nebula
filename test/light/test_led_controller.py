@@ -7,7 +7,7 @@ def test_sliding_pattern(run_for_seconds):
     print("starting sliding patterns test")
     patterns = [[Color(255,0,0),Color(0,0,255),Color(0,255,0),Color(0,0,0)]]
     sp = SlidingPatterns(patterns)
-    lc = led_controller(18,800000,5,[[0,74],[75,149],[150,224],[225,300]])
+    lc = led_controller(18,800000,5,[[0,74],[75,149],[150,224],[225,299]])
     lc.start()
 
     start_at = time.time()
@@ -38,7 +38,7 @@ def test_set_frame_duration():
     print("starting set_frame_duration test")
     patterns = [[Color(0,0,0),Color(0,0,255)]]
     sp = SlidingPatterns(patterns)
-    lc = led_controller(18,800000,5,[[0,74],[75,149],[150,224],[225,300]])
+    lc = led_controller(18,800000,5,[[0,74],[75,149],[150,224],[225,299]])
     lc.start()
 
     lc.set_next_animation(sp,1000,time.time())
