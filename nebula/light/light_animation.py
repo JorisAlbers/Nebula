@@ -5,19 +5,28 @@ class LightAnimation(object):
     def __init__(self):
         pass
 
-    def init_ring(self, length_l1, length_l2, length_s1, length_s2):
+    def init_ring(self, led_sections):
         """
         An animation is not ring-specific. By calling init_ring, a ring can set its own dimensions
+        array led_sections [ring1, ring2,...] ring = [int start, int stop, int length]
         """
-        self.length_l1 = length_l1
-        self.length_l2 = length_l2
-        self.length_s1 = length_s1
-        self.length_s2 = length_s2
+        self.led_sections = led_sections
 
     def draw_frame(self, strip):
         pass
 
+    def section_index_to_strip_index(self, section_pixel_index, section):
+        start = self.led_sections[section][0]
+        stop  = self.led_sections[section][1]
 
+        if(stop > start):
+            # Forwards
+            return start + section_pixel_index
+        else:
+            # Reverse
+            return stop - section_pixel_index
+
+    
 class SlidingPatterns(LightAnimation):
     def __init__(self, patterns):
         """
@@ -34,27 +43,18 @@ class SlidingPatterns(LightAnimation):
         strip - the Adafruit strip containing the 4 led strips
         """
         iteration = 0
-        start_l1 = 0
-        start_l2 = self.length_l1
-        start_s1 = start_l2 + self.length_l2
-        start_s2 = start_s1 + self.length_s1
         #  Sliding patterns keep going
         while True:
             for i in range(0, len(self.patterns)):
                 # draw a pattern
                 # TODO add spacing between patterns
                 for j in range(0, len(self.patterns[i])):
-                    # draw ring 1
-                    pixel = (iteration % self.length_l1) + j
-                    strip.setPixelColor(start_l1 + pixel, self.patterns[i][j])
-                    # draw ring 2
-                    pixel = (iteration % self.length_l2) + j
-                    strip.setPixelColor(start_l2 + pixel, self.patterns[i][j])
-                    # draw ring 3
-                    pixel = (iteration % self.length_s1) + j
-                    strip.setPixelColor(start_s1 + pixel, self.patterns[i][j])
-                    # draw ring 4
-                    pixel = (iteration % self.length_s2) + j
-                    strip.setPixelColor(start_s2 + pixel, self.patterns[i][j])
+                    for k in range(0,len(self.led_sections)):
+                        # Get the pixel index in the section k
+                        p_section = (iteration % self.led_sections[k][2]) + j
+                        # Get the actual pixel index on the strip
+                        p_strip = super(SlidingPatterns,self).section_index_to_strip_index(p_section,k)
+                        # Draw the pixel
+                        strip.setPixelColor(p_strip, self.patterns[i][j])
             iteration += 1
             yield

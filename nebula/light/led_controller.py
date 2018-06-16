@@ -9,25 +9,26 @@ class led_controller(threading.Thread):
     Controls ws2812b led strips
     """
 
-    def __init__(self, pinPWM, freq, dma_channel, length_l1, length_l2, length_s1, length_s2):
+    def __init__(self, pinPWM, freq, dma_channel, led_sections):
         """
         int pinPWM - the PWM pin number (Must support PWM!)\t
         int freq   - LED signal frequency in hertz (usually 800khz)\t
         int dma_channel - the dma channel used to create the pwm signal\t
-        int length_l1 - the number of pixel on ledstrip long 1
-        int length_l2 - the number of pixel on ledstrip long 2
-        int length_s1 - the number of pixel on ledstrip short 1
-        int length_s2 - the number of pixel on ledstrip short 2
+        array led_sections = [section1 = [int start, int stop], section2, ..] 
         """
         self.pinPWM = pinPWM
         self.freq = freq
         self.dma_channel = dma_channel
         self.led_invert = False  # True to invert the signal (when using NPN transistor level shift)
-        self.length_l1 = length_l1
-        self.length_l2 = length_l2
-        self.length_s1 = length_s1
-        self.length_s2 = length_s2
-        self.total_length = length_l1 + length_l2 + length_s1 + length_s2
+        
+        #Calulate length of each section and the total length of the led strip
+        self.total_length = 0
+        self.led_sections = [] # [[int start, int stop, int length],[], ...]
+        for x in range(0,len(led_sections)):
+            length = abs(led_sections[x][0] - led_sections[x][1])
+            self.led_sections.append([led_sections[0],led_sections[1],length])
+            self.total_length += length
+
         self.strip = Adafruit_NeoPixel(self.total_length, self.pinPWM, self.freq, self.dma_channel, self.led_invert)
         self.next_animation = None # [light_animation, speed, start_at]
         self.current_animation = None
@@ -97,7 +98,7 @@ class led_controller(threading.Thread):
             raise ValueError("The frame_duration must be larger than 0")
         if not isinstance(start_at, float):
             raise ValueError("The start_at must be an integer, representing an UNIX timestamp")
-        animation.init_ring(self.length_l1, self.length_l2, self.length_s1, self.length_s2)
+        animation.init_ring(self.led_sections)
         self.next_animation = [animation.draw_frame(self.strip), frame_duration, start_at]
 
     def set_frame_duration(self, frame_duration):
