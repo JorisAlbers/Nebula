@@ -14,7 +14,7 @@ class LightAnimation(object):
             raise ValueError("There must be at least 1 defined led section")
 
         for x in range(0,len(led_sections)):
-            if (len(x) != 3 ):
+            if (len(led_sections[x]) != 3 ):
                 raise ValueError("The led section at index {0} must have 3 items!".format(x))
             for y in range(0,len(led_sections[x])):
                 if not isinstance(led_sections[x][y],int):
