@@ -10,7 +10,7 @@ class LightAnimation(object):
         An animation is not ring-specific. By calling init_ring, a ring can set its own dimensions
         array led_sections [ring1, ring2,...] ring = [int start, int stop, int length]
         """
-        if len(led_sections < 1):
+        if len(led_sections) < 1:
             raise ValueError("There must be at least 1 defined led section")
 
         for x in range(0,len(led_sections)):
