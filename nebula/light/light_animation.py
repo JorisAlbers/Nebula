@@ -62,7 +62,7 @@ class SlidingPatterns(LightAnimation):
                 for j in range(0, len(self.patterns[i])):
                     for k in range(0,len(self.led_sections)):
                         # Get the pixel index in the section k
-                        p_section = (iteration % self.led_sections[k][2]) + j
+                        p_section = (iteration + j) % self.led_sections[k][2]
                         # Get the actual pixel index on the strip
                         p_strip = super(SlidingPatterns,self).section_index_to_strip_index(p_section,k)
                         # Draw the pixel
