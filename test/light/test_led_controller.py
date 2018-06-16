@@ -52,3 +52,18 @@ def test_set_frame_duration():
         
     lc.stop()
     print("end of set_frame_duration test")
+
+def test_inversed_led_sections(run_for_seconds):
+    from neopixel import Color
+    from ...nebula.light.led_controller import led_controller
+    from ...nebula.light.light_animation import SlidingPatterns
+    print("starting set_frame_duration test")
+    patterns = [[Color(0,0,0),Color(0,0,255)]]
+    sp = SlidingPatterns(patterns)
+    lc = led_controller(18,800000,5,[[0,74],[149,75],[150,224],[299,225]])
+    lc.start()
+
+    lc.set_next_animation(sp,1000,time.time())
+    time.sleep(run_for_seconds)        
+    lc.stop()
+    print("end of set_frame_duration test")
