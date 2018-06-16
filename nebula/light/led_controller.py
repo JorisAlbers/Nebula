@@ -25,7 +25,7 @@ class led_controller(threading.Thread):
         self.total_length = 0
         self.led_sections = [] # [[int start, int stop, int length],[], ...]
         for x in range(0,len(led_sections)):
-            length = abs(led_sections[x][0] - led_sections[x][1])
+            length = abs(led_sections[x][0] - led_sections[x][1]) + 1 # +1 as the led_sections are index ranges which are 0 based
             self.led_sections.append([led_sections[x][0],led_sections[x][1],length])
             self.total_length += length
 
