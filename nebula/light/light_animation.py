@@ -10,7 +10,18 @@ class LightAnimation(object):
         An animation is not ring-specific. By calling init_ring, a ring can set its own dimensions
         array led_sections [ring1, ring2,...] ring = [int start, int stop, int length]
         """
+        if len(led_sections < 1):
+            raise ValueError("There must be at least 1 defined led section")
+
+        for x in range(0,len(led_sections)):
+            if (len(x) != 3 ):
+                raise ValueError("The led section at index {0} must have 3 items!".format(x))
+            for y in range(0,len(led_sections[x])):
+                if not isinstance(led_sections[x][y],int):
+                    raise ValueError("The element at index {0} in led_section {1} must be an int!".format(y,x))
+        
         self.led_sections = led_sections
+
 
     def draw_frame(self, strip):
         pass
