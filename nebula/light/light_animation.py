@@ -35,7 +35,7 @@ class LightAnimation(object):
             return start + section_pixel_index
         else:
             # Reverse
-            return stop - section_pixel_index
+            return start - section_pixel_index
 
     
 class SlidingPatterns(LightAnimation):
