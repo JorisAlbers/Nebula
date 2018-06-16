@@ -26,7 +26,7 @@ class led_controller(threading.Thread):
         self.led_sections = [] # [[int start, int stop, int length],[], ...]
         for x in range(0,len(led_sections)):
             length = abs(led_sections[x][0] - led_sections[x][1])
-            self.led_sections.append([led_sections[0],led_sections[1],length])
+            self.led_sections.append([led_sections[x][0],led_sections[x][1],length])
             self.total_length += length
 
         self.strip = Adafruit_NeoPixel(self.total_length, self.pinPWM, self.freq, self.dma_channel, self.led_invert)
