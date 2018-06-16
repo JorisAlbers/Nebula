@@ -63,7 +63,7 @@ def test_inversed_led_sections(run_for_seconds):
     lc = led_controller(18,800000,5,[[0,74],[149,75],[150,224],[299,225]])
     lc.start()
 
-    lc.set_next_animation(sp,1000,time.time())
+    lc.set_next_animation(sp,500,time.time())
     time.sleep(run_for_seconds)        
     lc.stop()
     print("end of set_frame_duration test")
