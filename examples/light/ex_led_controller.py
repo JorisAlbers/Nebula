@@ -1,7 +1,7 @@
 import time
 
 def sliding_pattern(run_for_seconds):
-    from ...nebula.light.led_controller import led_controller
+    from ...nebula.light.led_controller import LedController
     from ...nebula.light.led_strip import NeoPixelLedStrip, Color
     from ...nebula.light.light_animation import SlidingPatterns
     print("starting sliding patterns test")
@@ -13,7 +13,7 @@ def sliding_pattern(run_for_seconds):
     led_sections = [[0,74],[75,149],[150,224],[225,299]]
     strip = NeoPixelLedStrip(length_strip, 18,800000,5,False)
     # Led controller
-    lc = led_controller(strip,led_sections)
+    lc = LedController(strip,led_sections)
 
     #Start
     lc.start()
@@ -38,7 +38,7 @@ def sliding_pattern(run_for_seconds):
     print("end of sliding patterns test")
 
 def set_frame_duration():
-    from ...nebula.light.led_controller import led_controller
+    from ...nebula.light.led_controller import LedController
     from ...nebula.light.led_strip import NeoPixelLedStrip, Color
     from ...nebula.light.light_animation import SlidingPatterns
     print("starting set_frame_duration test")
@@ -49,7 +49,7 @@ def set_frame_duration():
     led_sections = [[0,74],[75,149],[150,224],[225,299]]
     strip = NeoPixelLedStrip(length_strip, 18,800000,5,False)
     # Led controller
-    lc = led_controller(strip,led_sections)
+    lc = LedController(strip,led_sections)
     lc.start()
 
     lc.set_next_animation(sp,1000,time.time())
@@ -65,7 +65,7 @@ def set_frame_duration():
     print("end of set_frame_duration test")
 
 def inversed_led_sections(run_for_seconds):
-    from ...nebula.light.led_controller import led_controller
+    from ...nebula.light.led_controller import LedController
     from ...nebula.light.led_strip import NeoPixelLedStrip, Color
     from ...nebula.light.light_animation import SlidingPatterns
     print("starting set_frame_duration test")
@@ -77,7 +77,7 @@ def inversed_led_sections(run_for_seconds):
     led_sections = [[0,74],[149,75],[150,224],[299,225]]
     strip = NeoPixelLedStrip(length_strip, 18,800000,5,False)
     # Led controller
-    lc = led_controller(strip,led_sections)
+    lc = LedController(strip,led_sections)
     lc.start()
 
     lc.set_next_animation(sp,500,time.time())

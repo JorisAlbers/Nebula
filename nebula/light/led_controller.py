@@ -3,7 +3,7 @@ from .. import Timing
 from light_animation import *
 
 
-class led_controller(threading.Thread):
+class LedController(threading.Thread):
     """
     Controls ws2812b led strips
     """
