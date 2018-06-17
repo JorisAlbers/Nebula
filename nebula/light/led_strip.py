@@ -1,3 +1,8 @@
+try:
+	from neopixel import *
+except ImportError:
+	print("Failed to import neopixel!")
+
 def Color(red, green, blue, white = 0):
 	"""Convert the provided red, green, blue color to a 24-bit color value.
 	Each color component should be a value 0-255 where 0 is the lowest intensity
@@ -40,8 +45,6 @@ class NeoPixelLedStrip(LedStrip):
     This class is a wrapper around the Adafruit_NeoPixel ledstrip class.
     Here, events around strip functions can be triggered.
     """
-    from neopixel import *
-
     def __init__(self,length, pinPWM, freq, dma_channel,invert):
         """
         int pinPWM - the PWM pin number (Must support PWM!)\t
