@@ -1,4 +1,4 @@
-from neopixel import Color
+from led_strip import Color
 
 
 class LightAnimation(object):
