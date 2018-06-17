@@ -1,6 +1,6 @@
 import time
 
-def test_sliding_pattern(run_for_seconds):
+def sliding_pattern(run_for_seconds):
     from neopixel import Color
     from ...nebula.light.led_controller import led_controller
     from ...nebula.light.light_animation import SlidingPatterns
@@ -31,7 +31,7 @@ def test_sliding_pattern(run_for_seconds):
     lc.stop()
     print("end of sliding patterns test")
 
-def test_set_frame_duration():
+def set_frame_duration():
     from neopixel import Color
     from ...nebula.light.led_controller import led_controller
     from ...nebula.light.light_animation import SlidingPatterns
@@ -53,7 +53,7 @@ def test_set_frame_duration():
     lc.stop()
     print("end of set_frame_duration test")
 
-def test_inversed_led_sections(run_for_seconds):
+def inversed_led_sections(run_for_seconds):
     from neopixel import Color
     from ...nebula.light.led_controller import led_controller
     from ...nebula.light.light_animation import SlidingPatterns
