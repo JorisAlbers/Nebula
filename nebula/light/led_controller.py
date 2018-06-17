@@ -1,4 +1,3 @@
-from neopixel import *
 import threading
 from .. import Timing
 from light_animation import *
@@ -9,17 +8,11 @@ class led_controller(threading.Thread):
     Controls ws2812b led strips
     """
 
-    def __init__(self, pinPWM, freq, dma_channel, led_sections):
+    def __init__(self, ledstrip, led_sections):
         """
-        int pinPWM - the PWM pin number (Must support PWM!)\t
-        int freq   - LED signal frequency in hertz (usually 800khz)\t
-        int dma_channel - the dma channel used to create the pwm signal\t
+        LedStrip ledstrip - the ledstrip to draw on
         array led_sections = [section1 = [int start, int stop], section2, ..] 
         """
-        self.pinPWM = pinPWM
-        self.freq = freq
-        self.dma_channel = dma_channel
-        self.led_invert = False  # True to invert the signal (when using NPN transistor level shift)
         
         #Calulate length of each section and the total length of the led strip
         self.total_length = 0
@@ -29,7 +22,7 @@ class led_controller(threading.Thread):
             self.led_sections.append([led_sections[x][0],led_sections[x][1],length])
             self.total_length += length
 
-        self.strip = Adafruit_NeoPixel(self.total_length, self.pinPWM, self.freq, self.dma_channel, self.led_invert)
+        self.strip = ledstrip
         self.next_animation = None # [light_animation, speed, start_at]
         self.current_animation = None
         # Threading
