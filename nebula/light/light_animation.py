@@ -93,15 +93,12 @@ class RepeatingPatterns(LightAnimation):
         strip - the Adafruit strip containing the 4 led strips
         """
         
-        patterns_in_ledstrip = []
-        for x in range(0,len(self.led_sections)):
-            patterns_in_ledstrip.append(self.led_sections[x][2] / len(self.patterns[0]))
-        indentation = 0
         while True:
             for x in range(0,len(self.patterns)):
                 for y in range(0, len(self.led_sections)):
-                    for z in range(0,patterns_in_ledstrip[y]):
-                        p_left = (len(self.patterns[0]) * z ) + indentation
+                    patterns_in_section = self.led_sections[y] / len(self.patterns[x])
+                    for z in range(0,patterns_in_section):
+                        p_left = len(self.patterns[x]) * z 
                         for pixel_on_pattern in range(0,len(self.patterns[x])):
                             p_section = p_left + pixel_on_pattern
                             p_strip = super(RepeatingPatterns,self).section_index_to_strip_index(p_section,y)
