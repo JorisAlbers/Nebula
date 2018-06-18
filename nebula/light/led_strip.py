@@ -64,7 +64,7 @@ class NeoPixelLedStrip(LedStrip):
 		self.strip.show()
 
 	def setPixelColor(self,n,color):
-		self.strip.setPixelColor(n,Color)
+		self.strip.setPixelColor(n,color)
 
 	def setPixelColorRGB(self, n, red, green, blue, white = 0):
 		"""Set LED at position n to the provided red, green, and blue color.
