@@ -103,3 +103,4 @@ class RepeatingPatterns(LightAnimation):
                             p_section = p_left + pixel_on_pattern
                             p_strip = super(RepeatingPatterns,self).section_index_to_strip_index(p_section,y)
                             strip.setPixelColor(p_strip,self.patterns[x][pixel_on_pattern])
+                yield
