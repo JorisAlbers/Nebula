@@ -15,8 +15,8 @@ class LedStrip(object):
     """
     Base class for all ledstrips
     """
-    def __init__(self,length, pinPWM, freq, dma_channel,invert):
-        pass
+	def __init__(self,length, pinPWM, freq, dma_channel,invert):
+		pass
 
 	def setPixelColor(self, n, color):
 		pass
@@ -41,31 +41,29 @@ class LedStrip(object):
 
     
 class NeoPixelLedStrip(LedStrip):
-    """
-    This class is a wrapper around the Adafruit_NeoPixel ledstrip class.
-    Here, events around strip functions can be triggered.
-    """
-    def __init__(self,length, pinPWM, freq, dma_channel,invert):
-        """
-        int pinPWM - the PWM pin number (Must support PWM!)\t
-        int freq   - LED signal frequency in hertz (usually 800khz)\t
-        int dma_channel - the dma channel used to create the pwm signal\t
-        bool invert - True to invert the signal (when using NPN transistor level shift)
-        """
-        self.strip = Adafruit_NeoPixel(length, pinPWM, freq, dma_channel, invert)
-    
-    def _cleanup(self):
+	"""
+	This class is a wrapper around the Adafruit_NeoPixel ledstrip class.
+	Here, events around strip functions can be triggered.
+	"""
+	def __init__(self,length, pinPWM, freq, dma_channel,invert):
+		"""
+		int pinPWM - the PWM pin number (Must support PWM!)\t
+		int freq   - LED signal frequency in hertz (usually 800khz)\t
+		int dma_channel - the dma channel used to create the pwm signal\t
+		bool invert - True to invert the signal (when using NPN transistor level shift)
+		"""
+		self.strip = Adafruit_NeoPixel(length, pinPWM, freq, dma_channel, invert)
+
+	def _cleanup(self):
 		self.strip._cleanup()
 
-    def begin(self):
-        self.strip.begin()
-    
-    def show(self):
-        self.strip.show()
+	def begin(self):
+		self.strip.begin()
 
-	def setPixelColor(self, n, color):
-		"""Set LED at position n to the provided 24-bit color value (in RGB order).
-		"""
+	def show(self):
+		self.strip.show()
+
+	def setPixelColor(self,n,color):
 		self.strip.setPixelColor(n,Color)
 
 	def setPixelColorRGB(self, n, red, green, blue, white = 0):
@@ -99,4 +97,4 @@ class NeoPixelLedStrip(LedStrip):
 
 	def getPixelColor(self, n):
 		"""Get the 24-bit RGB color value for the LED at position n."""
-        return self.strip.getPixelColor(n)
+		return self.strip.getPixelColor(n)
