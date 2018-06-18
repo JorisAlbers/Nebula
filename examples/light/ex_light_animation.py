@@ -44,7 +44,7 @@ def repeatingPatterns(run_for_seconds):
     from ...nebula.light.light_animation import RepeatingPatterns
     print("starting repeating patterns test")
     # Light Animation
-    patterns = [[Color(255,0,0),Color(0,0,0)]]
+    patterns = [[Color(255,0,0),Color(0,0,0)],[Color(0,0,0),Color(255,0,0)]]
     rp = RepeatingPatterns(patterns)
     # Led strip
     length_strip = 300
