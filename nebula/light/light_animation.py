@@ -96,7 +96,7 @@ class RepeatingPatterns(LightAnimation):
         while True:
             for x in range(0,len(self.patterns)):
                 for y in range(0, len(self.led_sections)):
-                    patterns_in_section = self.led_sections[y] / len(self.patterns[x])
+                    patterns_in_section = self.led_sections[y][2] / len(self.patterns[x])
                     for z in range(0,patterns_in_section):
                         p_left = len(self.patterns[x]) * z 
                         for pixel_on_pattern in range(0,len(self.patterns[x])):
