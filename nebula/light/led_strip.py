@@ -12,9 +12,9 @@ def Color(red, green, blue, white = 0):
 
 
 class LedStrip(object):
-    """
-    Base class for all ledstrips
-    """
+	"""
+	Base class for all ledstrips
+	"""
 	def __init__(self,length, pinPWM, freq, dma_channel,invert):
 		pass
 
