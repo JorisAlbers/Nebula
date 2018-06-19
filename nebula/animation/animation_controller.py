@@ -7,7 +7,7 @@ class AnimationController(threading.Thread):
     def __init__(self,ledController, motionController):
         """
         LedController ledController - The object that handles light_animations on a ledStrip.
-        MotionController motionControlelr - the object that handles motion_animations on a motor.
+        MotionController motionController - the object that handles motion_animations on a motor.
         """ 
         self.ledController = ledController
         self.motionController = motionController
