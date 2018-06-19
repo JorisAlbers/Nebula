@@ -70,7 +70,7 @@ class LedController(threading.Thread):
                     Timing.delay(standard_wait_for_ms)
 
         except Exception, e:
-            print("Error during run of motion_controller, " + str(e))
+            print("Error during run of LedController, " + str(e))
             raise e
         finally:
             # todo cleanup
