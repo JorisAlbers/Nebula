@@ -1,6 +1,6 @@
 import threading
 from .. import Timing
-from light_animation import *
+from led_drawing import *
 
 
 class LedController(threading.Thread):
@@ -34,7 +34,7 @@ class LedController(threading.Thread):
         Start the led controller.
 
         An animation is an array that looks like:
-        [light_animation, frame_duration, start_at]
+        [LedDrawing, frame_duration, start_at]
         """
         self.strip.begin()
         standard_wait_for_ms = 200
@@ -83,7 +83,7 @@ class LedController(threading.Thread):
         int frame_duration - the number of miliseconds to wait between each frame of the animation
         float start_at - the UNIX timestamp at which the motion will start.
         """
-        if not isinstance(animation, LightAnimation):
+        if not isinstance(animation, LedDrawer):
             raise ValueError("The animation must be an Light animation!")
         if not isinstance(frame_duration, int):
             raise ValueError("The frame_duration must be an int")

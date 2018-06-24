@@ -1,13 +1,13 @@
 from led_strip import Color
 
 
-class LightAnimation(object):
+class LedDrawer(object):
     def __init__(self):
         pass
 
     def init_ring(self, led_sections):
         """
-        An animation is not ring-specific. By calling init_ring, a ring can set its own dimensions
+        An LedDrawer is not ring-specific. By calling init_ring, a ring can set its own dimensions
         array led_sections [ring1, ring2,...] ring = [int start, int stop, int length]
         """
         if len(led_sections) < 1:
@@ -38,7 +38,7 @@ class LightAnimation(object):
             return start - section_pixel_index
 
     
-class SlidingPatterns(LightAnimation):
+class SlidingPatterns(LedDrawer):
     """
     One pattern sliding over the ledstrip
     """
@@ -48,7 +48,7 @@ class SlidingPatterns(LightAnimation):
         [pattern1, patter2]
         pattern = [[Color],[Color],[Color]]
         """
-        LightAnimation.__init__(self)
+        LedDrawer.__init__(self)
         self.patterns = patterns
 
     def draw_frame(self, strip):
@@ -73,7 +73,7 @@ class SlidingPatterns(LightAnimation):
             iteration += 1
             yield
 
-class RepeatingPatterns(LightAnimation):
+class RepeatingPatterns(LedDrawer):
     """
     A pattern repeating itself over the ledstrip.
     Multiple patterns can be set. Each frame will display the next pattern
@@ -84,7 +84,7 @@ class RepeatingPatterns(LightAnimation):
         [pattern1, patter2]
         pattern = [[Color],[Color],[Color]]
         """
-        LightAnimation.__init__(self)
+        LedDrawer.__init__(self)
         self.patterns = patterns
 
     def draw_frame(self, strip):

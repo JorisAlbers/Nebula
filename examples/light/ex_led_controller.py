@@ -3,7 +3,7 @@ import time
 def set_frame_duration():
     from ...nebula.light.led_controller import LedController
     from ...nebula.light.led_strip import NeoPixelLedStrip, Color
-    from ...nebula.light.light_animation import SlidingPatterns
+    from ...nebula.light.led_drawing import SlidingPatterns
     print("starting set_frame_duration test")
     patterns = [[Color(0,0,0),Color(0,0,255)]]
     sp = SlidingPatterns(patterns)
@@ -30,7 +30,7 @@ def set_frame_duration():
 def inversed_led_sections(run_for_seconds):
     from ...nebula.light.led_controller import LedController
     from ...nebula.light.led_strip import NeoPixelLedStrip, Color
-    from ...nebula.light.light_animation import SlidingPatterns
+    from ...nebula.light.led_drawing import SlidingPatterns
     print("starting set_frame_duration test")
     patterns = [[Color(0,0,0),Color(0,0,255)]]
     sp = SlidingPatterns(patterns)

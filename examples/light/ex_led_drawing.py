@@ -2,7 +2,7 @@ def sliding_pattern(run_for_seconds):
     import time
     from ...nebula.light.led_controller import LedController
     from ...nebula.light.led_strip import NeoPixelLedStrip, Color
-    from ...nebula.light.light_animation import SlidingPatterns
+    from ...nebula.light.led_drawing import SlidingPatterns
     print("starting sliding patterns test")
     # Light Animation
     patterns = [[Color(255,0,0),Color(0,0,255),Color(0,255,0),Color(0,0,0)]]
@@ -41,7 +41,7 @@ def repeatingPatterns(run_for_seconds):
     import time
     from ...nebula.light.led_controller import LedController
     from ...nebula.light.led_strip import NeoPixelLedStrip, Color
-    from ...nebula.light.light_animation import RepeatingPatterns
+    from ...nebula.light.led_drawing import RepeatingPatterns
     print("starting repeating patterns test")
     # Light Animation
     patterns = [[Color(255,0,0),Color(0,0,0)],[Color(0,0,0),Color(255,0,0)]]
