@@ -1,6 +1,7 @@
 import threading
 from .. import Timing
 from led_drawing import *
+from light_animation import *
 
 
 class LedController(threading.Thread):
@@ -23,7 +24,7 @@ class LedController(threading.Thread):
             self.total_length += length
 
         self.strip = ledstrip
-        self.next_animation = None # [light_animation, speed, start_at]
+        self.next_animation = None
         self.current_animation = None
         # Threading
         threading.Thread.__init__(self)
@@ -32,9 +33,6 @@ class LedController(threading.Thread):
     def run(self):
         """
         Start the led controller.
-
-        An animation is an array that looks like:
-        [LedDrawing, frame_duration, start_at]
         """
         self.strip.begin()
         standard_wait_for_ms = 200
@@ -42,16 +40,16 @@ class LedController(threading.Thread):
             while not self.stop_event.is_set():
                 time_start = Timing.millis()
                 if (self.current_animation is not None):
-                    next(self.current_animation[0])
+                    next(self.current_animation.drawer)
                     self.strip.show()
                     
                 if (self.next_animation is not None):
                     #There is a new animation to display.
                     if(self.current_animation is not None):
                         # There already was an aniamtion playing
-                        next_cyle_start = Timing.unix_timestamp() + float(self.current_animation[1]) / 1000.0
-                        time_left = next_cyle_start - self.next_animation[2]
-                        if(time_left < self.current_animation[1]):
+                        next_cyle_start = Timing.unix_timestamp() + float(self.current_animation.frame_duration) / 1000.0
+                        time_left = next_cyle_start - self.next_animation.start_at
+                        if(time_left < self.current_animation.frame_duration):
                             self.current_animation = self.next_animation
                             self.next_animation = None
                             Timing.delay(time_left * 1000)
@@ -65,7 +63,7 @@ class LedController(threading.Thread):
                         continue
                     
                 if(self.current_animation is not None):
-                    Timing.delay(self.current_animation[1] - (Timing.millis() - time_start))
+                    Timing.delay(self.current_animation.frame_duration - (Timing.millis() - time_start))
                 else:
                     Timing.delay(standard_wait_for_ms)
 
@@ -76,23 +74,16 @@ class LedController(threading.Thread):
             # todo cleanup
             pass
 
-    def set_next_animation(self, animation, frame_duration, start_at):
+    def set_next_animation(self, lightAnimation):
         """
         Sets the next animation\n
-        Animation animation - the animation to show
-        int frame_duration - the number of miliseconds to wait between each frame of the animation
-        float start_at - the UNIX timestamp at which the motion will start.
+        Animation lightAnimation - the lightAnimation to show
         """
-        if not isinstance(animation, LedDrawer):
-            raise ValueError("The animation must be an Light animation!")
-        if not isinstance(frame_duration, int):
-            raise ValueError("The frame_duration must be an int")
-        if frame_duration < 1:
-            raise ValueError("The frame_duration must be larger than 0")
-        if not isinstance(start_at, float):
-            raise ValueError("The start_at must be an integer, representing an UNIX timestamp")
-        animation.init_ring(self.led_sections)
-        self.next_animation = [animation.draw_frame(self.strip), frame_duration, start_at]
+        if not isinstance(lightAnimation, LightAnimation):
+            raise ValueError("The lightAnimation must be an Light animation!")
+
+        lightAnimation.drawer.init_ring(self.led_sections)
+        self.next_animation = lightAnimation
 
     def set_frame_duration(self, frame_duration):
         """
@@ -105,7 +96,7 @@ class LedController(threading.Thread):
         if self.current_animation is None:
             raise Exception("There is no animation active at the moment!")
         
-        self.current_animation[1] = frame_duration
+        self.current_animation.frame_duration = frame_duration
 
     def stop(self):
         """Stop the led controller"""

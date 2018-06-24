@@ -4,6 +4,7 @@ def set_frame_duration():
     from ...nebula.light.led_controller import LedController
     from ...nebula.light.led_strip import NeoPixelLedStrip, Color
     from ...nebula.light.led_drawing import SlidingPatterns
+    from ...nebula.light.light_animation import LightAnimation
     print("starting set_frame_duration test")
     patterns = [[Color(0,0,0),Color(0,0,255)]]
     sp = SlidingPatterns(patterns)
@@ -15,7 +16,7 @@ def set_frame_duration():
     lc = LedController(strip,led_sections)
     lc.start()
 
-    lc.set_next_animation(sp,1000,time.time())
+    lc.set_next_animation(LightAnimation(SlidingPatterns(patterns),1000,time.time()))
     for x in range(1000,0,-100):
         time.sleep(1)
         lc.set_frame_duration(x)
@@ -31,10 +32,9 @@ def inversed_led_sections(run_for_seconds):
     from ...nebula.light.led_controller import LedController
     from ...nebula.light.led_strip import NeoPixelLedStrip, Color
     from ...nebula.light.led_drawing import SlidingPatterns
+    from ...nebula.light.light_animation import LightAnimation
     print("starting set_frame_duration test")
     patterns = [[Color(0,0,0),Color(0,0,255)]]
-    sp = SlidingPatterns(patterns)
-
     # Led strip
     length_strip = 300
     led_sections = [[0,74],[149,75],[150,224],[299,225]]
@@ -43,7 +43,7 @@ def inversed_led_sections(run_for_seconds):
     lc = LedController(strip,led_sections)
     lc.start()
 
-    lc.set_next_animation(sp,500,time.time())
+    lc.set_next_animation(LightAnimation(SlidingPatterns(patterns),500,time.time()))
     time.sleep(run_for_seconds)        
     lc.stop()
     print("end of set_frame_duration test")
