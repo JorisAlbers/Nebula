@@ -56,7 +56,7 @@ class LedController(threading.Thread):
                             continue
                     else:
                         # There was no animation playing.
-                        wait_ms = (self.next_animation[1] - Timing.unix_timestamp()) / 1000.0
+                        wait_ms = (self.next_animation.start_at - Timing.unix_timestamp()) / 1000.0
                         self.current_animation = self.next_animation
                         self.next_animation = None
                         Timing.delay(wait_ms)
