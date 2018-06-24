@@ -17,6 +17,3 @@ def test_section_index_to_strip_index__reversed_section():
     expectedIndexes_section1 = [9,8,7,6,5]
     for i in range(0,len(expectedIndexes_section1)):
         assert la.section_index_to_strip_index(i,0) == expectedIndexes_section1[i]
-
-
-
