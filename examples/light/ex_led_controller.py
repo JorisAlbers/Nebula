@@ -7,7 +7,6 @@ def set_frame_duration():
     from ...nebula.light.light_animation import LightAnimation
     print("starting set_frame_duration test")
     patterns = [[Color(0,0,0),Color(0,0,255)]]
-    sp = SlidingPatterns(patterns)
     # Led strip
     length_strip = 300
     led_sections = [[0,74],[75,149],[150,224],[225,299]]
