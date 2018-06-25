@@ -1,6 +1,7 @@
 from led_strip import Color, LedStrip
+from collections import Iterator
 
-class LedDrawer(object):
+class LedDrawer(Iterator):
     def __init__(self):
         pass
 
@@ -25,8 +26,10 @@ class LedDrawer(object):
         self.strip = strip        
         self.led_sections = led_sections
 
+    def iter(self):
+        return self
 
-    def draw_frame(self, strip):
+    def next(self):
         pass
 
     def section_index_to_strip_index(self, section_pixel_index, section):
@@ -91,20 +94,20 @@ class RepeatingPatterns(LedDrawer):
         self.patterns = patterns
         self.iteration = 0
 
-    def __iter__(self):
+    def next(self):
         """
         Draw the next frame in the animation
         strip - the Adafruit strip containing the 4 led strips
         """
-        
-        while True:
-            for x in range(0,len(self.patterns)):
-                for y in range(0, len(self.led_sections)):
-                    patterns_in_section = self.led_sections[y][2] / len(self.patterns[x])
-                    for z in range(0,patterns_in_section):
-                        p_left = len(self.patterns[x]) * z 
-                        for pixel_on_pattern in range(0,len(self.patterns[x])):
-                            p_section = p_left + pixel_on_pattern
-                            p_strip = super(RepeatingPatterns,self).section_index_to_strip_index(p_section,y)
-                            self.strip.setPixelColor(p_strip,self.patterns[x][pixel_on_pattern])
-                yield
+        #Each iteration draws a different pattern
+        pattern = self.patterns[self.iteration]
+        for y in range(0, len(self.led_sections)):
+            patterns_in_section = self.led_sections[y][2] / len(pattern)
+            for z in range(0,patterns_in_section):
+                p_left = len(pattern) * z 
+                for pixel_on_pattern in range(0,len(pattern)):
+                    p_section = p_left + pixel_on_pattern
+                    p_strip = super(RepeatingPatterns,self).section_index_to_strip_index(p_section,y)
+                    self.strip.setPixelColor(p_strip,pattern[pixel_on_pattern])
+        self.iteration += 1
+        self.iteration = self.iteration % len(self.patterns)
