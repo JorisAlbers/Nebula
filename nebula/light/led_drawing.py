@@ -56,28 +56,26 @@ class SlidingPatterns(LedDrawer):
         """
         LedDrawer.__init__(self)
         self.patterns = patterns
+        self.iteration = 0
 
-    def draw_frame(self, strip):
+    def next(self):
         """
         Draw the next frame in the animation
-        strip - the Adafruit strip containing the 4 led strips
         """
-        iteration = 0
-        #  Sliding patterns keep going
-        while True:
-            for i in range(0, len(self.patterns)):
-                # draw a pattern
-                # TODO add spacing between patterns
-                for j in range(0, len(self.patterns[i])):
-                    for k in range(0,len(self.led_sections)):
-                        # Get the pixel index in the section k
-                        p_section = (iteration + j) % self.led_sections[k][2]
-                        # Get the actual pixel index on the strip
-                        p_strip = super(SlidingPatterns,self).section_index_to_strip_index(p_section,k)
-                        # Draw the pixel
-                        strip.setPixelColor(p_strip, self.patterns[i][j])
-            iteration += 1
-            yield
+        # Each iteration draws the patterns a position further on the strip
+        for i in range(0, len(self.patterns)):
+            # draw a pattern
+            # TODO add spacing between patterns
+            for j in range(0, len(self.patterns[i])):
+                for k in range(0,len(self.led_sections)):
+                     # Get the pixel index in the section k
+                    p_section = (self.iteration + j) % self.led_sections[k][2]
+                    # Get the actual pixel index on the strip
+                    p_strip = super(SlidingPatterns,self).section_index_to_strip_index(p_section,k)
+                    # Draw the pixel
+                    self.strip.setPixelColor(p_strip, self.patterns[i][j])
+        self.iteration += 1
+        yield
 
 class RepeatingPatterns(LedDrawer):
     """
@@ -97,7 +95,6 @@ class RepeatingPatterns(LedDrawer):
     def next(self):
         """
         Draw the next frame in the animation
-        strip - the Adafruit strip containing the 4 led strips
         """
         #Each iteration draws a different pattern
         pattern = self.patterns[self.iteration]
