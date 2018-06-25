@@ -1,15 +1,18 @@
-from led_strip import Color
-
+from led_strip import Color, LedStrip
 
 class LedDrawer(object):
     def __init__(self):
         pass
 
-    def init_ring(self, led_sections, strip):
+    def init_ring(self, strip, led_sections):
         """
         An LedDrawer is not ring-specific. By calling init_ring, a ring can set its own dimensions
+        LedStrip strip - The Led strip to draw on
         array led_sections [ring1, ring2,...] ring = [int start, int stop, int length]
         """
+        if not isinstance(strip,LedStrip):
+            raise ValueError("The strip must be a LedStrip!")
+
         if len(led_sections) < 1:
             raise ValueError("There must be at least 1 defined led section")
 
@@ -19,9 +22,8 @@ class LedDrawer(object):
             for y in range(0,len(led_sections[x])):
                 if not isinstance(led_sections[x][y],int):
                     raise ValueError("The element at index {0} in led_section {1} must be an int, was {2}!".format(y,x, type(led_sections[x][y])))
-        
+        self.strip = strip        
         self.led_sections = led_sections
-        self.strip = strip
 
 
     def draw_frame(self, strip):
