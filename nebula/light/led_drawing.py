@@ -75,7 +75,6 @@ class SlidingPatterns(LedDrawer):
                     # Draw the pixel
                     self.strip.setPixelColor(p_strip, self.patterns[i][j])
         self.iteration += 1
-        yield
 
 class RepeatingPatterns(LedDrawer):
     """
