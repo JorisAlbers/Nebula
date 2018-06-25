@@ -3,7 +3,7 @@ def length_test(length):
     import time
     strip = NeoPixelLedStrip(length,18,800000,5,False)
     strip.begin()
-    pattern = [Color(0,255,0), Color(200,0,0), Color(150,0,0), Color(100,0,0) Color(50,0,0)]
+    pattern = [Color(0,255,0), Color(200,0,0), Color(150,0,0), Color(100,0,0), Color(50,0,0)]
 
     for x in range(0,len(pattern)):
         strip.setPixelColor(x,pattern[x])
