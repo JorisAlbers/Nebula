@@ -16,5 +16,17 @@ class Animation(object):
         self.animation = light_or_motion_animation
         self.duration = duration
 
+class Animations(list):
+    def __getitem__(self,key):
+        if not isinstance(key,int):
+            raise IndexError("Only integer indexing allowed")
+        return super(Animations,self).__getitem__(key)
 
+    def append(self,item):
+        if not isinstance(item,Animation):
+            raise ValueError("Can only add Animations!")
+        super(Animations,self).append(item)
     
+    def addAnimation(self,light_or_motion_animation, duration):
+        animation = Animation(light_or_motion_animation,duration)
+        super(Animations,self).append(animation)
