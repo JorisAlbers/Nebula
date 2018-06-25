@@ -82,7 +82,7 @@ class LedController(threading.Thread):
         if not isinstance(lightAnimation, LightAnimation):
             raise ValueError("The lightAnimation must be an Light animation!")
 
-        lightAnimation.drawer.init_ring(self.led_sections)
+        lightAnimation.drawer.init_ring(self.strip,self.led_sections)
         self.next_animation = lightAnimation
 
     def set_frame_duration(self, frame_duration):

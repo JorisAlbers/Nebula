@@ -5,7 +5,7 @@ class LedDrawer(object):
     def __init__(self):
         pass
 
-    def init_ring(self, led_sections):
+    def init_ring(self, led_sections, strip):
         """
         An LedDrawer is not ring-specific. By calling init_ring, a ring can set its own dimensions
         array led_sections [ring1, ring2,...] ring = [int start, int stop, int length]
@@ -21,6 +21,7 @@ class LedDrawer(object):
                     raise ValueError("The element at index {0} in led_section {1} must be an int, was {2}!".format(y,x, type(led_sections[x][y])))
         
         self.led_sections = led_sections
+        self.strip = strip
 
 
     def draw_frame(self, strip):
@@ -86,8 +87,9 @@ class RepeatingPatterns(LedDrawer):
         """
         LedDrawer.__init__(self)
         self.patterns = patterns
+        self.iteration = 0
 
-    def draw_frame(self, strip):
+    def __iter__(self):
         """
         Draw the next frame in the animation
         strip - the Adafruit strip containing the 4 led strips
@@ -102,5 +104,5 @@ class RepeatingPatterns(LedDrawer):
                         for pixel_on_pattern in range(0,len(self.patterns[x])):
                             p_section = p_left + pixel_on_pattern
                             p_strip = super(RepeatingPatterns,self).section_index_to_strip_index(p_section,y)
-                            strip.setPixelColor(p_strip,self.patterns[x][pixel_on_pattern])
+                            self.strip.setPixelColor(p_strip,self.patterns[x][pixel_on_pattern])
                 yield
