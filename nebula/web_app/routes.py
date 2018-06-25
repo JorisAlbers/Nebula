@@ -36,6 +36,7 @@ class MyRequestHandler(BaseHTTPRequestHandler):
             {'regexp': r'^/update', 'controller': 'UpdateController', 'action': 'indexAction'},
 
         ]
+        self.animationReader = server.animationReader
 
         self.__router = Router(self)
         for route in routes:

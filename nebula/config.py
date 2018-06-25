@@ -2,8 +2,12 @@ class web_config:
     port = 8000
 
 
+class animation_config:
+    resourcePath = './../resources'
+
+
 class led_config:
-    leds = []
+    config = False
 
 
 class motion_config:

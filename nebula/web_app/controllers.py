@@ -4,6 +4,9 @@ import subprocess
 import sys
 import os
 
+from animation.animation_reader import AnimationReader
+# from nebula.config import animation_config
+
 
 class Controller(object):
     def __init__(self, server):
@@ -45,7 +48,9 @@ class IndexController(Controller):
         Controller.__init__(self, server)
 
     def indexAction(self):
-        nameSpace = {'title': 'Nebula', 'config': web_config}
+        ar = self.server.animationReader
+        animations = ar.get_animations()
+        nameSpace = {'title': 'Nebula', 'config': web_config, 'animationList': animations}
 
         self.server.send_response(200)
         self.server.send_header('Content-type', 'text/html')

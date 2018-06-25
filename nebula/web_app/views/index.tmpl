@@ -1,7 +1,62 @@
 <!doctype html>
 <html lang="nl">
 <head>
-    <link href="/public/final.css" rel="stylesheet">
+    <style>
+        body, html {
+            width: 100%;
+            height: 100%;
+        }
+
+        p {
+            display: inline-block;
+        }
+
+        main {
+            width: 100%;
+            height: 100%;
+            position: relative
+        }
+
+        .update-button {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+        }
+
+        .speed-slider {
+            width: 50%; /* Width of the outside container */
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 15px;
+            border-radius: 5px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #4CAF50;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #4CAF50;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 <header>
@@ -9,9 +64,20 @@
 </header>
 
 <main>
-    <p>
+    <div>
+        <div class="controls">
+            <div class="speed-slider">
+                <label for="speed">Speed: </label>
+                <input type="range" min="50" max="200" value="100" class="slider" name="speed" id="speed">
+                <span id="speed-percentage"></span>
+            </div>
+        </div>
+        <div class="start-stop-buttons">
+            <a href="">
 
-    </p>
+            </a>
+        </div>
+    </div>
     <div class="update-button">
         <a href="/update">Update</a>
     </div>
@@ -22,6 +88,16 @@
 </footer>
 
 <script>
+    // Speed slider
+    let slider = document.getElementById("speed");
+    let output = document.getElementById("speed-percentage");
+    output.innerHTML = slider.value + '%'; // Display the default slider value
+
+    slider.oninput = function () { // Update the current slider value (each time you drag the slider handle)
+        output.innerHTML = this.value + '%';
+    }
+
+
 
 </script>
 </body>
