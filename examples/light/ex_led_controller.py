@@ -15,7 +15,7 @@ def set_frame_duration():
     lc = LedController(strip,led_sections)
     lc.start()
 
-    lc.set_next_animation(LightAnimation(SlidingPatterns(patterns),1000,time.time()))
+    lc.setAnimation(LightAnimation(SlidingPatterns(patterns),1000,time.time()))
     for x in range(1000,0,-100):
         time.sleep(1)
         lc.set_frame_duration(x)
@@ -42,7 +42,7 @@ def inversed_led_sections(run_for_seconds):
     lc = LedController(strip,led_sections)
     lc.start()
 
-    lc.set_next_animation(LightAnimation(SlidingPatterns(patterns),500,time.time()))
+    lc.setAnimation(LightAnimation(SlidingPatterns(patterns),500,time.time()))
     time.sleep(run_for_seconds)        
     lc.stop()
     print("end of set_frame_duration test")

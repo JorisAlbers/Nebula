@@ -18,14 +18,14 @@ def sliding_pattern(run_for_seconds):
     lc.start()
     start_at = time.time()
     wait_ms = 100
-    lc.set_next_animation(LightAnimation(SlidingPatterns(patterns),wait_ms,start_at))
+    lc.setAnimation(LightAnimation(SlidingPatterns(patterns),wait_ms,start_at))
     end_time = time.time() + run_for_seconds
 
     while time.time() < end_time:
         time.sleep(1)
 
     patterns = [[Color(0,0,0),Color(0,0,255)]]
-    lc.set_next_animation(LightAnimation(SlidingPatterns(patterns),wait_ms,time.time()))
+    lc.setAnimation(LightAnimation(SlidingPatterns(patterns),wait_ms,time.time()))
     end_time = time.time() + run_for_seconds
 
     while time.time() < end_time:
@@ -53,7 +53,7 @@ def repeatingPatterns(run_for_seconds):
     lc.start()
     start_at = time.time()
     wait_ms = 100
-    lc.set_next_animation(LightAnimation(RepeatingPatterns(patterns),wait_ms,start_at))
+    lc.setAnimation(LightAnimation(RepeatingPatterns(patterns),wait_ms,start_at))
     end_time = time.time() + run_for_seconds
 
     while time.time() < end_time:
