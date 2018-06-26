@@ -52,7 +52,7 @@ def inversed_led_sections(run_for_seconds):
     lc.stop()
     print("end of set_frame_duration test")
 
-def loopMode_Duration_test():
+def loopMode_duration_test():
     from ...nebula.light.led_controller import LedController
     from ...nebula.light.led_strip import NeoPixelLedStrip, Color
     from ...nebula.light.led_drawing import SlidingPatterns
