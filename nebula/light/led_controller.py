@@ -2,6 +2,7 @@ import threading
 from .. import Timing
 from led_drawing import *
 from light_animation import *
+from ..animation.animation import LoopMode
 
 
 class LedController(threading.Thread):
@@ -39,13 +40,24 @@ class LedController(threading.Thread):
             while not self.stop_event.is_set():
                 time_start = Timing.millis()
                 if (self.current_animation is not None):
-                    # TODO check if animation done. If so, notify animationController by callback
+                    #TODO add lock 
                     next(self.current_animation.drawer)
-                    self.wait_ms = self.current_animation.frame_duration
                     self.strip.show()
-                    
+                    # Tell the lightAnimation that a iteration passed. 
+                    if self.current_animation.loop_mode == LoopMode.ITERATIONS:
+                        self.current_animation.loop_value -= 1
+                    if self.current_animation.loop_mode == LoopMode.DURATION or self.current_animation.loop_mode == LoopMode.NO_LOOP:
+                        self.current_animation.loop_value -= self.current_animation.frame_duration
+
                 if(self.current_animation is not None):
-                    Timing.delay(self.current_animation.frame_duration - (Timing.millis() - time_start))
+                    wait_for = self.current_animation.frame_duration
+                    #TODO release lock
+                    if self.current_animation.loop_value < 1:
+                        # Notify the animationController that the current animation has finished
+                        self.current_animation = None
+
+                    Timing.delay(wait_for - (Timing.millis() - time_start))
+                    
                 else:
                     Timing.delay(standard_wait_for_ms)
 
