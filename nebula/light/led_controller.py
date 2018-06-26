@@ -2,7 +2,7 @@ import threading
 from .. import Timing
 from led_drawing import *
 from light_animation import *
-from ..animation.animation import LoopMode
+from ..animation.animation_loop_mode import LoopMode
 
 
 class LedController(threading.Thread):
