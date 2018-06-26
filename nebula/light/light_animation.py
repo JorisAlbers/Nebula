@@ -1,5 +1,5 @@
 from led_drawing import LedDrawer
-from ..animation.animation import LoopMode
+from ..animation.animation_loop_mode import LoopMode
 
 class LightAnimation(object):
     def __init__(self,drawer,frame_duration, loop_mode, loop_value):
