@@ -1,5 +1,11 @@
 from ..light.light_animation import LightAnimation
 from ..motion.motion_animation import MotionAnimation
+from enum import Enum
+
+class LoopMode(Enum):
+    NO_LOOP = 0    # Default value
+    DURATION = 1   # Run until x miliseconds
+    ITERATIONS = 2 # Run until the iterations have passed
 
 class Animation(object):
     def __init__(self, light_or_motion_animation, duration_ms):
@@ -36,3 +42,4 @@ class Animations(list):
         """
         animation = Animation(light_or_motion_animation,duration_ms)
         super(Animations,self).append(animation)
+
