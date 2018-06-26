@@ -16,7 +16,7 @@ class LightAnimation(object):
         if frame_duration < 1:
             raise ValueError("The frame_duration must be larger than 0")
         if not isinstance(loop_mode, LoopMode):
-            raise ValueError("LoopMode must be a LoopMode")
+            raise ValueError("loop_mode must be a LoopMode")
         if not isinstance(loop_value, int):
             raise ValueError("The loop_value must be an int")
 
