@@ -36,3 +36,4 @@ class Animations(list):
         """
         animation = Animation(light_or_motion_animation,duration_ms)
         super(Animations,self).append(animation)
+

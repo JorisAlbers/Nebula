@@ -1,9 +1,11 @@
-def sliding_pattern(run_for_seconds):
+def sliding_pattern(run_for_seconds, frame_duration=100):
     import time
     from ...nebula.light.led_controller import LedController
     from ...nebula.light.led_strip import NeoPixelLedStrip, Color
     from ...nebula.light.led_drawing import SlidingPatterns
     from ...nebula.light.light_animation import LightAnimation
+    from ...nebula.animation.animation_loop_mode import LoopMode
+
     print("starting sliding patterns test")
     # Light Animation
     patterns = [[Color(255,0,0),Color(0,0,255),Color(0,255,0),Color(0,0,0)]]
@@ -16,32 +18,28 @@ def sliding_pattern(run_for_seconds):
 
     #Start
     lc.start()
-    start_at = time.time()
-    wait_ms = 100
-    lc.set_next_animation(LightAnimation(SlidingPatterns(patterns),wait_ms,start_at))
-    end_time = time.time() + run_for_seconds
+    run_for_seconds = 10
+    lc.setAnimation(LightAnimation(SlidingPatterns(patterns),frame_duration, LoopMode.DURATION, run_for_seconds * 1000))
 
-    while time.time() < end_time:
-        time.sleep(1)
+    time.sleep(run_for_seconds + 1)
 
     patterns = [[Color(0,0,0),Color(0,0,255)]]
-    lc.set_next_animation(LightAnimation(SlidingPatterns(patterns),wait_ms,time.time()))
-    end_time = time.time() + run_for_seconds
+    lc.setAnimation(LightAnimation(SlidingPatterns(patterns),frame_duration,LoopMode.DURATION, run_for_seconds * 1000))
 
-    while time.time() < end_time:
-        time.sleep(1)
-
+    time.sleep(run_for_seconds + 1)
 
     lc.stop()
     print("end of sliding patterns test")
 
 
-def repeatingPatterns(run_for_seconds):
+def repeatingPatterns(run_for_seconds, frame_duration=100):
     import time
     from ...nebula.light.led_controller import LedController
     from ...nebula.light.led_strip import NeoPixelLedStrip, Color
     from ...nebula.light.led_drawing import RepeatingPatterns
     from ...nebula.light.light_animation import LightAnimation
+    from ...nebula.animation.animation_loop_mode import LoopMode
+
     print("starting repeating patterns test")
     patterns = [[Color(255,0,0),Color(0,0,0)],[Color(0,0,0),Color(255,0,0)]]
     length_strip = 300
@@ -51,12 +49,9 @@ def repeatingPatterns(run_for_seconds):
     
     #Start
     lc.start()
-    start_at = time.time()
-    wait_ms = 100
-    lc.set_next_animation(LightAnimation(RepeatingPatterns(patterns),wait_ms,start_at))
-    end_time = time.time() + run_for_seconds
+    run_for_seconds = 10
+    lc.setAnimation(LightAnimation(RepeatingPatterns(patterns),frame_duration,LoopMode.DURATION, run_for_seconds * 1000))
 
-    while time.time() < end_time:
-        time.sleep(1)
+    time.sleep(run_for_seconds + 1)
     lc.stop()
     print("end of repeating patterns test")

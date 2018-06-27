@@ -2,6 +2,7 @@ import threading
 from .. import Timing
 from led_drawing import *
 from light_animation import *
+from ..animation.animation_loop_mode import LoopMode
 
 
 class LedController(threading.Thread):
@@ -24,7 +25,6 @@ class LedController(threading.Thread):
             self.total_length += length
 
         self.strip = ledstrip
-        self.next_animation = None
         self.current_animation = None
         # Threading
         threading.Thread.__init__(self)
@@ -40,30 +40,24 @@ class LedController(threading.Thread):
             while not self.stop_event.is_set():
                 time_start = Timing.millis()
                 if (self.current_animation is not None):
+                    #TODO add lock 
                     next(self.current_animation.drawer)
                     self.strip.show()
-                    
-                if (self.next_animation is not None):
-                    #There is a new animation to display.
-                    if(self.current_animation is not None):
-                        # There already was an aniamtion playing
-                        next_cyle_start = Timing.unix_timestamp() + float(self.current_animation.frame_duration) / 1000.0
-                        time_left = next_cyle_start - self.next_animation.start_at
-                        if(time_left < self.current_animation.frame_duration):
-                            self.current_animation = self.next_animation
-                            self.next_animation = None
-                            Timing.delay(time_left * 1000)
-                            continue
-                    else:
-                        # There was no animation playing.
-                        wait_ms = (self.next_animation.start_at - Timing.unix_timestamp()) / 1000.0
-                        self.current_animation = self.next_animation
-                        self.next_animation = None
-                        Timing.delay(wait_ms)
-                        continue
-                    
+                    # Tell the lightAnimation that a iteration passed. 
+                    if self.current_animation.loop_mode == LoopMode.ITERATIONS:
+                        self.current_animation.loop_value -= 1
+                    if self.current_animation.loop_mode == LoopMode.DURATION or self.current_animation.loop_mode == LoopMode.NO_LOOP:
+                        self.current_animation.loop_value -= self.current_animation.frame_duration
+
                 if(self.current_animation is not None):
-                    Timing.delay(self.current_animation.frame_duration - (Timing.millis() - time_start))
+                    wait_for = self.current_animation.frame_duration
+                    #TODO release lock
+                    if self.current_animation.loop_value < 1:
+                        # Notify the animationController that the current animation has finished
+                        self.current_animation = None
+
+                    Timing.delay(wait_for - (Timing.millis() - time_start))
+                    
                 else:
                     Timing.delay(standard_wait_for_ms)
 
@@ -74,16 +68,16 @@ class LedController(threading.Thread):
             # todo cleanup
             pass
 
-    def set_next_animation(self, lightAnimation):
+    def setAnimation(self, lightAnimation):
         """
-        Sets the next animation\n
+        Sets the animation\n
         Animation lightAnimation - the lightAnimation to show
         """
         if not isinstance(lightAnimation, LightAnimation):
             raise ValueError("The lightAnimation must be an Light animation!")
 
         lightAnimation.drawer.init_ring(self.strip,self.led_sections)
-        self.next_animation = lightAnimation
+        self.current_animation = lightAnimation
 
     def set_frame_duration(self, frame_duration):
         """
