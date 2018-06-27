@@ -30,6 +30,12 @@ class LedController(threading.Thread):
         threading.Thread.__init__(self)
         self.stop_event = threading.Event()
 
+    def setLightAnimationFinished_callback(self,callback):
+        """
+        Sets the callback to call if a lightAnimation has finished
+        """
+        self.callback = callback
+
     def run(self):
         """
         Start the led controller.
