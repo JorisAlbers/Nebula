@@ -33,14 +33,17 @@ class AnimationController(threading.Thread):
         if self.motionController is not None:
             self.motionController.run()
         
-        if(self.ledController is not None):
-            self.ledController.join()
-        if(self.motionController is not None):
-            self.motionController.join()
+        # Loop to check if a next animation has been set
+        while not self.stop_event.is_set():
+            if self.next_animations is not None:
+                self.current_animations = self.next_animations
+                self.next_animations = None
+                while self.next_animations_start_at > Timing.unix_timestamp() and self.next_animations is not None:
+                    # Wait until start has passed
+                    Timing.delayMicroseconds(1000)
+            else:
+                Timing.delay(200) # TODO check if 200 is not too much
 
-        # Both controllers have stopped working. 
-        # TODO restart controllers?
-        self.stop()
     
     def lightAnimationFinished_callback(self):
         """
