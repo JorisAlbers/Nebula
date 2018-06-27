@@ -2,38 +2,52 @@ from ..light.light_animation import LightAnimation
 from ..motion.motion_animation import MotionAnimation
 
 class Animation(object):
-    def __init__(self, light_or_motion_animation, duration_ms):
+    """
+    A Animation has a list of LightAnimation and a list of MotionAnimations.
+    Each of these lists can also contain a WAIT block.
+
+    A WAIT block is an integer, showing miliseconds
+
+    ~ = WAIT
+    Time                0|------------------------------|100
+    Light  animations:  -[1111111][~][2222][~~~~][3][~~]-
+    Motion animations:  -[1111111111][2222][~~~~][3][44]-
+    """
+    def __init__(self):
+        self.lightAnimations  = []
+        self.motionAnimations = []
+        self.index = 0
+        self.loops = False
+
+    def addLightAnimation(self, lightAnimation):
         """
-        The animation is a container class for a led or motion animation.
-        light_or_motion_animation - either a LightAnimation or a MotionAnimation
-        int duration_ms - The duration the animation will be displayed for in miliseconds
+        Add a new lightAnimation to the lightAnimations list
+        lightAnimation = the lightAnimation to add.
         """
+        if not isinstance(lightAnimation,LightAnimation):
+            raise ValueError("The lightAnimation must be of type LightAnimation")
+        self.lightAnimations.append(lightAnimation)
 
-        if not isinstance(light_or_motion_animation, LightAnimation) and not isinstance(light_or_motion_animation, MotionAnimation):
-            raise ValueError("The animation must be an LightAnimation or MotionAnimation!")
-        if not isinstance(int,duration_ms):
-            raise ValueError("The duration must be an int!")
-
-        self.animation = light_or_motion_animation
-        self.duration = duration_ms
-
-class Animations(list):
-    def __getitem__(self,key):
-        if not isinstance(key,int):
-            raise IndexError("Only integer indexing allowed")
-        return super(Animations,self).__getitem__(key)
-
-    def append(self,item):
-        if not isinstance(item,Animation):
-            raise ValueError("Can only add Animations!")
-        super(Animations,self).append(item)
-    
-    def addAnimation(self,light_or_motion_animation, duration_ms):
+    def addLightWait(self, waitForSeconds):
         """
-        Add a new animation
-        light_or_motion_animation - either a LightAnimation or a MotionAnimation
-        int duration_ms - The duration the animation will be displayed for in miliseconds
+        Add a WAIT to the lightAnimations
         """
-        animation = Animation(light_or_motion_animation,duration_ms)
-        super(Animations,self).append(animation)
+        if not isinstance(waitForSeconds,int):
+            raise ValueError("The waitForSeconds must be of type int!")
+        self.lightAnimations.append(waitForSeconds)
 
+    def addMotionAnimation(self,motionAnimation):
+        """
+        Add a new motionAnimation to the motionAnimations list
+        """
+        if not isinstance(motionAnimation,MotionAnimation):
+            raise ValueError("The motionAnimation must be of type MotionAnimation")
+        self.motionAnimations.append(motionAnimation)
+
+    def addMotionWait(self, waitForSeconds):
+        """
+        Add a WAIT to the motionAnimations
+        """
+        if not isinstance(waitForSeconds,int):
+            raise ValueError("The waitForSeconds must be of type int!")
+        self.motionAnimations.append(waitForSeconds)

@@ -1,6 +1,6 @@
 import threading
 from .. import Timing
-from animation import Animations
+from animation import Animation
 
 class AnimationController(threading.Thread):
     """
@@ -19,9 +19,9 @@ class AnimationController(threading.Thread):
         self.ledController = ledController
         self.motionController = motionController
 
-        self.current_animations = None
-        self.next_animations = None
-        self.next_animations_start_at = 0.0
+        self.current_animation = None
+        self.next_animation = None
+        self.next_animation_start_at = 0.0
 
         # Threading
         threading.Thread.__init__(self)
@@ -35,10 +35,10 @@ class AnimationController(threading.Thread):
         
         # Loop to check if a next animation has been set
         while not self.stop_event.is_set():
-            if self.next_animations is not None:
-                self.current_animations = self.next_animations
-                self.next_animations = None
-                while self.next_animations_start_at > Timing.unix_timestamp() and self.next_animations is not None:
+            if self.next_animation is not None:
+                self.current_animation = self.next_animation
+                self.next_animation = None
+                while self.next_animation_start_at > Timing.unix_timestamp() and self.next_animation is not None:
                     # Wait until start has passed
                     Timing.delayMicroseconds(1000)
             else:
@@ -52,15 +52,15 @@ class AnimationController(threading.Thread):
         # TODO add logic
         pass
 
-    def setNextAnimations(self, animations, start_at):
-        if not isinstance(animations,Animations):
+    def setNextAnimations(self, animation, start_at):
+        if not isinstance(animation,Animation):
             raise ValueError("The animations must be of type Animations! (The list object)")
         if not isinstance(start_at, float):
             raise ValueError("The start_at must be an integer, representing an UNIX timestamp")
         if Timing.unix_timestamp() > start_at:
             raise ValueError("The start_at has already passed!")
-        self.next_animations = animations
-        self.next_animations_start_at = start_at
+        self.next_animation = animation
+        self.next_animation_start_at = start_at
         
     def stop(self):
         """Stop the animation controller"""
