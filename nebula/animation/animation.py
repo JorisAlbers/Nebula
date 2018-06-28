@@ -80,6 +80,15 @@ class Animation(object):
         """
         Returns true if there is a next motion animation
         """
+        if self.loops:
+            return True
+        else:
+            return self.motionAnimationIndex +1 < len(self.motionAnimations)
+
+    def getNextMotionAnimation(self):
+        """
+        Gets the next motion animation. Might raise error if there is no next animation
+        """
         animation = self.motionAnimations[self.motionAnimationIndex]
         if self.loops:
             self.motionAnimationIndex += 1 % len(self.motionAnimations)
@@ -87,16 +96,5 @@ class Animation(object):
             self.motionAnimationIndex += 1
         
         return animation
-
-    def getNextMotionAnimation(self):
-        """
-        Gets the next motion animation. Might raise error if there is no next animation
-        """
-        if self.loops:
-            animation = self.motionAnimations[self.motionAnimationIndex]
-            self.motionAnimationIndex += 1 % len(self.motionAnimations)
-            return animation
-        else:
-            return self.motionAnimations[self.motionAnimationIndex]
 
     
