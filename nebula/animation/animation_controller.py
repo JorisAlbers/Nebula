@@ -1,5 +1,6 @@
 import threading
 from .. import Timing
+from animation import Animation
 
 class AnimationController(threading.Thread):
     """
@@ -13,11 +14,14 @@ class AnimationController(threading.Thread):
         if ledController is None and motionController is None:
             raise ValueError("At least one of the controller must be set!")
 
+        if ledController is not None:
+            ledController.setLightAnimationFinished_callback(self.lightAnimationFinished_callback)
         self.ledController = ledController
         self.motionController = motionController
 
         self.current_animation = None
         self.next_animation = None
+        self.next_animation_start_at = 0.0
 
         # Threading
         threading.Thread.__init__(self)
@@ -25,49 +29,63 @@ class AnimationController(threading.Thread):
 
     def run(self):
         if self.ledController is not None:
-            self.ledController.run()
+            self.ledController.start()
         if self.motionController is not None:
-            self.motionController.run()
-        standard_wait_for_ms = 200
-        try:
-            while not self.stop_event.is_set():
-                time_start = Timing.millis()
-                if(self.current_animation is not None):
-                    # Animate current animation
-                    pass
-                
-                if(self.next_animation is not None):
-                    # There already was an aniamtion playing
-                    next_cyle_start = Timing.unix_timestamp() + float(self.current_animation[1]) / 1000.0
-                    time_left = next_cyle_start - self.next_animation[2]
-                    if(time_left < self.current_animation[1]):
-                        self.current_animation = self.next_animation
-                        self.next_animation = None
-                        Timing.delay(time_left * 1000)
-                        continue
-                    else:
-                        # There was no animation playing.
-                        wait_ms = (self.next_animation[1] - Timing.unix_timestamp()) / 1000.0
-                        self.current_animation = self.next_animation
-                        self.next_animation = None
-                        Timing.delay(wait_ms)
-                        continue
+            self.motionController.start()
+        
+        # Loop to check if a next animation has been set
+        while not self.stop_event.is_set():
+            if self.next_animation is not None:
+                self.current_animation = self.next_animation
+                self.next_animation = None
+                while self.next_animation_start_at > Timing.unix_timestamp() and self.next_animation is not None:
+                    # Wait until start has passed
+                    Timing.delayMicroseconds(1000)
+                # it has passed, notify controllers
+                if self.ledController is not None and self.current_animation.hasNextLightAnimation():
+                    self.ledController.setAnimation(self.current_animation.getNextLightAnimation())
+                if self.motionController is not None and self.current_animation.hasNextMotionAnimation():
+                    self.motionController.setAnimation(self.current_animation.getNextMotionAnimation())
 
-                if(self.current_animation is not None):
-                    Timing.delay(self.current_animation[1] - (Timing.millis() - time_start))
-                else:
-                    Timing.delay(standard_wait_for_ms)
+            else:
+                Timing.delay(200) # TODO check if 200 is not too much
 
-        except Exception, e:
-            print("Error during run of animationController, " + str(e))
-            raise e
-        finally:
-            # todo cleanup
-            pass
 
+    
+    def lightAnimationFinished_callback(self):
+        """
+        Called by the ledController to notify this AnimationController that a LightAnimation has finished
+        """
+        # TODO create new thread?
+        if self.current_animation is not None:
+            if self.current_animation.hasNextLightAnimation():
+                self.ledController.setAnimation(self.current_animation.getNextLightAnimation())
+            
+
+    def motionAnimationFinished_callback(self):
+        """
+        Called by the motionController to notify this AnimationController that a motionAnimation has finished
+        """
+        #TODO add logic
+        pass
+
+    def setNextAnimations(self, animation, start_at):
+        if not isinstance(animation,Animation):
+            raise ValueError("The animations must be of type Animations! (The list object)")
+        if not isinstance(start_at, float):
+            raise ValueError("The start_at must be an integer, representing an UNIX timestamp")
+        if Timing.unix_timestamp() > start_at:
+            raise ValueError("The start_at has already passed!")
+        self.next_animation = animation
+        self.next_animation_start_at = start_at
+        
     def stop(self):
         """Stop the animation controller"""
         self.stop_event.set()
+        if self.ledController is not None:
+            self.ledController.stop()
+        if self.motionController is not None:
+            self.motionController.stop()
 
     def stopped(self):
         """Check if the animation controller is stopping"""

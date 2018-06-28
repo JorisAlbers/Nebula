@@ -17,7 +17,7 @@ def set_frame_duration():
     lc = LedController(strip,led_sections)
     lc.start()
 
-    total_iterations = 25
+    total_iterations = 1000
     lc.setAnimation(LightAnimation(SlidingPatterns(patterns),1000,LoopMode.ITERATIONS, total_iterations))
     for x in range(1000,0,-100):
         time.sleep(1)

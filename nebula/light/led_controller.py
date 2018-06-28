@@ -30,6 +30,12 @@ class LedController(threading.Thread):
         threading.Thread.__init__(self)
         self.stop_event = threading.Event()
 
+    def setLightAnimationFinished_callback(self,callback):
+        """
+        Sets the callback to call if a lightAnimation has finished
+        """
+        self.callback = callback
+
     def run(self):
         """
         Start the led controller.
@@ -53,9 +59,11 @@ class LedController(threading.Thread):
                     wait_for = self.current_animation.frame_duration
                     #TODO release lock
                     if self.current_animation.loop_value < 1:
-                        # Notify the animationController that the current animation has finished
                         self.current_animation = None
-
+                        #Notify the AnimationController that an lightAnimation has fininshed
+                        if self.callback is not None:
+                            self.callback()
+                        
                     Timing.delay(wait_for - (Timing.millis() - time_start))
                     
                 else:

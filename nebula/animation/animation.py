@@ -2,38 +2,99 @@ from ..light.light_animation import LightAnimation
 from ..motion.motion_animation import MotionAnimation
 
 class Animation(object):
-    def __init__(self, light_or_motion_animation, duration_ms):
+    """
+    A Animation has a list of LightAnimation and a list of MotionAnimations.
+    Each of these lists can also contain a WAIT block.
+
+    A WAIT block is an integer, showing miliseconds
+
+    ~ = WAIT
+    Time                0|------------------------------|100
+    Light  animations:  -[1111111][~][2222][~~~~][3][~~]-
+    Motion animations:  -[1111111111][2222][~~~~][3][44]-
+    """
+    def __init__(self, loops):
+        if not isinstance(loops,bool):
+            raise ValueError("loops must be of type bool")
+        self.lightAnimations  = []
+        self.motionAnimations = []
+        self.lightAnimationIndex = 0
+        self.motionAnimationIndex = 0
+        self.loops = False
+
+    def addLightAnimation(self, lightAnimation):
         """
-        The animation is a container class for a led or motion animation.
-        light_or_motion_animation - either a LightAnimation or a MotionAnimation
-        int duration_ms - The duration the animation will be displayed for in miliseconds
+        Add a new lightAnimation to the lightAnimations list
+        lightAnimation = the lightAnimation to add.
         """
+        if not isinstance(lightAnimation,LightAnimation):
+            raise ValueError("The lightAnimation must be of type LightAnimation")
+        self.lightAnimations.append(lightAnimation)
 
-        if not isinstance(light_or_motion_animation, LightAnimation) and not isinstance(light_or_motion_animation, MotionAnimation):
-            raise ValueError("The animation must be an LightAnimation or MotionAnimation!")
-        if not isinstance(int,duration_ms):
-            raise ValueError("The duration must be an int!")
+    def addLightWait(self, waitForSeconds):
+        """
+        Add a WAIT to the lightAnimations
+        """
+        if not isinstance(waitForSeconds,int):
+            raise ValueError("The waitForSeconds must be of type int!")
+        self.lightAnimations.append(waitForSeconds)
 
-        self.animation = light_or_motion_animation
-        self.duration = duration_ms
+    def hasNextLightAnimation(self):
+        """
+        Returns true if there is a next light animation
+        """
+        if self.loops:
+            return True
+        else:
+            return self.lightAnimationIndex  < len(self.lightAnimations)
 
-class Animations(list):
-    def __getitem__(self,key):
-        if not isinstance(key,int):
-            raise IndexError("Only integer indexing allowed")
-        return super(Animations,self).__getitem__(key)
+    def getNextLightAnimation(self):
+        """
+        Gets the next light animation. Might raise error if there is no next animation
+        """
+        animation = self.lightAnimations[self.lightAnimationIndex]
+        if self.loops:
+            self.lightAnimationIndex += 1 % len(self.lightAnimations)
+        else:
+            self.lightAnimationIndex += 1
 
-    def append(self,item):
-        if not isinstance(item,Animation):
-            raise ValueError("Can only add Animations!")
-        super(Animations,self).append(item)
+        return animation
+
+    def addMotionAnimation(self,motionAnimation):
+        """
+        Add a new motionAnimation to the motionAnimations list
+        """
+        if not isinstance(motionAnimation,MotionAnimation):
+            raise ValueError("The motionAnimation must be of type MotionAnimation")
+        self.motionAnimations.append(motionAnimation)
+
+    def addMotionWait(self, waitForSeconds):
+        """
+        Add a WAIT to the motionAnimations
+        """
+        if not isinstance(waitForSeconds,int):
+            raise ValueError("The waitForSeconds must be of type int!")
+        self.motionAnimations.append(waitForSeconds)
+
+    def hasNextMotionAnimation(self):
+        """
+        Returns true if there is a next motion animation
+        """
+        if self.loops:
+            return True
+        else:
+            return self.motionAnimationIndex < len(self.motionAnimations)
+
+    def getNextMotionAnimation(self):
+        """
+        Gets the next motion animation. Might raise error if there is no next animation
+        """
+        animation = self.motionAnimations[self.motionAnimationIndex]
+        if self.loops:
+            self.motionAnimationIndex += 1 % len(self.motionAnimations)
+        else:
+            self.motionAnimationIndex += 1
+        
+        return animation
+
     
-    def addAnimation(self,light_or_motion_animation, duration_ms):
-        """
-        Add a new animation
-        light_or_motion_animation - either a LightAnimation or a MotionAnimation
-        int duration_ms - The duration the animation will be displayed for in miliseconds
-        """
-        animation = Animation(light_or_motion_animation,duration_ms)
-        super(Animations,self).append(animation)
-
