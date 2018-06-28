@@ -18,7 +18,8 @@ class Animation(object):
             raise ValueError("loops must be of type bool")
         self.lightAnimations  = []
         self.motionAnimations = []
-        self.index = 0
+        self.lightAnimationIndex = 0
+        self.motionAnimationIndex = 0
         self.loops = False
 
     def addLightAnimation(self, lightAnimation):
@@ -38,6 +39,26 @@ class Animation(object):
             raise ValueError("The waitForSeconds must be of type int!")
         self.lightAnimations.append(waitForSeconds)
 
+    def hasNextLightAnimation(self):
+        """
+        Returns true if there is a next light animation
+        """
+        if self.loops:
+            return True
+        else:
+            return self.lightAnimationIndex +1 < len(self.lightAnimations)
+
+    def getNextLightAnimation(self):
+        """
+        Gets the next light animation. Might raise error if there is no next animation
+        """
+        if self.loops:
+            animation = self.lightAnimations[self.lightAnimationIndex]
+            self.lightAnimationIndex += 1 % len(self.lightAnimations)
+            return animation
+        else:
+            return self.lightAnimations[self.lightAnimationIndex]
+
     def addMotionAnimation(self,motionAnimation):
         """
         Add a new motionAnimation to the motionAnimations list
@@ -53,3 +74,5 @@ class Animation(object):
         if not isinstance(waitForSeconds,int):
             raise ValueError("The waitForSeconds must be of type int!")
         self.motionAnimations.append(waitForSeconds)
+
+    
