@@ -13,7 +13,9 @@ class Animation(object):
     Light  animations:  -[1111111][~][2222][~~~~][3][~~]-
     Motion animations:  -[1111111111][2222][~~~~][3][44]-
     """
-    def __init__(self):
+    def __init__(self, loops):
+        if not isinstance(loops,bool):
+            raise ValueError("loops must be of type bool")
         self.lightAnimations  = []
         self.motionAnimations = []
         self.index = 0
