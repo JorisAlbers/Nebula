@@ -41,6 +41,12 @@ class AnimationController(threading.Thread):
                 while self.next_animation_start_at > Timing.unix_timestamp() and self.next_animation is not None:
                     # Wait until start has passed
                     Timing.delayMicroseconds(1000)
+                # it has passed, notify controllers
+                if self.ledController is not None and self.current_animation.hasNextLightAnimation():
+                    self.ledController.setAnimation(self.current_animation.getNextLightAnimation())
+                if self.motionController is not None and self.current_animation.hasNextMotionAnimation():
+                    self.motionController.setAnimation(self.current_animation.getNextMotionAnimation())
+
             else:
                 Timing.delay(200) # TODO check if 200 is not too much
 
