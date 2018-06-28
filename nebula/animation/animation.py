@@ -46,7 +46,7 @@ class Animation(object):
         if self.loops:
             return True
         else:
-            return self.lightAnimationIndex +1 < len(self.lightAnimations)
+            return self.lightAnimationIndex +2 < len(self.lightAnimations)
 
     def getNextLightAnimation(self):
         """
@@ -83,7 +83,7 @@ class Animation(object):
         if self.loops:
             return True
         else:
-            return self.motionAnimationIndex +1 < len(self.motionAnimations)
+            return self.motionAnimationIndex +2 < len(self.motionAnimations)
 
     def getNextMotionAnimation(self):
         """
