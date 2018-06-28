@@ -49,8 +49,9 @@ class AnimationController(threading.Thread):
         """
         Called by the ledController to notify this AnimationController that a LightAnimation has finished
         """
-        # TODO add logic
-        pass
+        # TODO create new thread?
+        if self.current_animation is not None and self.current_animation.hasNextLightAnimation():
+            self.ledController.setAnimation(self.current_animation.getNextLightAnimation())
 
     def motionAnimationFinished_callback(self):
         """
