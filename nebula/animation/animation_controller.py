@@ -29,9 +29,9 @@ class AnimationController(threading.Thread):
 
     def run(self):
         if self.ledController is not None:
-            self.ledController.run()
+            self.ledController.start()
         if self.motionController is not None:
-            self.motionController.run()
+            self.motionController.start()
         
         # Loop to check if a next animation has been set
         while not self.stop_event.is_set():
