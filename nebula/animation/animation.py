@@ -52,12 +52,13 @@ class Animation(object):
         """
         Gets the next light animation. Might raise error if there is no next animation
         """
+        animation = self.lightAnimations[self.lightAnimationIndex]
         if self.loops:
-            animation = self.lightAnimations[self.lightAnimationIndex]
             self.lightAnimationIndex += 1 % len(self.lightAnimations)
-            return animation
         else:
-            return self.lightAnimations[self.lightAnimationIndex]
+            self.lightAnimationIndex += 1
+
+        return animation
 
     def addMotionAnimation(self,motionAnimation):
         """
@@ -79,10 +80,13 @@ class Animation(object):
         """
         Returns true if there is a next motion animation
         """
+        animation = self.motionAnimations[self.motionAnimationIndex]
         if self.loops:
-            return True
+            self.motionAnimationIndex += 1 % len(self.motionAnimations)
         else:
-            return self.motionAnimationIndex +1 < len(self.motionAnimations)
+            self.motionAnimationIndex += 1
+        
+        return animation
 
     def getNextMotionAnimation(self):
         """
