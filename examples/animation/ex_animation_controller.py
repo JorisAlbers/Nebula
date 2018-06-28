@@ -23,9 +23,9 @@ def lightAnimation_callback():
     controller.start()
     controller.setNextAnimations(animation,time.time() + 1)
     print("Next animation has been set")
-    while controller.current_animation is not None:
-        time.sleep(1)
-
+    
+    time.sleep(15)
+    controller.stop()
     print("End of lightAnimation_callback example")
 
 

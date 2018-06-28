@@ -50,6 +50,7 @@ class AnimationController(threading.Thread):
             else:
                 Timing.delay(200) # TODO check if 200 is not too much
 
+
     
     def lightAnimationFinished_callback(self):
         """
@@ -81,6 +82,10 @@ class AnimationController(threading.Thread):
     def stop(self):
         """Stop the animation controller"""
         self.stop_event.set()
+        if self.ledController is not None:
+            self.ledController.stop()
+        if self.motionController is not None:
+            self.motionController.stop()
 
     def stopped(self):
         """Check if the animation controller is stopping"""
