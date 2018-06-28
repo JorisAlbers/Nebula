@@ -52,6 +52,13 @@ class AnimationController(threading.Thread):
         # TODO add logic
         pass
 
+    def motionAnimationFinished_callback(self):
+        """
+        Called by the motionController to notify this AnimationController that a motionAnimation has finished
+        """
+        #TODO add logic
+        pass
+
     def setNextAnimations(self, animation, start_at):
         if not isinstance(animation,Animation):
             raise ValueError("The animations must be of type Animations! (The list object)")
