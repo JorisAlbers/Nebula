@@ -59,10 +59,7 @@ class AnimationController(threading.Thread):
         if self.current_animation is not None:
             if self.current_animation.hasNextLightAnimation():
                 self.ledController.setAnimation(self.current_animation.getNextLightAnimation())
-            else:
-                if not self.current_animation.hasNextMotionAnimation():
-                    self.current_animation = None
-                # TODO clear?
+            
 
     def motionAnimationFinished_callback(self):
         """
