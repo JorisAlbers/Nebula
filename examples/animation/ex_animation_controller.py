@@ -19,10 +19,10 @@ def lightAnimation_callback():
 
     led_controller = LedController(NeoPixelLedStrip(300,18,800000,5,False),[[0,299]])
     controller = AnimationController(led_controller,None)
-
+    print("Starting controller")
     controller.run()
     controller.setNextAnimations(animation,time.time() + 1)
-
+    print("Next animation has been set")
     while controller.current_animation is not None:
         time.sleep(1)
 
