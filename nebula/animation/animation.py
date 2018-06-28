@@ -75,4 +75,24 @@ class Animation(object):
             raise ValueError("The waitForSeconds must be of type int!")
         self.motionAnimations.append(waitForSeconds)
 
+    def hasNextMotionAnimation(self):
+        """
+        Returns true if there is a next motion animation
+        """
+        if self.loops:
+            return True
+        else:
+            return self.motionAnimationIndex +1 < len(self.motionAnimations)
+
+    def getNextMotionAnimation(self):
+        """
+        Gets the next motion animation. Might raise error if there is no next animation
+        """
+        if self.loops:
+            animation = self.motionAnimations[self.motionAnimationIndex]
+            self.motionAnimationIndex += 1 % len(self.motionAnimations)
+            return animation
+        else:
+            return self.motionAnimations[self.motionAnimationIndex]
+
     
