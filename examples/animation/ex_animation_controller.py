@@ -21,6 +21,7 @@ def lightAnimation_callback():
     controller = AnimationController(led_controller,None)
 
     controller.run()
+    controller.setNextAnimations(animation,time.time() + 1)
 
     while controller.current_animation is not None:
         time.sleep(1)
