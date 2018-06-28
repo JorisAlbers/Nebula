@@ -17,7 +17,7 @@ def lightAnimation_callback():
     animation.addLightAnimation(lightAnimation1)
     animation.addLightAnimation(lightAnimation2)
 
-    led_controller = LedController(NeoPixelLedStrip(300,18,800000,5,False),[[[0,300]])
+    led_controller = LedController(NeoPixelLedStrip(300,18,800000,5,False),[[0,300]])
     controller = AnimationController(led_controller,None)
 
     controller.run()
