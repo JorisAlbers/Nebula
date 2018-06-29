@@ -31,13 +31,13 @@ class Animation(object):
             raise ValueError("The lightAnimation must be of type LightAnimation")
         self.lightAnimations.append(lightAnimation)
 
-    def addLightWait(self, waitForSeconds):
+    def addLightWait(self, waitForMiliSeconds):
         """
         Add a WAIT to the lightAnimations
         """
-        if not isinstance(waitForSeconds,int):
-            raise ValueError("The waitForSeconds must be of type int!")
-        self.lightAnimations.append(waitForSeconds)
+        if not isinstance(waitForMiliSeconds,int):
+            raise ValueError("The waitForMiliSeconds must be of type int!")
+        self.lightAnimations.append(waitForMiliSeconds)
 
     def hasNextLightAnimation(self):
         """
@@ -68,13 +68,13 @@ class Animation(object):
             raise ValueError("The motionAnimation must be of type MotionAnimation")
         self.motionAnimations.append(motionAnimation)
 
-    def addMotionWait(self, waitForSeconds):
+    def addMotionWait(self, waitForMiliSeconds):
         """
         Add a WAIT to the motionAnimations
         """
-        if not isinstance(waitForSeconds,int):
-            raise ValueError("The waitForSeconds must be of type int!")
-        self.motionAnimations.append(waitForSeconds)
+        if not isinstance(waitForMiliSeconds,int):
+            raise ValueError("The waitForMiliSeconds must be of type int!")
+        self.motionAnimations.append(waitForMiliSeconds)
 
     def hasNextMotionAnimation(self):
         """
