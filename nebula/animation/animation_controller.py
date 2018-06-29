@@ -65,7 +65,7 @@ class AnimationController(threading.Thread):
                     self.ledController.setAnimation(animation)
                 else:
                     #Animation must be a WAIT. wait is in miliseconds.
-                    self.ledController.setWait(Timing.unix_timestamp() + (animation / 1000))
+                    self.ledController.setWait(Timing.unix_timestamp() + (float(animation) / 1000.0))
             
 
     def motionAnimationFinished_callback(self):
