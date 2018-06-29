@@ -40,7 +40,7 @@ def wait_in_animation(wait_seconds):
     from ...nebula.animation.animation_loop_mode import LoopMode
 
     lightAnimation1 = LightAnimation(SlidingPatterns([[Color(0,0,255),Color(0,0,0)]]),100,LoopMode.ITERATIONS,20)
-    lightAnimation2 = LightAnimation(RepeatingPatterns([[Color(0,255,255),Color(0,0,0)]]),100,LoopMode.ITERATIONS,20)
+    lightAnimation2 = LightAnimation(SlidingPatterns([[Color(0,255,255),Color(0,0,0)]]),100,LoopMode.ITERATIONS,20)
     
     animation = Animation(False)
     animation.addLightAnimation(lightAnimation1)
