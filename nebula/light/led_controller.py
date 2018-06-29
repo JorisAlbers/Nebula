@@ -45,29 +45,39 @@ class LedController(threading.Thread):
         try:
             while not self.stop_event.is_set():
                 time_start = Timing.millis()
-                if (self.current_animation is not None):
-                    #TODO add lock 
-                    next(self.current_animation.drawer)
-                    self.strip.show()
-                    # Tell the lightAnimation that a iteration passed. 
-                    if self.current_animation.loop_mode == LoopMode.ITERATIONS:
-                        self.current_animation.loop_value -= 1
-                    if self.current_animation.loop_mode == LoopMode.DURATION or self.current_animation.loop_mode == LoopMode.NO_LOOP:
-                        self.current_animation.loop_value -= self.current_animation.frame_duration
+                if self.current_animation is not None:
+                    if isinstance(self.current_animation,LightAnimation):
+                        #Draw the lightAnimation
+                        #TODO add lock 
+                        next(self.current_animation.drawer)
+                        self.strip.show()
+                        # Tell the lightAnimation that a iteration passed. 
+                        if self.current_animation.loop_mode == LoopMode.ITERATIONS:
+                            self.current_animation.loop_value -= 1
+                        if self.current_animation.loop_mode == LoopMode.DURATION or self.current_animation.loop_mode == LoopMode.NO_LOOP:
+                            self.current_animation.loop_value -= self.current_animation.frame_duration
 
-                if(self.current_animation is not None):
-                    wait_for = self.current_animation.frame_duration
-                    #TODO release lock
-                    if self.current_animation.loop_value < 1:
-                        self.current_animation = None
-                        #Notify the AnimationController that an lightAnimation has fininshed
-                        if self.callback is not None:
-                            self.callback()
+                        wait_for = self.current_animation.frame_duration
                         
-                    Timing.delay(wait_for - (Timing.millis() - time_start))
-                    
-                else:
-                    Timing.delay(standard_wait_for_ms)
+                        if self.current_animation.loop_value < 1:
+                            self.current_animation = None
+                            #Notify the AnimationController that an lightAnimation has fininshed
+                            #TODO release lock
+                            if self.callback is not None:
+                                self.callback()
+                        #TODO release lock
+                        Timing.delay(wait_for - (Timing.millis() - time_start))
+                        continue
+
+                    else:
+                        #Must be WAIT, check if time reached this block
+                        time_left = self.current_animation - Timing.unix_timestamp() + (standard_wait_for_ms/1000.0)
+                        if time_left < standard_wait_for_ms:
+                            Timing.delay(time_left)
+                            if self.callback is not None:
+                                self.callback()
+                            
+                Timing.delay(standard_wait_for_ms)
 
         except Exception, e:
             print("Error during run of LedController, " + str(e))
@@ -86,6 +96,15 @@ class LedController(threading.Thread):
 
         lightAnimation.drawer.init_ring(self.strip,self.led_sections)
         self.current_animation = lightAnimation
+
+    def setWait(self,until):
+        """
+        Sets a WAIT until unix timestamp.
+        """
+        if not isinstance(until,float):
+            raise ValueError("The until must be a float, representing an Unix timestamp")
+        self.wait = until
+
 
     def set_frame_duration(self, frame_duration):
         """

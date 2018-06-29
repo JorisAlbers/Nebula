@@ -1,6 +1,7 @@
 import threading
 from .. import Timing
 from animation import Animation
+from ..light.light_animation import LightAnimation
 
 class AnimationController(threading.Thread):
     """
@@ -59,7 +60,12 @@ class AnimationController(threading.Thread):
         # TODO create new thread?
         if self.current_animation is not None:
             if self.current_animation.hasNextLightAnimation():
-                self.ledController.setAnimation(self.current_animation.getNextLightAnimation())
+                animation = self.current_animation.getNextLightAnimation()
+                if isinstance(animation,LightAnimation):
+                    self.ledController.setAnimation(animation)
+                else:
+                    #Animation must be a WAIT. wait is in miliseconds.
+                    self.ledController.setWait(Timing.unix_timestamp() + (self.animation / 1000))
             
 
     def motionAnimationFinished_callback(self):
