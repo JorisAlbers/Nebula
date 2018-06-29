@@ -42,6 +42,7 @@ class LedController(threading.Thread):
         """
         self.strip.begin()
         standard_wait_for_ms = 200
+        standard_wait_for_seconds = float(standard_wait_for_ms) / 1000.0
         try:
             while not self.stop_event.is_set():
                 time_start = Timing.millis()
@@ -71,7 +72,8 @@ class LedController(threading.Thread):
 
                     else:
                         #Must be WAIT, check if time reached this block
-                        time_left = self.current_animation - Timing.unix_timestamp() + (standard_wait_for_ms/1000.0)
+                        next_cycle_start = Timing.unix_timestamp() + standard_wait_for_seconds
+                        time_left = next_cycle_start - self.current_animation
                         if time_left < standard_wait_for_ms:
                             Timing.delay(time_left)
                             if self.callback is not None:
