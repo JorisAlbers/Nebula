@@ -103,7 +103,7 @@ class LedController(threading.Thread):
         """
         if not isinstance(until,float):
             raise ValueError("The until must be a float, representing an Unix timestamp")
-        self.wait = until
+        self.current_animation = until
 
 
     def set_frame_duration(self, frame_duration):
