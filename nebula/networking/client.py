@@ -18,7 +18,7 @@ class Client(threading.Thread):
             self.socket.connect((self.server_ip, self.server_port))
             print("Connected to server")
         except :
-            print 'Unable to connect'
+            print("Unable to connect to server")
             return
         
         while not self.stop_event.isset():
@@ -26,13 +26,13 @@ class Client(threading.Thread):
          
             # Get the list sockets which are readable
             read_sockets, write_sockets, error_sockets = select.select(socket_list , [], [])
-            
+            print("Did a select")
             for sock in read_sockets:
                 #incoming message from remote server
                 if sock == s:
                     data = sock.recv(4096)
                     if not data :
-                        print '\nDisconnected from chat server'
+                        print("Server disconnected")
                         #TODO try to reconnect
                         return
                     else :
