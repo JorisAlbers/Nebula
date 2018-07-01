@@ -55,3 +55,23 @@ class Server(threading.Thread):
 
         #Cleanup
         self.server_socket.close()
+
+    def broadcast(self,message):
+        """
+        Send a message to all connected clients
+        """
+        for socket in self.connections:
+            if socket != self.server_socket:
+                self.sendToSocket(socket,message)
+
+    def sendToSocket(self,socket, message):
+        """
+        Send a message to a socket
+        """
+        try:
+            socket.send(message)
+        except:
+            # Broken socket
+            print("Connection with {0} closed. Removing from list of active connections.".format(socket.getpeername()))
+            socket.close()
+            self.connections.remove(socket)
