@@ -58,7 +58,9 @@ class Server(threading.Thread):
                         continue
 
         #Cleanup
+        self.server_socket.shutdown()
         self.server_socket.close()
+        
 
     def broadcast(self,message):
         """
@@ -79,3 +81,11 @@ class Server(threading.Thread):
             print("Connection with {0} closed. Removing from list of active connections.".format(socket.getpeername()))
             socket.close()
             self.connections.remove(socket)
+
+    def stop(self):
+        """Stop the server controller"""
+        self.stop_event.set()
+
+    def stopped(self):
+        """Check if the server is stopping"""
+        return self.stop_event.is_set()
