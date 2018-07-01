@@ -29,7 +29,7 @@ class Client(threading.Thread):
             print("Did a select")
             for sock in read_sockets:
                 #incoming message from remote server
-                if sock == s:
+                if sock == self.socket:
                     data = sock.recv(4096)
                     if not data :
                         print("Server disconnected")
