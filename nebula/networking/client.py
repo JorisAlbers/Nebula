@@ -21,7 +21,7 @@ class Client(threading.Thread):
             print("Unable to connect to server")
             return
         
-        while not self.stop_event.isset():
+        while not self.stop_event.is_set():
             socket_list = [self.socket]
          
             # Get the list sockets which are readable
