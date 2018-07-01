@@ -40,7 +40,7 @@ class Client(threading.Thread):
                         pass
         
         #Cleanup
-        self.socket.shutdown()
+        self.socket.shutdown(socket.SHUT_RDWR)
         self.socket.close()
 
     def sendToServer(self,message_type,message):

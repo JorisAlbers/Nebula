@@ -58,7 +58,7 @@ class Server(threading.Thread):
             
 
         #Cleanup
-        self.server_socket.shutdown()
+        self.server_socket.shutdown(socket.SHUT_RDWR)
         self.server_socket.close()
         
 
