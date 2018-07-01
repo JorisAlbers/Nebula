@@ -26,9 +26,8 @@ class Server(threading.Thread):
  
         print("Server started on ip {0}, port {1} ".format(self.ip,self.port))
         while not self.stop_event.is_set():
-            # Get the list sockets which are ready to be read through select
-            print("Server main loop")
-            read_sockets,write_sockets,error_sockets = select.select(self.connections,[],[])
+            # Get the list sockets which are ready to be read through select. Timeout = 1, to keep checking if the stop event is set
+            read_sockets,write_sockets,error_sockets = select.select(self.connections,[],[],1)
 
             for sock in read_sockets:
                 #New connection
@@ -56,6 +55,7 @@ class Server(threading.Thread):
                         sock.close()
                         self.connections.remove(sock)
                         continue
+            
 
         #Cleanup
         self.server_socket.shutdown()
