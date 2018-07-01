@@ -18,6 +18,7 @@ class Server(threading.Thread):
         self.stop_event = threading.Event()
 
     def run(self):
+        print("Start")
         self.server_socket.bind((self.ip, self.port))
         self.server_socket.listen(10)
         # Add server socket to the list of readable connections
@@ -26,6 +27,7 @@ class Server(threading.Thread):
         print("Server started on ip {0}, port {1} ".format(self.ip,self.port))
         while not self.stop_event.is_set():
             # Get the list sockets which are ready to be read through select
+            print("Server main loop")
             read_sockets,write_sockets,error_sockets = select.select(self.connections,[],[])
 
             for sock in read_sockets:
@@ -42,6 +44,8 @@ class Server(threading.Thread):
                     try:
                         data = sock.recv(self.RECV_BUFFER)
                         if data:
+                            print('Message recieved: {0}'.format(data))
+                            sock.send("server received the message : {0}".format(data))
                             #TODO Parse message and call correct callback
                             pass
                                           

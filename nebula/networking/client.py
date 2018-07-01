@@ -1,6 +1,7 @@
 import socket
 import select
 import threading
+from message_types import MessageType
  
 class Client(threading.Thread):
     def __init__(self,server_ip,server_port):
@@ -37,4 +38,17 @@ class Client(threading.Thread):
                         return
                     else :
                         # TODO parse message and call callback
+                        print("Message received from server: {0}".format(data))
                         pass
+
+    def sendToServer(self,message_type,message):
+        if not isinstance(message_type, MessageType):
+            raise ValueError("The message_type must be an MessageType!")
+        if not isinstance(message,str):
+            raise ValueError("The message must be of type string!")
+        try:
+            self.socket.send("{0};{1}".format(int(message_type),message))
+        except:
+            raise Exception("Server connection lost")
+            #TODO handle this, try to reconnect for x tries or something
+
