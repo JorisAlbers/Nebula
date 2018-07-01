@@ -23,11 +23,9 @@ class Client(threading.Thread):
             return
         
         while not self.stop_event.is_set():
+            # Get the list sockets which are readable. Timeout = 1 to keep checking if the stop event has been set.
             socket_list = [self.socket]
-         
-            # Get the list sockets which are readable
-            read_sockets, write_sockets, error_sockets = select.select(socket_list , [], [])
-            print("Did a select")
+            read_sockets, write_sockets, error_sockets = select.select(socket_list , [], [],1)
             for sock in read_sockets:
                 #incoming message from remote server
                 if sock == self.socket:
@@ -40,6 +38,10 @@ class Client(threading.Thread):
                         # TODO parse message and call callback
                         print("Message received from server: {0}".format(data))
                         pass
+        
+        #Cleanup
+        self.socket.shutdown()
+        self.socket.close()
 
     def sendToServer(self,message_type,message):
         if not isinstance(message_type, MessageType):
@@ -51,4 +53,12 @@ class Client(threading.Thread):
         except:
             raise Exception("Server connection lost")
             #TODO handle this, try to reconnect for x tries or something
+
+    def stop(self):
+        """Stop the client"""
+        self.stop_event.set()
+
+    def stopped(self):
+        """Check if the client is stopping"""
+        return self.stop_event.is_set()
 
