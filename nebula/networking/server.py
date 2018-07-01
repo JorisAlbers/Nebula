@@ -3,9 +3,6 @@ import socket
 import select
 
 class Server(threading.Thread):
-    """
-    The server acts as a receiving client. 
-    """
     def __init__(self, ip,port):
         self.ip = ip
         self.port = port
