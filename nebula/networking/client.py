@@ -15,6 +15,12 @@ class Client(threading.Thread):
         self.reconnect_wait_ms = 500
         self.connected = False
 
+        #CallBacks
+        self.startAnimationCallback = None
+    
+    def init_callbacks(self,startAnimationCallback):
+        self.startAnimationCallback = startAnimationCallback
+
     def run(self):
         # A quick inital connection for logging purposes
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -63,6 +69,13 @@ class Client(threading.Thread):
             print("Server send disconnect signal, reason: {0}".format(split[1]))
             self.connected = False
             self.socket.close()
+        if messageType == MessageType.START_ANIMATION: # mt;animation_key;start_at
+            print("Server wants me to start animation ({0}) at UNIX : {1}".format(split[1],split[2]))
+            # TODO add value checks and send to server if incorrect
+            if self.startAnimationCallback is not None:
+                self.startAnimationCallback(split[1],float(split[2]))
+            else:
+                print("Can't start animation, callback was not set.")
 
     def sendToServer(self,message_type,message):
         if not isinstance(message_type, MessageType):
