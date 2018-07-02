@@ -35,13 +35,23 @@ class Client(threading.Thread):
                         #TODO try to reconnect
                         return
                     else :
-                        # TODO parse message and call callback
-                        print("Message received from server: {0}".format(data))
+                        self.parseMessage(sock,data)
                         pass
         
         #Cleanup
+        try:
+            self.sendToServer(MessageType.DISCONNECT,"Stop event was set")
+        except:
+            pass
         self.socket.shutdown(socket.SHUT_RDWR)
         self.socket.close()
+
+    def parseMessage(self,socket,message):
+        split = message.split(';')
+        messageType = MessageType(int(split[0]))
+        if (messageType == MessageType.DISCONNECT): # message_type;reason
+            # The server is disconnecting
+            print("Server send disconnect signal, reason {0}".format(split[1]))
 
     def sendToServer(self,message_type,message):
         if not isinstance(message_type, MessageType):

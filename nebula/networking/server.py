@@ -1,12 +1,14 @@
 import threading
 import socket
 import select
+from message_types import MessageType
 
 class Server(threading.Thread):
     def __init__(self, ip,port):
         self.ip = ip
         self.port = port
         self.connections = []
+        self.connections_to_index = {}
 
         self.RECV_BUFFER = 4096
 
@@ -35,6 +37,7 @@ class Server(threading.Thread):
                     # Handle the case in which there is a new connection recieved through server_socket
                     sockfd, addr = self.server_socket.accept()
                     self.connections.append(sockfd)
+                    self.connections_to_index[sockfd] = addr
                     print "Client (%s, %s) connected" % addr
 
                 #Some incoming message from a client
@@ -45,7 +48,7 @@ class Server(threading.Thread):
                         if data:
                             print('Message recieved: {0}'.format(data))
                             sock.send("server received the message : {0}".format(data))
-                            #TODO Parse message and call correct callback
+                            self.parseMessage(sock,data)
                             pass
                                           
                     except:
@@ -58,24 +61,42 @@ class Server(threading.Thread):
             
 
         #Cleanup
-        self.server_socket.shutdown(socket.SHUT_RDWR)
+        self.broadcast(MessageType.DISCONNECT,"Server is shutting down")
+        try:
+            self.server_socket.shutdown(socket.SHUT_RDWR)
+        except:
+            pass
         self.server_socket.close()
         
+    def parseMessage(self,socket,message):
+        split = message.split(';')
+        messageType = MessageType(int(split[0]))
+        if (messageType == MessageType.CONNECT):  # message_type;ip
+            # I need initial values
+            # return initial values
+            pass
+        elif (messageType == MessageType.DISCONNECT): # message_type;reason
+            print("Client {0} is disconnecting".format(self.connections_to_index[socket]))
+            self.connections.remove(socket)
+            del self.connections_to_index[socket]
+        elif (messageType == messageType.RECONNECT): #message_type;ip
+            # I already know my inital values, but something went wrong and a new connection was needed. 
+            pass
 
-    def broadcast(self,message):
+    def broadcast(self,message_type,message):
         """
         Send a message to all connected clients
         """
         for socket in self.connections:
             if socket != self.server_socket:
-                self.sendToSocket(socket,message)
+                self.sendToSocket(socket,message_type,message)
 
-    def sendToSocket(self,socket, message):
+    def sendToSocket(self,socket, message_type, message):
         """
         Send a message to a socket
         """
         try:
-            socket.send(message)
+            socket.send("{0};{1}".format(int(message_type),message))
         except:
             # Broken socket
             print("Connection with {0} closed. Removing from list of active connections.".format(socket.getpeername()))
