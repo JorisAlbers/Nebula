@@ -2,42 +2,52 @@ import socket
 import select
 import threading
 from message_types import MessageType
+#from .. import Timing
+import time
  
 class Client(threading.Thread):
     def __init__(self,server_ip,server_port):
         self.server_ip = server_ip
-        self.server_port = server_port
-        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.socket.settimeout(2)
+        self.server_port = server_port 
         #Threading
         threading.Thread.__init__(self)
         self.stop_event = threading.Event()
+        self.reconnect_wait_ms = 500
+        self.connected = False
 
     def run(self):
-         # connect to remote host
-        try :
-            self.socket.connect((self.server_ip, self.server_port))
+        # A quick inital connection for logging purposes
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket.settimeout(2)
+        if(self.tryConnectToServer(self.server_ip,self.server_port)):
             print("Connected to server")
-        except :
-            print("Unable to connect to server")
-            return
-        
+        else:
+            print("Inital connect to server failed. Will retry every {0} miliseconds".format(self.reconnect_wait_ms))
+
         while not self.stop_event.is_set():
-            # Get the list sockets which are readable. Timeout = 1 to keep checking if the stop event has been set.
-            socket_list = [self.socket]
-            read_sockets, write_sockets, error_sockets = select.select(socket_list , [], [],1)
-            for sock in read_sockets:
-                #incoming message from remote server
-                if sock == self.socket:
-                    data = sock.recv(4096)
-                    if not data :
-                        print("Server disconnected")
-                        #TODO try to reconnect
-                        return
-                    else :
-                        self.parseMessage(sock,data)
-                        pass
-        
+            if self.connected:
+                # Get the list sockets which are readable. Timeout = 1 to keep checking if the stop event has been set.
+                socket_list = [self.socket]
+                read_sockets, write_sockets, error_sockets = select.select(socket_list , [], [],1)
+                for sock in read_sockets:
+                    #incoming message from remote server
+                    print("Reading message")
+                    if sock == self.socket:
+                        data = sock.recv(4096)
+                        if not data :
+                            print("Server connection failed")
+                            self.connected = False
+                            self.socket.close()
+                        else :
+                            self.parseMessage(sock,data)
+                            
+            if not self.connected:
+                # The server is disconnected. Try to reconnect
+                if(self.tryConnectToServer(self.server_ip,self.server_port)):
+                    print("Connected to server")
+                else:
+                    time.sleep(1)
+
         #Cleanup
         try:
             self.sendToServer(MessageType.DISCONNECT,"Stop event was set")
@@ -50,8 +60,9 @@ class Client(threading.Thread):
         split = message.split(';')
         messageType = MessageType(int(split[0]))
         if (messageType == MessageType.DISCONNECT): # message_type;reason
-            # The server is disconnecting
-            print("Server send disconnect signal, reason {0}".format(split[1]))
+            print("Server send disconnect signal, reason: {0}".format(split[1]))
+            self.connected = False
+            self.socket.close()
 
     def sendToServer(self,message_type,message):
         if not isinstance(message_type, MessageType):
@@ -63,6 +74,19 @@ class Client(threading.Thread):
         except:
             raise Exception("Server connection lost")
             #TODO handle this, try to reconnect for x tries or something
+
+    def tryConnectToServer(self,ip,port):
+        """
+        Try to connect to the server. Returns true if connected
+        """
+        try:
+            self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.socket.settimeout(2)
+            self.socket.connect((self.server_ip, self.server_port))
+            self.connected = True
+            return True
+        except Exception,e:
+            return False
 
     def stop(self):
         """Stop the client"""
