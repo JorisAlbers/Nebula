@@ -1,9 +1,56 @@
 {
-  "title": "An animation",
-  "author": "MARTIJN",
-  "framesPerSecond": 30,
-  "type": "martijns-logica",
-  "data": [
+  "title": "blue_dot",
+  "author": "Joris",
+  "description" : "Drags a blue dot over the led patterns. Idential for each ring. Ring 2 start a bit later.",
+  "animations_per_ring" : 
+    { "ring_1" : 
+      { "intial_start_delay_ms" : 1000,
+        "loops" : false,
+        "light_animations":
+        [
+          {
+          "drawer"   : "SlidingPatterns",
+          "patterns" : [["255,0,0","0,0,0"]],
+          "loop_mode" : "duration",
+          "loop_value": 100000,
+          "frame_duration" : 200
+          },
+          {
+            "wait" : 1000
+          },
+          {
+          "drawer"   : "RepeatingPatterns",
+          "patterns" : [["0,255,0","0,0,0","0.0.0","0.0.0"]],
+          "loop_mode" : "iteration",
+          "loop_value": 15,
+          "frame_duration" : 100
+          }
+        ]
+      },
 
-  ]
+      "ring_2" : 
+      { "intial_start_delay_ms" : 700,
+        "loops" : false,
+        "light_animations":
+        [
+          {
+          "drawer"   : "SlidingPatterns",
+          "patterns" : [["255,0,0","0,0,0"]],
+          "loop_mode" : "duration",
+          "loop_value": 100000,
+          "frame_duration" : 200
+          },
+          {
+            "wait" : 1000
+          },
+          {
+          "drawer"   : "RepeatingPatterns",
+          "patterns" : [["0,255,0","0,0,0","0.0.0","0.0.0"]],
+          "loop_mode" : "iteration",
+          "loop_value": 15,
+          "frame_duration" : 100
+          }
+        ]
+      }
+    }
 }
