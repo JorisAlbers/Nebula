@@ -8,7 +8,8 @@ class Server(threading.Thread):
         self.ip = ip
         self.port = port
         self.connections = []
-        self.connections_to_index = {}
+        self.client_to_socket = {}
+        self.socket_to_client = {}
 
         self.RECV_BUFFER = 4096
 
@@ -37,7 +38,6 @@ class Server(threading.Thread):
                     # Handle the case in which there is a new connection recieved through server_socket
                     sockfd, addr = self.server_socket.accept()
                     self.connections.append(sockfd)
-                    self.connections_to_index[sockfd] = addr
                     print "Client (%s, %s) connected" % addr
 
                 #Some incoming message from a client
@@ -52,9 +52,8 @@ class Server(threading.Thread):
                             pass
                                           
                     except:
-                        # The client is no longer connected
                         # TODO do stuff on connection cloesed
-                        print "Client (%s, %s) is offline" % addr
+                        print("Sending data failed to {0} failed. Closing socket.")
                         sock.close()
                         self.connections.remove(sock)
                         continue
@@ -69,19 +68,31 @@ class Server(threading.Thread):
         self.server_socket.close()
         
     def parseMessage(self,socket,message):
-        split = message.split(';')
-        messageType = MessageType(int(split[0]))
-        if (messageType == MessageType.CONNECT):  # message_type;ip
-            # I need initial values
-            # return initial values
-            pass
-        elif (messageType == MessageType.DISCONNECT): # message_type;reason
-            print("Client {0} is disconnecting".format(self.connections_to_index[socket]))
-            self.connections.remove(socket)
-            del self.connections_to_index[socket]
-        elif (messageType == messageType.RECONNECT): #message_type;ip
-            # I already know my inital values, but something went wrong and a new connection was needed. 
-            pass
+        try:
+            split = message.split(';')
+            messageType = MessageType(int(split[0]))
+            if (messageType == MessageType.CONNECT):# message_type;client_id
+                client_id = split[1]
+                if client_id in self.client_to_socket: 
+                    print("Client with id ({0}) reconnected.".format(client_id))
+                    old_socket = self.client_to_socket[client_id]
+                    self.closeSocket(old_socket,"A new client with the same id has connected")
+                    del self.socket_to_client[old_socket]
+                    self.client_to_socket[client_id] = socket
+                    self.socket_to_client[socket] = client_id
+                else:
+                    print("Client with id ({0}) connected for the first time.".format(client_id))
+                    self.client_to_socket[client_id] = socket
+                    self.socket_to_client[socket] = client_id
+                
+            elif (messageType == MessageType.DISCONNECT): # message_type;reason
+                client_id = self.socket_to_client[socket]
+                print("Client {0} is disconnecting".format(client_id))
+                self.connections.remove(socket)
+                #del self.client_to_socket[client_id]
+                #del self.socket_to_client[socket]
+        except Exception,e:
+            print("Failed to parse message: ({0}), reason: ({1})".format(message,str(e)))
 
     def broadcast(self,message_type,message):
         """
@@ -98,10 +109,32 @@ class Server(threading.Thread):
         try:
             socket.send("{0};{1}".format(int(message_type),message))
         except:
-            # Broken socket
             print("Connection with {0} closed. Removing from list of active connections.".format(socket.getpeername()))
-            socket.close()
-            self.connections.remove(socket)
+            try:
+                if socket in self.connections:
+                    self.connections.remove(socket)
+            except:
+                pass
+
+    def closeSocket(self,socket,reason):
+        """
+        Tell the socket that the connection will be closed and close the socket
+        """
+        try:
+            socket.send("{0};{1}".format(int(MessageType.DISCONNECT),reason))
+        except:
+            print("can't send close message to socket, was already closed.")
+        finally:
+            try:
+                socket.close()
+            except:
+                print("Can't close socket, was already closed.")
+            finally:
+                try:
+                    if socket in self.connections:
+                        self.connections.remove(socket)
+                except Exception,e:
+                    print("Socket was already removed from connections.")
 
     def stop(self):
         """Stop the server controller"""

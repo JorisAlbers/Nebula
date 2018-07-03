@@ -6,9 +6,21 @@ from message_types import MessageType
 import time
  
 class Client(threading.Thread):
-    def __init__(self,server_ip,server_port):
+    def __init__(self, server_ip, server_port, client_id):
+        """
+        string server_ip - the ip adress of the server.\n
+        int server_port - the port of the server.\n
+        string client_id - the id of the client. Should be unique for each client.
+        """
+        if not isinstance(server_ip,str):
+            raise ValueError("The server_ip must be of type string")
+        if not isinstance(server_port,int):
+            raise ValueError("The server_port must be of type int")
+        if not isinstance(client_id,str):
+            raise ValueError("The client_id must be of type string")
         self.server_ip = server_ip
         self.server_port = server_port 
+        self.client_id = client_id
         #Threading
         threading.Thread.__init__(self)
         self.stop_event = threading.Event()
@@ -37,7 +49,6 @@ class Client(threading.Thread):
                 read_sockets, write_sockets, error_sockets = select.select(socket_list , [], [],1)
                 for sock in read_sockets:
                     #incoming message from remote server
-                    print("Reading message")
                     if sock == self.socket:
                         data = sock.recv(4096)
                         if not data :
@@ -63,19 +74,23 @@ class Client(threading.Thread):
         self.socket.close()
 
     def parseMessage(self,socket,message):
-        split = message.split(';')
-        messageType = MessageType(int(split[0]))
-        if (messageType == MessageType.DISCONNECT): # message_type;reason
-            print("Server send disconnect signal, reason: {0}".format(split[1]))
-            self.connected = False
-            self.socket.close()
-        if messageType == MessageType.START_ANIMATION: # mt;animation_key;start_at
-            print("Server wants me to start animation ({0}) at UNIX : {1}".format(split[1],split[2]))
-            # TODO add value checks and send to server if incorrect
-            if self.startAnimationCallback is not None:
-                self.startAnimationCallback(split[1],float(split[2]))
-            else:
-                print("Can't start animation, callback was not set.")
+        try:
+            split = message.split(';')
+            messageType = MessageType(int(split[0]))
+            if (messageType == MessageType.DISCONNECT): # message_type;reason
+                print("Server send disconnect signal, reason: {0}".format(split[1]))
+                self.connected = False
+                self.socket.close()
+            if messageType == MessageType.START_ANIMATION: # mt;animation_key;start_at
+                print("Server wants me to start animation ({0}) at UNIX : {1}".format(split[1],split[2]))
+                # TODO add value checks and send to server if incorrect
+                if self.startAnimationCallback is not None:
+                    self.startAnimationCallback(split[1],float(split[2]))
+                else:
+                    print("Can't start animation, callback was not set.")
+        except Exception,e:
+            print("Failed to parse message: ({0}), reason: ({1})".format(message,str(e)))
+
 
     def sendToServer(self,message_type,message):
         if not isinstance(message_type, MessageType):
@@ -96,6 +111,7 @@ class Client(threading.Thread):
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.socket.settimeout(2)
             self.socket.connect((self.server_ip, self.server_port))
+            self.sendToServer(MessageType.CONNECT,self.client_id)
             self.connected = True
             return True
         except Exception,e:
