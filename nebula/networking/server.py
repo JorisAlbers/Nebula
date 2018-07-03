@@ -47,10 +47,14 @@ class Server(threading.Thread):
                         data = sock.recv(self.RECV_BUFFER)
                         if data:
                             print('Message recieved: {0}'.format(data))
-                            sock.send("server received the message : {0}".format(data))
-                            self.parseMessage(sock,data)
-                            pass
-                                          
+                            try:
+                                split = data.split(';')
+                                message_type = MessageType(int(split[0]))
+                                if not message_type == MessageType.RECEIVED:
+                                    self.sendToSocket(sock,MessageType.RECEIVED,data)
+                                self.parseMessage(sock,message_type,split)
+                            except:
+                                print("Message received was invalid. Message = ({0})".format(data))
                     except:
                         # TODO do stuff on connection cloesed
                         print("Sending data failed to {0} failed. Closing socket.")
@@ -67,12 +71,12 @@ class Server(threading.Thread):
             pass
         self.server_socket.close()
         
-    def parseMessage(self,socket,message):
+    def parseMessage(self,socket,message_type,message_args):
         try:
-            split = message.split(';')
-            messageType = MessageType(int(split[0]))
-            if (messageType == MessageType.CONNECT):# message_type;client_id
-                client_id = split[1]
+            if(message_type == MessageType.RECEIVED):
+                pass # TODO add checking if client recevies messages
+            if (message_type == MessageType.CONNECT):# message_type;client_id
+                client_id = message_args[1]
                 if client_id in self.client_to_socket: 
                     print("Client with id ({0}) reconnected.".format(client_id))
                     old_socket = self.client_to_socket[client_id]
@@ -85,14 +89,17 @@ class Server(threading.Thread):
                     self.client_to_socket[client_id] = socket
                     self.socket_to_client[socket] = client_id
                 
-            elif (messageType == MessageType.DISCONNECT): # message_type;reason
+            elif (message_type == MessageType.DISCONNECT): # message_type;reason
                 client_id = self.socket_to_client[socket]
                 print("Client {0} is disconnecting".format(client_id))
                 self.connections.remove(socket)
                 #del self.client_to_socket[client_id]
                 #del self.socket_to_client[socket]
+            
+            else:
+                raise ValueError("Unknown message type")
         except Exception,e:
-            print("Failed to parse message: ({0}), reason: ({1})".format(message,str(e)))
+            print("Failed to parse message :([{0}] {1}). Reason: ([{2}] {3})".format(message_type, ";".join(message_args),type(e),e.message))
 
     def broadcast(self,message_type,message):
         """
