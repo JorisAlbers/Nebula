@@ -116,6 +116,14 @@ class Server(threading.Thread):
             except:
                 pass
 
+    def sendToClient(self, client_id, message_type, message):
+        """
+        Send a message to a specific client by its ID.
+        """
+        if not client_id in self.client_to_socket:
+            raise ValueError("The client with id {} does not exist".format(client_id))
+        self.sendToSocket(self.client_to_socket[client_id],message_type,message)
+
     def closeSocket(self,socket,reason):
         """
         Tell the socket that the connection will be closed and close the socket
