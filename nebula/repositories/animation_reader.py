@@ -2,7 +2,7 @@ import os
 import json
 
 class AnimationReader(object):
-    ANIMATION_EXTENSION = ".nebula_animation"
+    ANIMATION_EXTENSION = ".nebula.json"
     def __init__(self,dir_path):
         """
         string dir_path - The location the animations are stored.
