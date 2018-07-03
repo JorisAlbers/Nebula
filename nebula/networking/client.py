@@ -88,8 +88,10 @@ class Client(threading.Thread):
                     self.startAnimationCallback(split[1],float(split[2]))
                 else:
                     print("Can't start animation, callback was not set.")
+            else:
+                raise ValueError("Unknown or not implemented message type ({0})".format(messageType))
         except Exception,e:
-            print("Failed to parse message: ({0}), reason: ({1})".format(message,str(e)))
+            print("Failed to parse message: ({0}), reason: ([{1}] {2} )".format(message,type(e), e.message))
 
 
     def sendToServer(self,message_type,message):
