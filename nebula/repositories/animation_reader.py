@@ -23,21 +23,27 @@ class AnimationReader(object):
                 animations.append(file.replace(self.ANIMATION_EXTENSION))
         return animations
 
-    def readFile(self,file_path):
+    def readFile(self,file_name):
+        """
+        Read the file from the dir_path with the file_name specified in the param.
+        """
+        path = os.path.join(self.dir_path,file_name)
+        if not os.path.isfile(path):
+            raise IOError("The animation at {0} does not exist!".format(path))
         try:
-            file = open(file_path,'r')
+            file = open(path,'r')
         except:
-            print("AnimationReader : Failed to read file at {0}".format(file_path))
+            print("AnimationReader : Failed to read file at {0}".format(path))
         else:
             try:
                 return file.readlines()
             except:
-                print("AnimationReader: Failed to read lines, filepath = {0}".format(file_path))
+                print("AnimationReader: Failed to read lines, filepath = {0}".format(path))
             finally:
                 try:
                     file.close()
                 except:
-                    print("AnimationReader: Failed to close file after reading, filepath = {0}".format(file_path))
+                    print("AnimationReader: Failed to close file after reading, filepath = {0}".format(path))
 
     def loadAnimation(self,name):
         """
@@ -46,17 +52,14 @@ class AnimationReader(object):
         if not isinstance(name,str):
             raise ValueError("The name must be of type string")
         
-        full_path = os.path.join(self.dir_path,name + self.ANIMATION_EXTENSION)
-        if not os.path.isfile(full_path):
-            return IOError("The animation does not exist!")
-
-        file_content = self.readFile(full_path)
+        file_name = name + self.ANIMATION_EXTENSION
+        file_content = self.readFile(file_name)
         if file is not None:
             try:
                 return json.loads(file_content)
             except:
-                raise IOError("Failed to load animation {0}, format invalid ,filepath = {1}".format(name,full_path))
+                raise IOError("Failed to load animation {0}, format invalid".format(name))
         else:
-           raise IOError("Failed to load animation {0}, could not read file, filepath = {1}".format(name,full_path))
+           raise IOError("Failed to load animation {0}, could not read file".format(name))
         
 
