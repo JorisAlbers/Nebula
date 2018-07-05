@@ -20,7 +20,7 @@ class Animation(object):
         self.motionAnimations = []
         self.lightAnimationIndex = 0
         self.motionAnimationIndex = 0
-        self.loops = False
+        self.loops = loops
 
     def addLightAnimation(self, lightAnimation):
         """
