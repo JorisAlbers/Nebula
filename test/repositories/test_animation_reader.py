@@ -18,7 +18,7 @@ def test_readFile_file_returnsLines():
 def test_loadAnimation_file_returnsCorrectAnimation():
     # EXPECTED VALUES, from file blue_dot.nebula.json
     ex_initial_start_delay = 1000
-    ex_loops = False,
+    ex_loops = False
     #First light animation
     ex1_drawer = SlidingPatterns([[]])
     ex1_patterns = [["255,0,0","0,0,0"]]
