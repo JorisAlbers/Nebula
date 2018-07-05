@@ -5,4 +5,5 @@ class MessageType(IntEnum):
     CONNECT = 1,
     DISCONNECT = 2,
     RECEIVED = 3,
-    START_ANIMATION = 4
+    START_ANIMATION = 4,
+    CLEAR = 5

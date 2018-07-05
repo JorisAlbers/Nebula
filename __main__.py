@@ -157,7 +157,6 @@ def main(config_path):
 
 
 
-
 def print_help():
     print("NEBULA")
     print("commands:")
