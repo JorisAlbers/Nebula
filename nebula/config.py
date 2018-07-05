@@ -1,10 +1,17 @@
 class config:
+    client_id = "ring_x"
+    isMaster = False
+
     class web_config:
         port = 8000
 
     class animation_config:
         resourcePath = './../resources'
 
+    class networking_config:
+        server_ip = "localhost"
+        port = 6000
+        
     class led_config:
         pwm_pin = 18
         pwm_freq = 800000
