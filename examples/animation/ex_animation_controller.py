@@ -112,7 +112,7 @@ def loop_repeating_patterns(iterations):
     print("End of loop_repeating_patterns example")
 
 def clear_animation_test():
-    print("Home of lightAnimation_callback example")
+    print("Home of clear_animation_test example")
     from ...nebula.animation.animation_controller import AnimationController
     from ...nebula.animation.animation import Animation
     from ...nebula.light.led_controller import LedController
@@ -138,7 +138,7 @@ def clear_animation_test():
     
     time.sleep(15)
     controller.stop()
-    print("End of lightAnimation_callback example")
+    print("End of clear_animation_test example")
     
 
 
