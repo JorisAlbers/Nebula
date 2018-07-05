@@ -119,7 +119,7 @@ def clear_strip():
     import time
 
     print("starting clear_strip test")
-    patterns = [[Color(0,0,0),Color(0,0,255)]]
+    patterns = [[Color(0,0,255),Color(255,0,0)]]
     # Led strip
     length_strip = 300
     led_sections = [[0,74],[149,75],[150,224],[299,225]]
@@ -130,7 +130,7 @@ def clear_strip():
     duration = 3000
 
     start = time.time()
-    la = LightAnimation(SlidingPatterns(patterns),500,LoopMode.DURATION, duration)
+    la = LightAnimation(SlidingPatterns(patterns),50,LoopMode.DURATION, duration)
     lc.setAnimation(la)
     time.sleep(duration-1000/1000)
     la = [time.time()+5,True]
