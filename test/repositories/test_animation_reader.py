@@ -2,7 +2,7 @@ import os
 from ...nebula.repositories.animation_reader import AnimationReader
 from ...nebula.animation.animation import Animation
 from ...nebula.animation.animation_loop_mode import LoopMode
-from ...nebula.light.led_drawing import LedDrawer, SlidingPatterns, RepeatingPatterns
+from ...nebula.light.led_drawing import *
 from ...nebula.light.light_animation import LightAnimation
 
 def test_readFile_file_returnsLines():
@@ -21,7 +21,7 @@ def test_loadAnimation_file_returnsCorrectAnimation():
     ex_loops = False
     #First light animation
     ex1_drawer = SlidingPatterns([[]])
-    ex1_patterns = [["255,0,0","0,0,0"]]
+    ex1_patterns = [[Color(255,0,0),Color(0,0,0)]]
     ex1_loop_mode = LoopMode.DURATION
     ex1_loop_value = 100000
     ex1_frame_duration = 200
@@ -30,7 +30,7 @@ def test_loadAnimation_file_returnsCorrectAnimation():
     # type = int
     #Third light animation
     ex2_drawer = RepeatingPatterns([[]])
-    ex2_patterns = [["0,255,0","0,0,0","0.0.0","0.0.0"]]
+    ex2_patterns = [[Color(0,255,0),Color(0,0,0),Color(0.0.0),Color(0.0.0)]]
     ex2_loop_mode = LoopMode.ITERATIONS
     ex2_loop_value = 15
     ex2_frame_duration = 100
@@ -48,6 +48,7 @@ def test_loadAnimation_file_returnsCorrectAnimation():
     #first light animation
     la = animation.lightAnimations[0]
     assert(type(ex1_drawer) == type(la.drawer))
+    assert(len(ex1_patterns) == len(la.drawer.patterns))
     assert all([a == b for a, b in zip(ex1_patterns[0], la.drawer.patterns[0])])
     assert(type(ex1_loop_mode) == type(la.loop_mode))
     assert(ex1_loop_value == la.ex1_loop_value)
