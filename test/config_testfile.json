@@ -1,0 +1,45 @@
+{
+    "client_id" : "ring_1",
+    "isMaster" : false,
+    "web" : 
+    {
+        "port" : 8000
+    },
+    "animation" : 
+    {
+        "resource_dir" : "placeholder"
+    },
+    "networking" : 
+    {
+        "server_ip" : "localhost",
+        "server_port" : 6000
+    },
+    "light" : 
+    {
+        "server_port" : 6000,
+        "pwm_pin" : 18,
+        "pwm_freq" : 800000,
+        "dma_channel" : 5,
+        "inverse" : false,
+        "strip_length" : 300,
+        "strip_sections" : [[0,299]]
+    },
+    "motion" : 
+    {
+        "pwm_pin" : 6000,
+        "dir_pin" : 18,
+        "maximum_rpm" : 80,
+        "pwm_freq_in_hertz" : 20000,
+        "pwm_max_dutycycle" : false,
+        "watcher" :
+        {
+            "pulses_per_rotation" : 16,
+            "reduction" : 100,
+            "hall_sensor_a" : 5,
+            "hall_sensor_b" : 17,
+            "hall_sensor_c" : 27
+        }
+    }
+}
+
+
