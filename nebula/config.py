@@ -1,4 +1,7 @@
-class config:
+import os
+import json
+
+class Config:
     client_id = "ring_x"
     isMaster = False
 
@@ -10,7 +13,7 @@ class config:
 
     class networking_config:
         server_ip = "localhost"
-        port = 6000
+        server_port = 6000
         
     class led_config:
         pwm_pin = 18
@@ -34,3 +37,88 @@ class config:
         hall_sensor_a = 5
         hall_sensor_b = 17
         hall_sensor_c = 27
+
+def getSettingFromConfigJSON(dic, config_key, setting_key):
+    if config_key in dic:
+        if setting_key in dic[config_key]:
+            return dic[config_key][setting_key]
+    print("ConfigReader - failed to load setting {0} from config {1}. Using default value.".format(setting_key,config_key))
+
+def readConfig(path):
+    """
+    Read the config at file_path
+    """
+    if not isinstance(path, str):
+        raise ValueError("The config path must be a string!")
+    if not os.path.isfile(path):
+        raise IOError("The config at {0} does not exist.".format(path))
+
+    file_content = None
+
+    try:
+        file = open(path,'r')
+    except:
+        print("Config reader : Failed to config file at {0}".format(path))
+        return
+    try:
+        file_content = file.read()
+    except:
+        print("Config reader : Failed to read lines, filepath = {0}".format(path))
+    finally:
+        try:
+            file.close()
+        except:
+            print("Config reader : Failed to close file after reading, filepath = {0}".format(path))
+
+    j = None
+    try:
+        j =  json.loads(file_content)
+    except:
+        raise IOError("Config reader : Failed to parse json")
+
+    config = Config()
+    # General
+    if "client_id" in j:
+        config.client_id = j["client_id"]
+    else:
+        print("ConfigReader - failed to load setting client_id")
+    if "isMaster" in j:
+        config.isMaster = j["isMaster"]
+    else:
+        print("ConfigReader - failed to load setting isMaster")
+
+    #WEB
+    value = getSettingFromConfigJSON(j,"web","port")
+    if value is not None:
+        config.web_config.port = value
+    #NETWORKING
+    value = getSettingFromConfigJSON(j,"networking","server_ip")
+    if value is not None:
+        config.networking_config.server_ip = value
+    value = getSettingFromConfigJSON(j,"networking","server_port")
+    if value is not None:
+        config.networking_config.server_port = value
+    #ANIMATION
+    value = getSettingFromConfigJSON(j,"animation","resource_dir")
+    if value is not None:
+        config.animation_config.resourcePath = value
+    #LIGHT
+    value = getSettingFromConfigJSON(j,"light","pwm_pin")
+    if value is not None:
+        config.led_config.pwm_pin = value
+    value = getSettingFromConfigJSON(j,"light","pwm_freq")
+    if value is not None:
+        config.led_config.pwm_freq = value
+    value = getSettingFromConfigJSON(j,"light","dma_channel")
+    if value is not None:
+        config.led_config.dma_channel = value
+    value = getSettingFromConfigJSON(j,"light","strip_length")
+    if value is not None:
+        config.led_config.strip_length = value
+    value = getSettingFromConfigJSON(j,"light","strip_sections")
+    if value is not None:
+        config.led_config.strip_sections = value
+    #MOTION
+    # TODO parse motion values
+
+
