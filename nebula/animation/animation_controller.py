@@ -89,8 +89,6 @@ class AnimationController(threading.Thread):
             raise ValueError("The animations must be of type Animations! (The list object)")
         if not isinstance(start_at, float):
             raise ValueError("The start_at must be an integer, representing an UNIX timestamp")
-        if Timing.unix_timestamp() > start_at:
-            raise ValueError("The start_at has already passed!")
         self.next_animation = animation
         self.next_animation_start_at = start_at
 
