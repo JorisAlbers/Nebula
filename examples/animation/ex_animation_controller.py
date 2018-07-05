@@ -44,7 +44,7 @@ def wait_in_animation(wait_seconds):
     
     animation = Animation(False)
     animation.addLightAnimation(lightAnimation1)
-    animation.addLightWait(wait_seconds * 1000)
+    animation.addLightWait(wait_seconds * 1000,False)
     animation.addLightAnimation(lightAnimation2)
 
     led_controller = LedController(NeoPixelLedStrip(300,18,800000,5,False),[[0,299]])
