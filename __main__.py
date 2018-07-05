@@ -54,13 +54,11 @@ class NebulaMaster(object):
         print("END of nebula master")
 
     def getTerminalInput(self):
-        self.clearTerminal()
         print("1 - Stop")
         print("2 - Start an animation")
         return int(raw_input())
 
     def getTerminalAnimationInput(self,animations):
-        self.clearTerminal()
         for x in range(0,len(animations)):
             print("{0} - {1}".format(x+1,animations[x]))
         i = int(raw_input())
@@ -68,10 +66,6 @@ class NebulaMaster(object):
             return animations[i-1]
         else:
             return None
-
-    def clearTerminal(self):
-        os.system("clear")
-
     
 
 def main(config_path):
