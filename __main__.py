@@ -56,7 +56,7 @@ class NebulaMaster(object):
             print("{0} - {1}".format(x+1,animations[x]))
         i = int(raw_input())
         if i > 0 and i < len(animations)+1:
-            return animations[i]
+            return animations[i-1]
         else:
             return None
 
