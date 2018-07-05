@@ -5,7 +5,7 @@ from nebula.light.led_controller import LedController
 from nebula.light.led_strip import NeoPixelLedStrip
 from nebula.networking.server import Server
 from nebula.networking.client import Client
-import nebula.Timing
+from nebula import Timing
 import os
 
 class NebulaMaster(object):
