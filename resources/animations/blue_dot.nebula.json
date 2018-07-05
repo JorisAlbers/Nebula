@@ -21,7 +21,7 @@
           },
           {
           "drawer"   : "RepeatingPatterns",
-          "patterns" : [["0,255,0","0,0,0","0.0.0","0.0.0"]],
+          "patterns" : [["0,255,0","0,0,0","0.0.0","0.0.0"],["20.20.20","60,60,60","180.180.180","255,255,255"]],
           "loop_mode" : "iterations",
           "loop_value": 15,
           "frame_duration" : 100
@@ -47,7 +47,7 @@
           },
           {
           "drawer"   : "RepeatingPatterns",
-          "patterns" : [["0,255,0","0,0,0","0.0.0","0.0.0"]],
+          "patterns" : [["0,255,0","0,0,0","0.0.0","0.0.0"],["20.20.20","60,60,60","180.180.180","255,255,255"]],
           "loop_mode" : "iterations",
           "loop_value": 15,
           "frame_duration" : 100
