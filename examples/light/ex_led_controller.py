@@ -133,8 +133,7 @@ def clear_strip():
     la = LightAnimation(SlidingPatterns(patterns),50,LoopMode.DURATION, duration)
     lc.setAnimation(la)
     time.sleep(2)
-    la = [time.time()+5,True]
-    lc.setAnimation(la)
+    lc.setWait(time.time() + 5, True)
     time.sleep(2)
     la = LightAnimation(SlidingPatterns(patterns),50,LoopMode.DURATION, duration)
     lc.setAnimation(la)
