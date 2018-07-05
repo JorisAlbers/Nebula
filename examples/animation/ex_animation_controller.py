@@ -81,7 +81,7 @@ def loop_example(seconds_per_light_animation):
     controller.start()
     controller.setNextAnimations(animation,time.time() + 1)
     
-    time.sleep(seconds_per_light_animation * 2 +  5)
+    time.sleep(seconds_per_light_animation * 3 +  5)
     controller.stop()
     print("End of wait_in_animation example")
 
