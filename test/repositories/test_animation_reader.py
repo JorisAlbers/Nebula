@@ -54,6 +54,10 @@ def test_loadAnimation_file_returnsCorrectAnimation():
     assert(ex1_loop_value == la.loop_value)
     assert(ex1_frame_duration == la.frame_duration)
     #Second light animation
+     # This is a wait
+    la = animation.lightAnimations[1]
+    assert(isinstance(la,int))
+    assert(ex2_wait == la)
 
     #Third light animation
     la = animation.lightAnimations[2]
