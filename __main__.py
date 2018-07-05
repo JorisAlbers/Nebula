@@ -91,6 +91,7 @@ class NebulaClient(object):
         self.animationReader = animationReader
         self.animationContoller = animationController
         self.client = client
+        self.client.init_callbacks(self.startAnimationCallback)
 
     def start(self):
         self.client.start()
@@ -117,6 +118,15 @@ class NebulaClient(object):
         self.animationContoller.stop()
         print("End of nebula slave")
 
+    def startAnimationCallback(self,animation_name,start_at):
+        """
+        The client calls this callback if an START_ANIMATION message was send from the server
+        """
+        try:
+            animation = self.animationReader.loadAnimation(animation_name,self.config.client_id)
+            self.animationContoller.setNextAnimations(animation,start_at)
+        except Exception, e:
+            print("Failed to start animation ({0}) as requested by server., exception = ({1}), message = ({2})".format(animation_name, type(e), e.message))
 
     def getTerminalInput(self):
         print("1 - Stop")
@@ -142,9 +152,10 @@ def main(config_path):
     else:
         print("I'm a slave with client id {0}".format(config.client_id))
         client = Client(config.networking.server_ip, config.networking.server_port,config.client_id)
-        #TODO init callbacks
         nebula_client = NebulaClient(config,animationReader,animationController,client)
         nebula_client.start()
+
+
 
 
 def print_help():
