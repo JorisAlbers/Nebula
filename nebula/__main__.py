@@ -84,7 +84,7 @@ if __name__ == "__main__":
     import sys
     config_path = None
 
-    for i in range(1,sys.argv):
+    for i in range(1,len(sys.argv)):
         command = sys.argv[i]
         if command == "-h":
             print("NEBULA")
