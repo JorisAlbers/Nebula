@@ -15,7 +15,7 @@ class Config:
         server_ip = "localhost"
         server_port = 6000
         
-    class led_config:
+    class light_config:
         pwm_pin = 18
         pwm_freq = 800000
         dma_channel = 5
@@ -105,19 +105,19 @@ def readConfig(path):
     #LIGHT
     value = getSettingFromConfigJSON(j,"light","pwm_pin")
     if value is not None:
-        config.led_config.pwm_pin = value
+        config.light_config.pwm_pin = value
     value = getSettingFromConfigJSON(j,"light","pwm_freq")
     if value is not None:
-        config.led_config.pwm_freq = value
+        config.light_config.pwm_freq = value
     value = getSettingFromConfigJSON(j,"light","dma_channel")
     if value is not None:
-        config.led_config.dma_channel = value
+        config.light_config.dma_channel = value
     value = getSettingFromConfigJSON(j,"light","strip_length")
     if value is not None:
-        config.led_config.strip_length = value
+        config.light_config.strip_length = value
     value = getSettingFromConfigJSON(j,"light","strip_sections")
     if value is not None:
-        config.led_config.strip_sections = value
+        config.light_config.strip_sections = value
     #MOTION
     # TODO parse motion values
 
