@@ -120,5 +120,6 @@ def readConfig(path):
         config.light_config.strip_sections = value
     #MOTION
     # TODO parse motion values
+    return config
 
 
