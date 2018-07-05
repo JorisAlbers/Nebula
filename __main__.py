@@ -90,19 +90,19 @@ class NebulaClient(object):
 
     def start(self):
         self.client.start()
-        try:
-            while True:
+        while True:
+            try:
                 print("Client {0}".format(self.config.networking.client_id))
                 option = self.getTerminalInput()
                 if option == 1:
                     print("Manual stop event set.")
                     break
-        except KeyboardInterrupt:
-                print("Manual stop event set.")
-                break
-        except Exception,e:
-            print("ERROR : {0}".format(type(e)))
-            print("MESSAGE: {0}".format(e.message))
+            except KeyboardInterrupt:
+                    print("Manual stop event set.")
+                    break
+            except Exception,e:
+                print("ERROR : {0}".format(type(e)))
+                print("MESSAGE: {0}".format(e.message))
         print("Shutting down nebula slave")
         self.client.stop()
         self.animationContoller.stop()
