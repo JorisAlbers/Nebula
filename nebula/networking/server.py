@@ -131,6 +131,18 @@ class Server(threading.Thread):
             raise ValueError("The client with id {} does not exist".format(client_id))
         self.sendToSocket(self.client_to_socket[client_id],message_type,message)
 
+    def sendStartAnimimation(self,animation_name,at_unix):
+        """
+        Sends a START_ANIMATION message to all connected clients.
+        string animation_name,
+        UNIX at_unix
+        """
+        if not isinstance(animation_name,str):
+            raise ValueError("The animation name must be of type string")
+        if not isinstance(at_unix,float):
+            raise ValueError("The at_unix must be of type float, representing a UNIX timestamp")
+        self.broadcast(MessageType.START_ANIMATION,"{0};{1}".format(animation_name,at_unix))
+
     def closeSocket(self,socket,reason):
         """
         Tell the socket that the connection will be closed and close the socket
