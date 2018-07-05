@@ -1,0 +1,60 @@
+$xl-container-width: 1200px;
+$lg-container-width: 960px;
+$md-container-width: 758px;
+$sm-container-width: 550px;
+$xs-container-width: 90%;
+
+
+//COLORS
+$white: #fff;
+$dark: #222;
+$accent: #213e81;
+$accent-alt: #213e81;
+$accent-alt2: #213e81;
+
+$text-color: #525252;
+
+$border-color: #374963; 
+
+$red: #E35354;
+$grey-light: #d8e3f4;
+$grey-medium: #929292;
+$grey-dark: #282828;
+
+//TYPOGRAPHY
+$main-family: 'Museo Sans', Verdana;
+
+$main-weight: 300;
+$bold-weight: 700;
+
+$line-height: 1.5em;
+$heading-line-height: 1.3em;
+
+$size-s: .9em;
+$size-m: 16px;
+$size-l: 1.2em;
+$size-xl: 1.4em;
+
+//SPACING
+$margin-xs: .5em;
+$margin-s: .8em;
+$margin-m: 1.2em;
+$margin-l: 2em;
+$margin-xl: 4em;
+$margin-xxl: 6em;
+
+$padding-m: $margin-s $margin-s+5;
+
+
+//BORDERS
+$border-style: solid;
+$border-width: 1px;
+$border-radius: 3px;
+
+
+//ANIMATIONS
+$transition-duration: .3s;
+$transition-timing: ease;
+
+//FONTS
+$fonts-path: '/fonts/';

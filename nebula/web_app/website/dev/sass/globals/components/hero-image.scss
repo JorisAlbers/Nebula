@@ -1,0 +1,82 @@
+.hero-image {	
+	width: 100%;
+    height: 305px;
+    position: relative;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+.hero-image--welkom {
+	background-image: url(img/vb_pic7_zwart.png);
+}
+
+.hero-image--reIntegratie {
+	background-image: url(img/vb_pic1_zwart.png);
+}
+
+@include media($max-width: 435px){
+	.hero-image--reIntegratie {
+		background-position: 100% 0%;
+	}
+
+	.hero-image--welkom {
+		background-position: 30% 0%;
+	}
+
+	.hero-image--coaching {
+		background-position: 100% 0%;
+	}
+}
+
+@include media($max-width: 344px){
+	.hero-image--coaching {
+		background-position: 0% 0%;
+	}
+}
+
+.hero-image--training {
+	background-image: url(img/vb_pic6_zwart.png);
+}
+
+.hero-image--coaching {
+	background-image: url(img/vb_pic3_zwart.png);
+}
+
+.hero-image--over {
+	background-image: url(img/vb_pic_zwart8.png);
+}
+
+.hero-image--reference {
+	background-image: url(img/pic_black2.png);
+	height: 125px;
+}
+
+.slider_tekst, .slider_tekst_dark {
+	color: $white;
+	left: 0;
+	padding-top: 20px;
+	padding-bottom: 15px;
+	position: absolute;
+	text-align: center;
+	top: 0;
+	width: 100%;
+}
+
+.slider_titel {
+	text-decoration: none;
+	color: $white;
+}
+
+.bxslider {
+	margin-top: 0;
+
+	li {
+		position: relative;
+		line-height: 0;
+
+		img {
+			width: 100%;
+		}
+	}
+}

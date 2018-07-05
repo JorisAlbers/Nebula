@@ -1,0 +1,41 @@
+//Border
+@mixin border($side:false, $color:$grey-light, $border-width:$border-width){
+    @if $side {
+        border-#{$side}: $border-style $border-width $color;
+    } @else {
+        border: $border-style $border-width $color;
+    }
+}
+
+//Transition
+@mixin transition($property, $duration:$transition-duration, $timing:$transition-timing,  $delay:0s){
+    transition: $property $duration $timing $delay;
+}
+
+//Animations
+@mixin animation($name, $seconds, $delay:0s){
+    animation: $name $seconds infinite alternate $delay;
+}
+
+//Media queries
+@mixin media($min-width:false, $max-width:false, $type: all){
+    @if $min-width and $max-width {
+
+        @media #{$type} and (min-width: $min-width) and (max-width: $max-width) {
+            @content;
+        }
+
+    } @else if not $min-width and $max-width {
+
+        @media #{$type} and (max-width: $max-width) {
+            @content;
+        }
+
+    } @else if $min-width and not $max-width {
+
+        @media #{$type} and (min-width: $min-width) {
+            @content;
+        }
+
+    }
+}

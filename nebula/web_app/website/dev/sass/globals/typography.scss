@@ -1,0 +1,103 @@
+h1,h5,h3,h4,h6,h7,h2,h9,h10,.footer-text-block {
+    font-family: $main-family;
+}
+
+h1,h6,h9 {
+  color: $accent;
+}
+
+h4,h4 a,h7,h8,.footer-text-block {
+  color: $white;
+}
+
+h1 {
+    font-size:35.74px;
+    font-weight: 500;
+}
+
+h1.grey-title {
+    color: $grey-medium; 
+    font-size: 29px;
+    font-style: italic; 
+    font-weight: 300;
+    margin-bottom: 50px;
+    margin-top: 10px;
+}
+
+
+h1.h1-adjustments {
+    font-size: 38px;
+    margin-bottom: 0px;
+}
+
+h2 {    
+    font-size: 1.4em;
+    display: block;
+    padding: 0px;
+    margin: 0px;
+    font-style:normal;
+    font-weight: 300;
+}
+
+h4, h4 a {
+    font-size:10.91px;
+    line-height:18px;   
+    margin:0px;
+    font-weight:700;
+    text-decoration:none;
+}
+
+h5 {
+    color: $white;
+    font-size:19.9px;
+    font-weight: 300;
+    margin: 17px 0;
+}
+
+h6 {
+    font-weight:inherit;
+    font-style:italic;
+    font-size:11.91px;
+    line-height:18px;
+    margin:0px;
+}
+
+.footer-text-block {
+    font-size: 12px;
+    line-height: 20px;   
+    margin: 0px;
+    font-weight: 300;
+}
+
+@font-face {
+  font-family: 'Museo Sans 700';
+  src: url('../fonts/museo-sans/museosans_0-webfont.eot');
+  src: url('../fonts/museo-sans/museosans_0-webfont.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/museo-sans/museosans_0-webfont.woff') format('woff'),
+       url('../fonts/museo-sans/museosans_0-webfont.ttf') format('truetype'),
+       url('../fonts/museo-sans/museosans_0-webfont.svg#museosans_0') format('svg');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Museo Sans 300';
+  src: url('../fonts/museo-sans/museosans-300-webfont.eot');
+  src: url('../fonts/museo-sans/museosans-300-webfont?#iefix') format('embedded-opentype'),
+       url('../fonts/museo-sans/museosans-300-webfont.woff') format('woff'),
+       url('../fonts/museo-sans/museosans-300-webfont.ttf') format('truetype'),
+       url('../fonts/museo-sans/museosans-300-webfont.svg#museosans_300') format('svg');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Open Sans 500';
+  src: url('../fonts/museo-sans/museosans-webfont.eot');
+  src: url('../fonts/museo-sans/museosans-webfont.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/museo-sans/museosans-webfont.woff') format('woff'),
+       url('../fonts/museo-sans/museosans-webfont.ttf') format('truetype'),
+       url('../fonts/museo-sans/museosans-webfont.svg#museosans') format('svg');
+  font-weight: 500;
+  font-style: normal;
+}
