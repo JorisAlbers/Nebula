@@ -53,7 +53,7 @@ class AnimationController(threading.Thread):
                     if isinstance(animation,LightAnimation):
                         self.ledController.setAnimation(animation)
                     else: #Must be WAIT
-                        self.ledController.setWait(Timing.unix_timestamp() + (float(animation) / 1000.0))
+                        self.ledController.setWait(Timing.unix_timestamp() + (float(animation[0]) / 1000.0),animation[1])
                 if self.motionController is not None and self.current_animation.hasNextMotionAnimation():
                     self.motionController.setAnimation(self.current_animation.getNextMotionAnimation())
 
