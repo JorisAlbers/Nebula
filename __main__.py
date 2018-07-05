@@ -88,6 +88,7 @@ def print_help():
      
 if __name__ == "__main__":
     import sys
+    import os
     config_path = None
 
     for i in range(1,len(sys.argv)):
@@ -97,7 +98,7 @@ if __name__ == "__main__":
             sys.exit(0)
         elif command == "-c":
             i += 1
-            config_path = sys.argv[i]
+            config_path = os.path.abspath(sys.argv[i])
         elif command == "-r":
             i += 1
             resource_dir_path = sys.argv[i]
