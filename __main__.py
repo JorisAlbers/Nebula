@@ -94,9 +94,10 @@ class NebulaClient(object):
 
     def start(self):
         self.client.start()
+        
         while True:
             try:
-                print("Client {0}".format(self.config.networking.client_id))
+                print("Client {0}".format(self.config.client_id))
                 option = self.getTerminalInput()
                 if option == 1:
                     print("Manual stop event set.")
