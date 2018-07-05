@@ -108,6 +108,9 @@ class LedController(threading.Thread):
         """
         if not isinstance(until,float):
             raise ValueError("The until must be a float, representing an Unix timestamp")
+        if not isinstance(clear,bool):
+            raise ValueError("the clear must be a bool")
+        
         if clear:
             # The clear call is done here, as the clearing should be done once and not each iteration of the ledcontroller.
             wait_till_clear  = 0
