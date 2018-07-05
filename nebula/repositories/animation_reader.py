@@ -24,7 +24,7 @@ class AnimationReader(object):
         animations = []
         for file in os.listdir(self.dir_path):
             if file.endswith(self.ANIMATION_EXTENSION):
-                animations.append(file.replace(self.ANIMATION_EXTENSION))
+                animations.append(file.replace(self.ANIMATION_EXTENSION,""))
         return animations
 
     def readFile(self,file_name):
