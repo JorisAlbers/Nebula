@@ -56,4 +56,10 @@ def test_loadAnimation_file_returnsCorrectAnimation():
     #Second light animation
 
     #Third light animation
-
+    la = animation.lightAnimations[2]
+    assert(type(ex2_drawer) == type(la.drawer))
+    assert(len(ex2_patterns) == len(la.drawer.patterns))
+    assert all([a == b for a, b in zip(ex2_patterns[0], la.drawer.patterns[0])])
+    assert(type(ex2_loop_mode) == type(la.loop_mode))
+    assert(ex2_loop_value == la.loop_value)
+    assert(ex2_frame_duration == la.frame_duration)
