@@ -73,6 +73,7 @@ def main(config_path, resource_path):
         print("I'm the master. My client id is {0}".format(config.client_id))
         server = Server(config.networking.ip, config.networking.port)
         master = NebulaMaster(config,animationReader,animationController,server)
+        master.start()
        
     else:
         print("I'm a slave with client id {0}".format(config.client_id))
