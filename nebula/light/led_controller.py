@@ -72,8 +72,9 @@ class LedController(threading.Thread):
 
                     else:
                         #Must be WAIT, check if time reached this block
+                        # A wait is a list of [unix timetamp, clear]
                         next_cycle_start = Timing.unix_timestamp() + standard_wait_for_seconds
-                        time_left = self.current_animation - next_cycle_start
+                        time_left = self.current_animation[0] - next_cycle_start
                         if time_left < standard_wait_for_seconds:
                             Timing.delay(time_left)
                             if self.callback is not None:
@@ -98,6 +99,12 @@ class LedController(threading.Thread):
 
         lightAnimation.drawer.init_ring(self.strip,self.led_sections)
         self.current_animation = lightAnimation
+        # The clear call is done here, as the clearing should be done once and not each iteration of the ledcontroller.
+        if not isinstance(self.current_animation,LightAnimation):
+            # Must be a wait
+            if self.current_animation[1]:
+                # CLEAR
+                self.clearStrip()
 
     def setWait(self,until):
         """
@@ -120,6 +127,14 @@ class LedController(threading.Thread):
             raise Exception("There is no animation active at the moment!")
         
         self.current_animation.frame_duration = frame_duration
+
+    def clearStrip(self):
+        """
+        Clear the strip of all colors
+        """
+        clearColor = Color(0,0,0)
+        for p in range(0,self.total_length):
+            self.strip.setPixelColor(p,clearColor)
 
     def stop(self):
         """Stop the led controller"""

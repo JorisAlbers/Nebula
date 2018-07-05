@@ -27,6 +27,7 @@ def test_loadAnimation_file_returnsCorrectAnimation():
     ex1_frame_duration = 200
     #Second light animation
     ex2_wait = 1000
+    ex2_clear = True
     # type = int
     #Third light animation
     ex2_drawer = RepeatingPatterns([[]])
@@ -56,9 +57,10 @@ def test_loadAnimation_file_returnsCorrectAnimation():
     #Second light animation
      # This is a wait
     la = animation.lightAnimations[1]
-    assert(isinstance(la,int))
-    assert(ex2_wait == la)
-
+    assert(isinstance(la,list))
+    assert(isinstance(la[0],int))
+    assert(ex2_wait == la[0])
+    assert(ex2_clear == la[1])
     #Third light animation
     la = animation.lightAnimations[2]
     assert(type(ex2_drawer) == type(la.drawer))

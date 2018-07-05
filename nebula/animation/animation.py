@@ -31,13 +31,17 @@ class Animation(object):
             raise ValueError("The lightAnimation must be of type LightAnimation")
         self.lightAnimations.append(lightAnimation)
 
-    def addLightWait(self, waitForMiliSeconds):
+    def addLightWait(self, waitForMiliSeconds, clearStrip):
         """
         Add a WAIT to the lightAnimations
+        int waitForMiliSeconds - the number of miliseconds to wait for
+        bool clearStrip - if the led controller should clear the led strip
         """
         if not isinstance(waitForMiliSeconds,int):
             raise ValueError("The waitForMiliSeconds must be of type int!")
-        self.lightAnimations.append(waitForMiliSeconds)
+        if not isinstance(clearStrip, bool):
+            raise ValueError("The clearStrip must be a bool!")
+        self.lightAnimations.append([waitForMiliSeconds,clearStrip])
 
     def hasNextLightAnimation(self):
         """

@@ -16,7 +16,8 @@
           "frame_duration" : 200
           },
           {
-            "wait" : 1000
+            "wait" : 1000,
+            "clear" : true
           },
           {
           "drawer"   : "RepeatingPatterns",
@@ -41,7 +42,8 @@
           "frame_duration" : 200
           },
           {
-            "wait" : 1000
+            "wait" : 1000,
+            "clear" : true
           },
           {
           "drawer"   : "RepeatingPatterns",

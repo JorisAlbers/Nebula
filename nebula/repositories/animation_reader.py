@@ -80,7 +80,7 @@ class AnimationReader(object):
         """
         if "wait" in j_lightAnimation:
             #Must be a wait
-            animation.addLightWait(j_lightAnimation["wait"])
+            animation.addLightWait(j_lightAnimation["wait"],j_lightAnimation["clear"])
             return
         else:
             # Standard stuff
