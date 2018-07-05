@@ -1,11 +1,11 @@
-from config import Config, readConfig
-from repositories.animation_reader import AnimationReader
-from animation.animation_controller import AnimationController
-from light.led_controller import LedController
-from light.led_strip import NeoPixelLedStrip
-from networking.server import Server
-from networking.client import Client
-import Timing
+from nebula.config import Config, readConfig
+from nebula.repositories.animation_reader import AnimationReader
+from nebula.animation.animation_controller import AnimationController
+from nebula.light.led_controller import LedController
+from nebula.light.led_strip import NeoPixelLedStrip
+from nebula.networking.server import Server
+from nebula.networking.client import Client
+import nebula.Timing
 
 class NebulaMaster(object):
     def __init__(self,config,animationReader,animationController,server):
