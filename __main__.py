@@ -41,9 +41,13 @@ class NebulaMaster(object):
                 elif option == 2:
                     animation_to_start = self.getTerminalAnimationInput(list_of_animations)
                     if animation_to_start is not None:
-                        self.animationReader.loadAnimation(animation_to_start,self.config.client_id)
                         start_at = Timing.unix_timestamp() + 2 # Add 2 secs sync buffer time
+                        # Set self
+                        animation = self.animationReader.loadAnimation(animation_to_start,self.config.client_id)
+                        self.animationContoller.setNextAnimations(animation,start_at)
+                        #Start clients
                         self.server.sendStartAnimimation(animation_to_start,start_at)
+
             except KeyboardInterrupt:
                 print("Manual stop event set.")
             except Exception,e:
