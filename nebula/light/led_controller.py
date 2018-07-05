@@ -73,10 +73,10 @@ class LedController(threading.Thread):
                         continue
 
                     else:
-                        #Must be WAIT, check if time reached this block
-                        # A wait is a list of [unix timetamp, clear]
+                        #Must be WAIT, check if time reached this block.
+                        # The animation is set to a UNIX timestamp if it's a WAIT
                         next_cycle_start = Timing.unix_timestamp() + standard_wait_for_seconds
-                        time_left = self.current_animation[0] - next_cycle_start
+                        time_left = self.current_animation - next_cycle_start
                         if time_left < standard_wait_for_seconds:
                             Timing.delay(time_left)
                             if self.callback is not None:
@@ -101,20 +101,17 @@ class LedController(threading.Thread):
 
         lightAnimation.drawer.init_ring(self.strip,self.led_sections)
         self.current_animation = lightAnimation
-        # The clear call is done here, as the clearing should be done once and not each iteration of the ledcontroller.
-        if not isinstance(self.current_animation,LightAnimation):
-            # Must be a wait
-            if self.current_animation[1]:
-                # CLEAR
-                self.clearStrip()
 
-    def setWait(self,until):
+    def setWait(self,until,clear):
         """
         Sets a WAIT until unix timestamp.
         """
         if not isinstance(until,float):
             raise ValueError("The until must be a float, representing an Unix timestamp")
         self.current_animation = until
+         # The clear call is done here, as the clearing should be done once and not each iteration of the ledcontroller.
+        if clear:
+            self.clearStrip()
 
 
     def set_frame_duration(self, frame_duration):
