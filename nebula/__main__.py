@@ -79,7 +79,13 @@ def main(config_path):
         print("I'm a slave with client id {0}".format(config.client_id))
         client = Client(config.networking.server_ip, config.networking.server_port,config.client_id)
         #TODO init callbacks
-        
+
+
+def print_help():
+    print("NEBULA")
+    print("commands:")
+    print("-c <config_file_path>")
+     
 if __name__ == "__main__":
     import sys
     config_path = None
@@ -87,9 +93,7 @@ if __name__ == "__main__":
     for i in range(1,len(sys.argv)):
         command = sys.argv[i]
         if command == "-h":
-            print("NEBULA")
-            print("commands:")
-            print("-c <config_file_path>")
+            print_help()
             sys.exit(0)
         elif command == "-c":
             i += 1
@@ -102,6 +106,8 @@ if __name__ == "__main__":
         
     if  config_path is not None:
         main(config_path)
+    else:
+        print("Please set the config file path. Type -h to print the help.")
 
 
 
