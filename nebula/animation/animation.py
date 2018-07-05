@@ -54,10 +54,10 @@ class Animation(object):
         """
         animation = self.lightAnimations[self.lightAnimationIndex]
         if self.loops:
-            self.lightAnimationIndex += 1 % len(self.lightAnimations)
+            self.lightAnimationIndex = (self.lightAnimationIndex + 1) % len(self.lightAnimations)
         else:
             self.lightAnimationIndex += 1
-
+        animation.restoreLoopValue()
         return animation
 
     def addMotionAnimation(self,motionAnimation):
@@ -91,7 +91,7 @@ class Animation(object):
         """
         animation = self.motionAnimations[self.motionAnimationIndex]
         if self.loops:
-            self.motionAnimationIndex += 1 % len(self.motionAnimations)
+            self.motionAnimationIndex = (self.motionAnimationIndex + 1) % len(self.motionAnimations)
         else:
             self.motionAnimationIndex += 1
         
