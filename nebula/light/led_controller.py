@@ -26,6 +26,8 @@ class LedController(threading.Thread):
 
         self.strip = ledstrip
         self.current_animation = None
+        # Callbacks
+        self.callback = None
         # Threading
         threading.Thread.__init__(self)
         self.stop_event = threading.Event()
