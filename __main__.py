@@ -54,7 +54,10 @@ class NebulaMaster(object):
             except Exception,e:
                 print("ERROR : {0}".format(type(e)))
                 print("MESSAGE: {0}".format(e.message))
-                Timing.delay(1000)
+                try:
+                    Timing.delay(1000)
+                except KeyboardInterrupt:
+                    break
         self.server.stop()
         self.animationContoller.stop()
         print("END of nebula master")
@@ -104,7 +107,10 @@ class NebulaClient(object):
             except Exception,e:
                 print("ERROR : {0}".format(type(e)))
                 print("MESSAGE: {0}".format(e.message))
-                Timing.delay(1000)
+                try:
+                    Timing.delay(1000)
+                except KeyboardInterrupt:
+                    break
         print("Shutting down nebula slave")
         self.client.stop()
         self.animationContoller.stop()
