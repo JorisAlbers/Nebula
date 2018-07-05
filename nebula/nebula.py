@@ -81,5 +81,29 @@ def main(config_path, resource_path):
 
 
 if __name__ == "__main__":
-    pass
+    import sys
+    resource_dir_path = None
+    config_path = None
+
+    for i in range(1,sys.argv):
+        command = sys.argv[i]
+        if command == "-h":
+            print("NEBULA")
+            print("commands:")
+            print("-c <config_file_path>")
+            print("-r <resource_folder_path")
+            sys.exit(0)
+        elif command == "-c":
+            i += 1
+            config_path = sys.argv[i]
+        elif command == "-r":
+            i += 1
+            resource_dir_path = sys.argv[i]
+        else:
+            print("Unknown command ({0}). Use -h to print the help.".format(sys.argv[i]))
+        
+    if resource_dir_path is not None and config_path is not None:
+        main(config_path,resource_dir_path)
+
+
 
