@@ -26,7 +26,7 @@ class NebulaMaster(object):
     def start(self):
         # TODO init callbacks
         list_of_animations = self.animationReader.listAnimations()
-        if(len(list_of_animations < 1)):
+        if(len(list_of_animations) < 1):
             print("No animations found!")
             return
 
