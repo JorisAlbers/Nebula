@@ -8,19 +8,19 @@ def test_readConfig_file_configIsCorrectlySet():
     ex_config.client_id = "aapnootmies"
     ex_config.isMaster = True
     #Animation
-    ex_config.animation_config.resourcePath = "testpath"
+    ex_config.animation.resourcePath = "testpath"
     #Networking
-    ex_config.networking_config.server_ip = "100.90.80.70"
-    ex_config.networking_config.server_port = 1234
+    ex_config.networking.server_ip = "100.90.80.70"
+    ex_config.networking.server_port = 1234
     #light
-    ex_config.light_config.pwm_pin = 200
-    ex_config.light_config.pwm_freq = 10
-    ex_config.light_config.dma_channel = 30
-    ex_config.light_config.inverse = True
-    ex_config.light_config.strip_length = 100
-    ex_config.light_config.strip_sections = [[99,0]]
+    ex_config.light.pwm_pin = 200
+    ex_config.light.pwm_freq = 10
+    ex_config.light.dma_channel = 30
+    ex_config.light.inverse = True
+    ex_config.light.strip_length = 100
+    ex_config.light.strip_sections = [[99,0]]
     #web
-    ex_config.web_config.port = 9876
+    ex_config.web.port = 9876
     #motion
     #TODO add motion tests
 
@@ -34,19 +34,19 @@ def test_readConfig_file_configIsCorrectlySet():
     assert(ex_config.client_id == config.client_id)
     assert(ex_config.isMaster == config.isMaster)
     #Animation
-    assert(ex_config.animation_config.resourcePath == config.animation_config.resourcePath)
+    assert(ex_config.animation.resourcePath == config.animation.resourcePath)
     #Networking
-    assert(ex_config.networking_config.server_ip == config.networking_config.server_ip)
-    assert(ex_config.networking_config.server_port == config.networking_config.server_port)
+    assert(ex_config.networking.server_ip == config.networking.server_ip)
+    assert(ex_config.networking.server_port == config.networking.server_port)
     #light
-    assert(ex_config.light_config.pwm_pin == config.light_config.pwm_pin)
-    assert(ex_config.light_config.pwm_freq == config.light_config.pwm_freq)
-    assert(ex_config.light_config.dma_channel == config.light_config.dma_channel)
-    assert(ex_config.light_config.inverse == config.light_config.inverse)
-    assert(ex_config.light_config.strip_length == config.light_config.strip_length)
-    assert(ex_config.light_config.strip_sections == config.light_config.strip_sections)
+    assert(ex_config.light.pwm_pin == config.light.pwm_pin)
+    assert(ex_config.light.pwm_freq == config.light.pwm_freq)
+    assert(ex_config.light.dma_channel == config.light.dma_channel)
+    assert(ex_config.light.inverse == config.light.inverse)
+    assert(ex_config.light.strip_length == config.light.strip_length)
+    assert(ex_config.light.strip_sections == config.light.strip_sections)
     #WEB
-    assert(ex_config.web_config.port == config.web_config.port)
+    assert(ex_config.web.port == config.web.port)
 
     # Motion
     #TODO add motion asserts

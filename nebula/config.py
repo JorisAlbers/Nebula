@@ -5,17 +5,17 @@ class Config:
     client_id = "ring_x"
     isMaster = False
 
-    class web_config:
+    class web:
         port = 8000
 
-    class animation_config:
+    class animation:
         resourcePath = './../resources'
 
-    class networking_config:
+    class networking:
         server_ip = "localhost"
         server_port = 6000
         
-    class light_config:
+    class light:
         pwm_pin = 18
         pwm_freq = 800000
         dma_channel = 5
@@ -23,7 +23,7 @@ class Config:
         strip_length = 300
         strip_sections = [[0,299]]
 
-    class motion_config:
+    class motion:
         # Controller settings
         pwm_pin = 18
         dir_pin = 6
@@ -90,34 +90,34 @@ def readConfig(path):
     #WEB
     value = getSettingFromConfigJSON(j,"web","port")
     if value is not None:
-        config.web_config.port = value
+        config.web.port = value
     #NETWORKING
     value = getSettingFromConfigJSON(j,"networking","server_ip")
     if value is not None:
-        config.networking_config.server_ip = value
+        config.networking.server_ip = value
     value = getSettingFromConfigJSON(j,"networking","server_port")
     if value is not None:
-        config.networking_config.server_port = value
+        config.networking.server_port = value
     #ANIMATION
     value = getSettingFromConfigJSON(j,"animation","resource_dir")
     if value is not None:
-        config.animation_config.resourcePath = value
+        config.animation.resourcePath = value
     #LIGHT
     value = getSettingFromConfigJSON(j,"light","pwm_pin")
     if value is not None:
-        config.light_config.pwm_pin = value
+        config.light.pwm_pin = value
     value = getSettingFromConfigJSON(j,"light","pwm_freq")
     if value is not None:
-        config.light_config.pwm_freq = value
+        config.light.pwm_freq = value
     value = getSettingFromConfigJSON(j,"light","dma_channel")
     if value is not None:
-        config.light_config.dma_channel = value
+        config.light.dma_channel = value
     value = getSettingFromConfigJSON(j,"light","strip_length")
     if value is not None:
-        config.light_config.strip_length = value
+        config.light.strip_length = value
     value = getSettingFromConfigJSON(j,"light","strip_sections")
     if value is not None:
-        config.light_config.strip_sections = value
+        config.light.strip_sections = value
     #MOTION
     # TODO parse motion values
     return config
