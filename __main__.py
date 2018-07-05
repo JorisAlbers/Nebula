@@ -62,8 +62,8 @@ def main(config_path):
     config = readConfig(config_path)
     animationReader = AnimationReader(config.animation.resourcePath)
     motionController = None
-    ledstrip = NeoPixelLedStrip(config.light.length, config.light.pinPWM, config.light.freq, config.light.dma_channel, config.light.invert)
-    ledController = LedController(ledstrip, config.light.led_sections)
+    ledstrip = NeoPixelLedStrip(config.light.strip_length, config.light.pwm_pin, config.light.pwm_freq, config.light.dma_channel, config.light.inverse)
+    ledController = LedController(ledstrip, config.light.strip_sections)
     animationController = AnimationController(ledController,motionController)
 
     print("Starting animationController")
@@ -71,7 +71,7 @@ def main(config_path):
 
     if config.isMaster:
         print("I'm the master. My client id is {0}".format(config.client_id))
-        server = Server(config.networking.ip, config.networking.port)
+        server = Server(config.networking.server_ip, config.networking.server_port)
         master = NebulaMaster(config,animationReader,animationController,server)
         master.start()
        
