@@ -108,10 +108,17 @@ class LedController(threading.Thread):
         """
         if not isinstance(until,float):
             raise ValueError("The until must be a float, representing an Unix timestamp")
-        self.current_animation = until
-         # The clear call is done here, as the clearing should be done once and not each iteration of the ledcontroller.
         if clear:
+            # The clear call is done here, as the clearing should be done once and not each iteration of the ledcontroller.
+            wait_till_clear  = 0
+            if self.current_animation is not None and isinstance(self.current_animation,LightAnimation):
+                wait_till_clear = self.current_animation.frame_duration
+            self.current_animation = until
+            Timing.delay(wait_till_clear)
             self.clearStrip()
+        else:
+            self.current_animation = until
+
 
 
     def set_frame_duration(self, frame_duration):
