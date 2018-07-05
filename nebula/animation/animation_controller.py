@@ -24,11 +24,6 @@ class AnimationController(threading.Thread):
         self.next_animation = None
         self.next_animation_start_at = 0.0
 
-        # Animation to clear the controllers
-        self.clear_animation = Animation(False)
-        self.clear_animation.addLightWait(1,True)
-        # TODO add motion wait motionAnimation
-
         # Threading
         threading.Thread.__init__(self)
         self.stop_event = threading.Event()
@@ -97,7 +92,11 @@ class AnimationController(threading.Thread):
         Removes the current animation.
         Call the clear functions of led and motion controllers.
         """
-        self.setNextAnimations(self.clear_animation,Timing.unix_timestamp())
+        # Animation to clear the controllers
+        clear_animation = Animation(False)
+        clear_animation.addLightWait(1,True)
+        # TODO add motion wait motionAnimation
+        self.setNextAnimations(clear_animation,Timing.unix_timestamp())
         
     def stop(self):
         """Stop the animation controller"""
