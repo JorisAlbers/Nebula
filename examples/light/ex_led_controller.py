@@ -137,5 +137,6 @@ def clear_strip():
     time.sleep(2)
     la = LightAnimation(SlidingPatterns(patterns),50,LoopMode.DURATION, duration)
     lc.setAnimation(la)
+    time.sleep(2)
     lc.stop()
     print("end of clear_strip test")
