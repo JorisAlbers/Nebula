@@ -5,12 +5,13 @@ from ...nebula.animation.animation_loop_mode import LoopMode
 from ...nebula.light.led_drawing import *
 from ...nebula.light.light_animation import LightAnimation
 
+dirname = os.path.dirname(__file__)
+test_repo_dir = os.path.join(dirname,"../resources")
+
 def test_readFile_file_returnsLines():
-    dirname = os.path.dirname(__file__)
-    dir_path = os.path.join(dirname,"../../resources")
+
     file_name = "blue_dot.nebula.json"
-    
-    reader = AnimationReader(dir_path)
+    reader = AnimationReader(test_repo_dir)
     lines = reader.readFile(file_name)
     assert(lines is not None)
     assert(len(lines) > 0)
@@ -36,11 +37,9 @@ def test_loadAnimation_file_returnsCorrectAnimation():
     ex2_loop_value = 15
     ex2_frame_duration = 100
 
-    dirname = os.path.dirname(__file__)
-    dir_path = os.path.join(dirname,"../../resources")
     file_name = "blue_dot"
     client_id = "ring_1"
-    reader = AnimationReader(dir_path)
+    reader = AnimationReader(test_repo_dir)
     animation = reader.loadAnimation(file_name,client_id)
 
     #ASSERTS
