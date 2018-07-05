@@ -33,16 +33,25 @@ class NebulaMaster(object):
 
         self.server.start()
         while True:
-            #TODO add try/except
-            option = self.getTerminalInput()
-            if option == 1:
+            try:
+                option = self.getTerminalInput()
+                if option == 1:
+                    print("Manual stop event set.")
+                    break
+                elif option == 2:
+                    animation_to_start = self.getTerminalAnimationInput(list_of_animations)
+                    if animation_to_start is not None:
+                        self.animationReader.loadAnimation(animation_to_start,self.config.client_id)
+                        start_at = Timing.unix_timestamp() + 2 # Add 2 secs sync buffer time
+                        self.server.sendStartAnimimation(animation_to_start,start_at)
+            except KeyboardInterrupt:
                 print("Manual stop event set.")
-            elif option == 2:
-                animation_to_start = self.getTerminalAnimationInput(list_of_animations)
-                if animation_to_start is not None:
-                    self.animationReader.loadAnimation(animation_to_start,self.config.client_id)
-                    start_at = Timing.unix_timestamp() + 2 # Add 2 secs sync buffer time
-                    self.server.sendStartAnimimation(animation_to_start,start_at)
+            except Exception,e:
+                print("ERROR : {0}".format(type(e)))
+                print("MESSAGE: {0}".format(e.message))
+        self.server.stop()
+        self.animationContoller.stop()
+        print("END of nebula master")
 
     def getTerminalInput(self):
         self.clearTerminal()
