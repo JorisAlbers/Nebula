@@ -1,44 +1,42 @@
 {
-    "client_id" : "ring_1",
-    "isMaster" : false,
+    "client_id" : "aapnootmies",
+    "isMaster" : true,
     "web" : 
     {
-        "port" : 8000
+        "port" : 9876
     },
     "animation" : 
     {
-        "resource_dir" : "placeholder"
+        "resource_dir" : "testpath"
     },
     "networking" : 
     {
-        "server_ip" : "localhost",
-        "server_port" : 6000
+        "server_ip" : "100.90.80.70",
+        "server_port" : 1234
     },
     "light" : 
     {
-        "pwm_pin" : 18,
-        "pwm_freq" : 800000,
-        "dma_channel" : 5,
-        "inverse" : false,
-        "strip_length" : 300,
-        "strip_sections" : [[0,299]]
+        "pwm_pin" : 200,
+        "pwm_freq" : 10,
+        "dma_channel" : 30,
+        "inverse" : true,
+        "strip_length" : 100,
+        "strip_sections" : [[99,0]]
     },
     "motion" : 
     {
-        "pwm_pin" : 6000,
-        "dir_pin" : 18,
-        "maximum_rpm" : 80,
-        "pwm_freq_in_hertz" : 20000,
-        "pwm_max_dutycycle" : false,
+        "pwm_pin" : 6,
+        "dir_pin" : 7,
+        "maximum_rpm" : 1,
+        "pwm_freq_in_hertz" : 20,
+        "pwm_max_dutycycle" : true,
         "watcher" :
         {
-            "pulses_per_rotation" : 16,
-            "reduction" : 100,
-            "hall_sensor_a" : 5,
-            "hall_sensor_b" : 17,
-            "hall_sensor_c" : 27
+            "pulses_per_rotation" : 2,
+            "reduction" : 3,
+            "hall_sensor_a" : 10,
+            "hall_sensor_b" : 11,
+            "hall_sensor_c" : 12
         }
     }
 }
-
-
