@@ -6,6 +6,7 @@ from nebula.light.led_strip import NeoPixelLedStrip
 from nebula.networking.server import Server
 from nebula.networking.client import Client
 import nebula.Timing
+import os
 
 class NebulaMaster(object):
     def __init__(self,config,animationReader,animationController,server):
@@ -44,11 +45,13 @@ class NebulaMaster(object):
                     self.server.sendStartAnimimation(animation_to_start,start_at)
 
     def getTerminalInput(self):
+        self.clearTerminal()
         print("1 - Stop")
         print("2 - Start an animation")
         return int(raw_input())
 
     def getTerminalAnimationInput(self,animations):
+        self.clearTerminal()
         for x in range(0,len(animations)):
             print("{0} - {1}".format(x+1,animations[x]))
         i = int(raw_input())
@@ -56,6 +59,10 @@ class NebulaMaster(object):
             return animations[i]
         else:
             return None
+
+    def clearTerminal(self):
+        os.system("clear")
+
     
 
 def main(config_path):
@@ -88,7 +95,6 @@ def print_help():
      
 if __name__ == "__main__":
     import sys
-    import os
     config_path = None
 
     for i in range(1,len(sys.argv)):
