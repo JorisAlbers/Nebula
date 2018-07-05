@@ -141,6 +141,8 @@ class LedController(threading.Thread):
         clearColor = Color(0,0,0)
         for p in range(0,self.total_length):
             self.strip.setPixelColor(p,clearColor)
+        self.strip.show()
+        
 
     def stop(self):
         """Stop the led controller"""
