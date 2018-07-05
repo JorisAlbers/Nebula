@@ -11,7 +11,7 @@
     },
     "networking" : 
     {
-        "server_ip" : "not needed",
+        "server_ip" : "192.168.1.101",
         "server_port" : 6000
     },
     "light" : 
