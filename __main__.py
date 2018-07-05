@@ -50,6 +50,7 @@ class NebulaMaster(object):
 
             except KeyboardInterrupt:
                 print("Manual stop event set.")
+                break
             except Exception,e:
                 print("ERROR : {0}".format(type(e)))
                 print("MESSAGE: {0}".format(e.message))
