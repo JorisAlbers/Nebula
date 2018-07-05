@@ -72,6 +72,46 @@ class NebulaMaster(object):
         else:
             return None
     
+class NebulaClient(object):
+    def __init__(self,config,animationReader,animationController,client):
+        if not isinstance(config,Config):
+            raise ValueError("The config must be of type Config")
+        if not isinstance(animationReader, AnimationReader):
+            raise ValueError("The animationReader must be of type AnimationReader!")
+        if not isinstance(animationController,AnimationController):
+            raise ValueError("The animationContoller must be of type AnimationController!")
+        if not isinstance(client,Client):
+            raise ValueError("The server must be of type server!")
+
+        self.config = config
+        self.animationReader = animationReader
+        self.animationContoller = animationController
+        self.client = client
+
+    def start(self):
+        self.client.start()
+        try:
+            while True:
+                print("Client {0}".format(self.config.networking.client_id))
+                option = self.getTerminalInput()
+                if option == 1:
+                    print("Manual stop event set.")
+                    break
+        except KeyboardInterrupt:
+                print("Manual stop event set.")
+                break
+        except Exception,e:
+            print("ERROR : {0}".format(type(e)))
+            print("MESSAGE: {0}".format(e.message))
+        print("Shutting down nebula slave")
+        self.client.stop()
+        self.animationContoller.stop()
+        print("End of nebula slave")
+
+
+    def getTerminalInput(self):
+        print("1 - Stop")
+        return int(raw_input())
 
 def main(config_path):
     config = readConfig(config_path)
@@ -94,6 +134,8 @@ def main(config_path):
         print("I'm a slave with client id {0}".format(config.client_id))
         client = Client(config.networking.server_ip, config.networking.server_port,config.client_id)
         #TODO init callbacks
+        nebula_client = NebulaClient(config,animationReader,animationController,client)
+        nebula_client.start()
 
 
 def print_help():
