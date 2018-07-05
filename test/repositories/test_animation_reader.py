@@ -30,7 +30,7 @@ def test_loadAnimation_file_returnsCorrectAnimation():
     # type = int
     #Third light animation
     ex2_drawer = RepeatingPatterns([[]])
-    ex2_patterns = [[Color(0,255,0),Color(0,0,0),Color(0.0.0),Color(0.0.0)]]
+    ex2_patterns = [[Color(0,255,0),Color(0,0,0),Color(0,0,0),Color(0,0,0)]]
     ex2_loop_mode = LoopMode.ITERATIONS
     ex2_loop_value = 15
     ex2_frame_duration = 100
@@ -51,8 +51,8 @@ def test_loadAnimation_file_returnsCorrectAnimation():
     assert(len(ex1_patterns) == len(la.drawer.patterns))
     assert all([a == b for a, b in zip(ex1_patterns[0], la.drawer.patterns[0])])
     assert(type(ex1_loop_mode) == type(la.loop_mode))
-    assert(ex1_loop_value == la.ex1_loop_value)
-    assert(ex1_frame_duration == la.ex1_frame_duration)
+    assert(ex1_loop_value == la.loop_value)
+    assert(ex1_frame_duration == la.frame_duration)
     #Second light animation
 
     #Third light animation
