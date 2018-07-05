@@ -1,0 +1,32 @@
+.column {
+    width: 100%;
+    overflow: hidden;
+}
+
+.column.column--full {
+    @include column(12);
+}
+
+.column.column--ten {
+    @include column(10);
+}
+
+.column.column--half {
+    @include column(6);
+}
+
+.column.column--two-third {
+    @include column(8);
+}
+
+.column.column--one-third {
+    @include column(4);
+}
+
+.column.column--three {
+    @include column(3);
+}
+
+.column.column--two {
+    @include column(2);
+}
