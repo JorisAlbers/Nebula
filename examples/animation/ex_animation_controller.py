@@ -59,7 +59,7 @@ def wait_in_animation(wait_seconds):
     print("End of wait_in_animation example")
 
 def loop_example(seconds_per_light_animation):
-    print("Start of wait_in_animation example")
+    print("Start of loop_example example")
     from ...nebula.animation.animation_controller import AnimationController
     from ...nebula.animation.animation import Animation
     from ...nebula.light.led_controller import LedController
@@ -83,7 +83,7 @@ def loop_example(seconds_per_light_animation):
     
     time.sleep(seconds_per_light_animation * 3 +  5)
     controller.stop()
-    print("End of wait_in_animation example")
+    print("End of loop_example example")
 
 
 
