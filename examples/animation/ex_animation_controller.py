@@ -85,5 +85,32 @@ def loop_example(seconds_per_light_animation):
     controller.stop()
     print("End of loop_example example")
 
+def loop_repeating_patterns(iterations):
+    print("Start of loop_repeating_patterns example")
+    from ...nebula.animation.animation_controller import AnimationController
+    from ...nebula.animation.animation import Animation
+    from ...nebula.light.led_controller import LedController
+    from ...nebula.light.led_strip import NeoPixelLedStrip, Color
+    from ...nebula.light.led_drawing import RepeatingPatterns
+    from ...nebula.light.light_animation import LightAnimation
+    from ...nebula.animation.animation_loop_mode import LoopMode
+
+    lightAnimation1 = LightAnimation(RepeatingPatterns([[Color(0,255,0),Color(0,0,0),Color(0,0,0),Color(0,0,0)]]),100,LoopMode.ITERATIONS,iterations)
+    lightAnimation2 = LightAnimation(RepeatingPatterns([[Color(0,255,255),Color(0,0,0)]]),100,LoopMode.DURATION,iterations)
+    
+    animation = Animation(True)
+    animation.addLightAnimation(lightAnimation1)
+    animation.addLightAnimation(lightAnimation2)
+
+    led_controller = LedController(NeoPixelLedStrip(300,18,800000,5,False),[[0,299]])
+    controller = AnimationController(led_controller,None)
+    controller.start()
+    controller.setNextAnimations(animation,time.time() + 1)
+    
+    time.sleep(20)
+    controller.stop()
+    print("End of loop_repeating_patterns example")
+    
+
 
 
