@@ -132,6 +132,7 @@ def clear_animation_test():
     controller = AnimationController(led_controller,None)
     print("Starting controller")
     controller.start()
+    controller.setNextAnimations(animation,time.time())
     time.sleep(2)
     controller.clear()
     print("clear has been set")
