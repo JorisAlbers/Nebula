@@ -3,7 +3,7 @@ from collections import Iterator
 
 class LedDrawer(Iterator):
     def __init__(self):
-        pass
+        self.iteration = 0
 
     def init_ring(self, strip, led_sections):
         """
@@ -43,6 +43,13 @@ class LedDrawer(Iterator):
             # Reverse
             return start - section_pixel_index
 
+    def reset(self):
+        """
+        Set the drawer iteration index back to 0
+        """
+        if self.iteration != 0:
+            self.iteration = 0
+
     
 class SlidingPatterns(LedDrawer):
     """
@@ -56,8 +63,7 @@ class SlidingPatterns(LedDrawer):
         """
         LedDrawer.__init__(self)
         self.patterns = patterns
-        self.iteration = 0
-
+        
     def next(self):
         """
         Draw the next frame in the animation
@@ -89,7 +95,7 @@ class RepeatingPatterns(LedDrawer):
         """
         LedDrawer.__init__(self)
         self.patterns = patterns
-        self.iteration = 0
+        
 
     def next(self):
         """

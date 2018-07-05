@@ -57,7 +57,7 @@ class Animation(object):
             self.lightAnimationIndex = (self.lightAnimationIndex + 1) % len(self.lightAnimations)
         else:
             self.lightAnimationIndex += 1
-        animation.restoreLoopValue()
+        animation.reset()
         return animation
 
     def addMotionAnimation(self,motionAnimation):

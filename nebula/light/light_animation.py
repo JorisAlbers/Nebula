@@ -26,10 +26,10 @@ class LightAnimation(object):
         self.loop_value = loop_value
         self._original_loop_value = loop_value
 
-    def restoreLoopValue(self):
+    def reset(self):
         """
-        The loop value is used by the led controller to keep track of howmany loops are to be displayed until the
-        next animation is loaded. The the animation containing light animation is set to loop, the loop_value of the
-        lightanimation needs to be restored. This is done by the animation.getNextLightAnimation, which calls this function
+        Reset the light animation
         """
         self.loop_value = self._original_loop_value
+        self.drawer.reset()
+
