@@ -16,7 +16,6 @@
     },
     "light" : 
     {
-        "server_port" : 6000,
         "pwm_pin" : 18,
         "pwm_freq" : 800000,
         "dma_channel" : 5,
