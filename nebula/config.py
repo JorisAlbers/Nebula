@@ -2,10 +2,9 @@ class config:
     class web_config:
         port = 8000
 
-
     class animation_config:
         resourcePath = './../resources'
-        
+
     class led_config:
         pwm_pin = 18
         pwm_freq = 800000
@@ -13,8 +12,6 @@ class config:
         inverse = False
         strip_length = 300
         strip_sections = [[0,299]]
-
-
 
     class motion_config:
         # Controller settings
