@@ -110,6 +110,35 @@ def loop_repeating_patterns(iterations):
     time.sleep(20)
     controller.stop()
     print("End of loop_repeating_patterns example")
+
+def clear_animation_test():
+    print("Home of lightAnimation_callback example")
+    from ...nebula.animation.animation_controller import AnimationController
+    from ...nebula.animation.animation import Animation
+    from ...nebula.light.led_controller import LedController
+    from ...nebula.light.led_strip import NeoPixelLedStrip, Color
+    from ...nebula.light.led_drawing import SlidingPatterns
+    from ...nebula.light.light_animation import LightAnimation
+    from ...nebula.animation.animation_loop_mode import LoopMode
+
+    lightAnimation1 = LightAnimation(SlidingPatterns([[Color(0,0,255),Color(0,0,0)]]),100,LoopMode.ITERATIONS,10)
+    lightAnimation2 = LightAnimation(SlidingPatterns([[Color(0,255,255),Color(0,0,0)]]),100,LoopMode.ITERATIONS,10)
+    
+    animation = Animation(False)
+    animation.addLightAnimation(lightAnimation1)
+    animation.addLightAnimation(lightAnimation2)
+
+    led_controller = LedController(NeoPixelLedStrip(300,18,800000,5,False),[[0,299]])
+    controller = AnimationController(led_controller,None)
+    print("Starting controller")
+    controller.start()
+    time.sleep(2)
+    controller.clear()
+    print("clear has been set")
+    
+    time.sleep(15)
+    controller.stop()
+    print("End of lightAnimation_callback example")
     
 
 

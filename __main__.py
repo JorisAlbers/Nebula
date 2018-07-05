@@ -47,6 +47,9 @@ class NebulaMaster(object):
                         self.animationContoller.setNextAnimations(animation,start_at)
                         #Start clients
                         self.server.sendStartAnimimation(animation_to_start,start_at)
+                elif option == 3:
+                    self.animationContoller.clear()
+                    self.server.sendClear()
 
             except KeyboardInterrupt:
                 print("Manual stop event set.")
@@ -65,6 +68,7 @@ class NebulaMaster(object):
     def getTerminalInput(self):
         print("1 - Stop")
         print("2 - Start an animation")
+        print("3 - Clear all animations")
         return int(raw_input())
 
     def getTerminalAnimationInput(self,animations):
@@ -91,7 +95,7 @@ class NebulaClient(object):
         self.animationReader = animationReader
         self.animationContoller = animationController
         self.client = client
-        self.client.init_callbacks(self.startAnimationCallback)
+        self.client.init_callbacks(self.startAnimationCallback,self.clearAnimationCallBack)
 
     def start(self):
         self.client.start()
@@ -127,6 +131,15 @@ class NebulaClient(object):
             self.animationContoller.setNextAnimations(animation,start_at)
         except Exception, e:
             print("Failed to start animation ({0}) as requested by server., exception = ({1}), message = ({2})".format(animation_name, type(e), e.message))
+
+    def clearAnimationCallBack(self):
+        """
+        The client calls this callback if a CLEAR message was send from the server
+        """
+        try:
+            self.animationContoller.clear()
+        except Exception, e:
+            print("Failed to clear animation as requested by server., exception = ({0}), message = ({1})".format(type(e), e.message))
 
     def getTerminalInput(self):
         print("1 - Stop")

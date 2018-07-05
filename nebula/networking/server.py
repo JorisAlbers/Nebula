@@ -144,6 +144,12 @@ class Server(threading.Thread):
             raise ValueError("The at_unix must be of type float, representing a UNIX timestamp")
         self.broadcast(MessageType.START_ANIMATION,"{0};{1}".format(animation_name,at_unix))
 
+    def sendClear(self):
+        """
+        Send a CLEAR message to all connected clients.
+        """
+        self.broadcast(MessageType.CLEAR,"clear")
+
     def closeSocket(self,socket,reason):
         """
         Tell the socket that the connection will be closed and close the socket

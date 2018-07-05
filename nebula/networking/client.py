@@ -29,9 +29,11 @@ class Client(threading.Thread):
 
         #CallBacks
         self.startAnimationCallback = None
+        self.clearCallback = None
     
-    def init_callbacks(self,startAnimationCallback):
+    def init_callbacks(self,startAnimationCallback, clearCallback):
         self.startAnimationCallback = startAnimationCallback
+        self.clearCallback = clearCallback
 
     def run(self):
         # A quick inital connection for logging purposes
@@ -88,6 +90,12 @@ class Client(threading.Thread):
                     self.startAnimationCallback(split[1],float(split[2]))
                 else:
                     print("Can't start animation, callback was not set.")
+            if messageType == MessageType.CLEAR:
+                print("Server wants me to clear")
+                if self.clearCallback is not None:
+                    self.clearCallback()
+                else:
+                    print("Can't clear, callback was not set.")
             else:
                 raise ValueError("Unknown or not implemented message type ({0})".format(messageType))
         except Exception,e:
