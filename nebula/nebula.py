@@ -58,9 +58,9 @@ class NebulaMaster(object):
             return None
     
 
-def main(config_path, resource_path):
+def main(config_path):
     config = readConfig(config_path)
-    animationReader = AnimationReader(resource_path)
+    animationReader = AnimationReader(config.animation.resourcePath)
     motionController = None
     ledstrip = NeoPixelLedStrip(config.light.length, config.light.pinPWM, config.light.freq, config.light.dma_channel, config.light.invert)
     ledController = LedController(ledstrip, config.light.led_sections)
@@ -79,11 +79,9 @@ def main(config_path, resource_path):
         print("I'm a slave with client id {0}".format(config.client_id))
         client = Client(config.networking.server_ip, config.networking.server_port,config.client_id)
         #TODO init callbacks
-
-
+        
 if __name__ == "__main__":
     import sys
-    resource_dir_path = None
     config_path = None
 
     for i in range(1,sys.argv):
@@ -92,7 +90,6 @@ if __name__ == "__main__":
             print("NEBULA")
             print("commands:")
             print("-c <config_file_path>")
-            print("-r <resource_folder_path")
             sys.exit(0)
         elif command == "-c":
             i += 1
@@ -103,8 +100,8 @@ if __name__ == "__main__":
         else:
             print("Unknown command ({0}). Use -h to print the help.".format(sys.argv[i]))
         
-    if resource_dir_path is not None and config_path is not None:
-        main(config_path,resource_dir_path)
+    if  config_path is not None:
+        main(config_path)
 
 
 
