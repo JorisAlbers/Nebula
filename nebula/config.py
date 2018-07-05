@@ -41,8 +41,13 @@ class Config:
 def getSettingFromConfigJSON(dic, config_key, setting_key):
     if config_key in dic:
         if setting_key in dic[config_key]:
-            return dic[config_key][setting_key]
+            return u_to_str(dic[config_key][setting_key])
     print("ConfigReader - failed to load setting {0} from config {1}. Using default value.".format(setting_key,config_key))
+
+def u_to_str(uni):
+    if isinstance(uni,unicode):
+        return uni.encode('utf-8')
+    return uni
 
 def readConfig(path):
     """
@@ -79,11 +84,11 @@ def readConfig(path):
     config = Config()
     # General
     if "client_id" in j:
-        config.client_id = j["client_id"]
+        config.client_id = u_to_str(j["client_id"])
     else:
         print("ConfigReader - failed to load setting client_id")
     if "isMaster" in j:
-        config.isMaster = j["isMaster"]
+        config.isMaster = u_to_str(j["isMaster"])
     else:
         print("ConfigReader - failed to load setting isMaster")
 
