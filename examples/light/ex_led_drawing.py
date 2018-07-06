@@ -98,7 +98,7 @@ def patternfade(run_for_seconds, frame_duration=100):
     from ...nebula.animation.animation_loop_mode import LoopMode
 
     print("starting patternfade patterns test")
-    patterns = [[80,80,80],[160,160,160],[80,80,80],[80,0,0],[160,0,0],[80,0,0]]
+    patterns = [[80,80,80],[160,160,160],[80,80,80]],[[80,0,0],[160,0,0],[80,0,0]]
     length_strip = 300
     led_sections = [[0,300,300]]
 
