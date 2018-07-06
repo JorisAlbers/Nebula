@@ -137,6 +137,17 @@ class LedController(threading.Thread):
         
         self.current_animation.frame_duration = frame_duration
 
+    def set_brightness(self,brightness):
+        """
+        Set the brightness of the led strip
+        """
+        if not isinstance(brightness,int):
+            raise ValueError("brightness must be of type int!")
+        if brightness < 1 or brightness > 255:
+            raise ValueError("Brightness must be in range 0 (dark) to 255 (bright)")
+        self.strip.setBrightness(brightness)
+
+
     def clearStrip(self):
         """
         Clear the strip of all colors
