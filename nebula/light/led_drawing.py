@@ -142,7 +142,6 @@ class RandomFade(LedDrawer):
             # Creates a list with all fades of a pattern
             for x in range(0,self.fade_steps+1):
                 pattern_fades.append([])
-            print("new pattern")
             for p in range(0,len(patterns[pattern_index])): 
                 step_R = (patterns[pattern_index][p][0]) / self.fade_steps
                 step_G = (patterns[pattern_index][p][1]) / self.fade_steps
@@ -185,23 +184,7 @@ class RandomFade(LedDrawer):
                  fade_index = self.fade_steps - (fade_step-self.fade_steps)
             
             for p in range(0,len(self.patterns[pattern_index])):
-                    try:
-                        print("-----")
-                        print("start index = " +str(start_index))
-                        print("p = " +str(p))
-                        print("p + start_index % modulo strip length = " +str((start_index + p )% self.strip_lenght))
-                        print("pattern index = " +str(pattern_index))
-                        print("fade index = " +str(fade_index))
-                        print("p = " +str(p))
-                        print("start index = " +str(start_index))
-                        self.strip.setPixelColor((start_index + p) % self.strip_lenght , self.faded_patterns[pattern_index][fade_index][p])
-                    except Exception,e:
-
-                        raise e
-
-
-
-            
+                self.strip.setPixelColor((start_index + p) % self.strip_lenght , self.faded_patterns[pattern_index][fade_index][p])
             item[2] += 1 # Increment the fade index
 
             
