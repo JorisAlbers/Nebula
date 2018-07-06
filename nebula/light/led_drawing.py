@@ -170,14 +170,15 @@ class RandomFade(LedDrawer):
 
         for item in self.displayed_items:
             fade_step = item[2]
+            pattern_index = item[1]
+            start_index = item[0]
             if fade_step > self.fade_steps * 2:
                 self.displayed_items.remove(item)
                 # clear the pattern from the strip
                 for p in range(0,len(self.patterns[pattern_index])):
                     self.strip.setPixelColor((start_index + p) % self.strip_lenght , Color(0,0,0))
                     continue
-            start_index = item[0]
-            pattern_index = item[1]
+    
             fade_index = fade_step
             if fade_step > self.fade_steps:
                 # Fade out, override fade_index
