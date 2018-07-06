@@ -108,7 +108,8 @@ class AnimationReader(object):
                 for p in j_lightAnimation["patterns"]:
                     patterns.append(self.stringArray_to_RGBArray(p))
                 max_n = j_lightAnimation["max_n"]
-                drawer = RandomFade(patterns,max_n)
+                fade_steps = j_lightAnimation["fade_steps"]
+                drawer = RandomFade(patterns,max_n,fade_steps)
             
             la = LightAnimation(drawer,frame_duration,loop_mode,loop_value)
             animation.addLightAnimation(la)

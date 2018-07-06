@@ -126,13 +126,13 @@ class RandomFade(LedDrawer):
     Fades a patterns in and out, randomly over the led strip
     A fade takes 11 iterations to complete
     """
-    def __init__(self,patterns, max_n):
+    def __init__(self,patterns, max_n, fade_steps):
         """
         list patterns - the patterns to randomly fade, NOT WITH COLORS, BUT WITH LISTS OF RGB!
         max_n - the manimum number of patterns
         """
         LedDrawer.__init__(self)
-        self.fade_steps = 5
+        self.fade_steps = fade_steps
         self.patterns = patterns
         self.max_n = max_n
         self.displayed_items = [] #start_index, patternINdex , fadeStep index
@@ -171,7 +171,7 @@ class RandomFade(LedDrawer):
             fade_step = item[2]
             pattern_index = item[1]
             start_index = item[0]
-            if fade_step > self.fade_steps * 2:
+            if fade_step > self.fade_steps * 2:  #TODO check if this is correct, maybe 1 off
                 self.displayed_items.remove(item)
                 # clear the pattern from the strip
                 for p in range(0,len(self.patterns[pattern_index])):
