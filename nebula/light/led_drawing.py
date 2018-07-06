@@ -1,5 +1,6 @@
 from led_strip import Color, LedStrip
 from collections import Iterator
+import random
 
 class LedDrawer(Iterator):
     def __init__(self):
@@ -25,6 +26,7 @@ class LedDrawer(Iterator):
                     raise ValueError("The element at index {0} in led_section {1} must be an int, was {2}!".format(y,x, type(led_sections[x][y])))
         self.strip = strip        
         self.led_sections = led_sections
+        self.strip_lenght = strip.numPixels()
 
     def iter(self):
         return self
@@ -116,3 +118,69 @@ class RepeatingPatterns(LedDrawer):
                     self.strip.setPixelColor(p_strip,pattern[pixel_on_pattern])
         self.iteration += 1
         self.iteration = self.iteration % len(self.patterns)
+
+class RandomFade(LedDrawer):
+    """
+    Fades a patterns in and out, randomly over the led strip
+    A fade takes 11 iterations to complete
+    """
+    def __init__(self,patterns, max_n):
+        """
+        list patterns - the patterns to randomly fade
+        max_n - the manimum number of patterns
+        """
+        LedDrawer.__init__(self)
+        self.fade_steps = 10
+        self.patterns = patterns
+        self.max_n = max_n
+        self.displayed_items = [] #start_index, patternINdex , fadeStep index
+        self.faded_patterns = []
+        for pattern_index in range(0,len(patterns)):
+            pattern_fades = []
+            # Creates a list with all fades of a pattern
+            for x in range(0,self.fade_steps/2):
+                pattern_fades.append([])
+            for p in range(0,len(patterns[patterns[pattern_index]])): 
+                step_R = (patterns[pattern_index][p][0]-1) / self.fade_steps/2
+                step_G = (patterns[pattern_index][p][1]-1) / self.fade_steps/2
+                step_B = (patterns[pattern_index][p][2]-1) / self.fade_steps/2
+                for x in range(0,(self.fade_steps/2) + 1):
+                    pattern_fades[x].append(Color(step_R * x, step_G* x,step_B * x))
+            self.faded_patterns.append(pattern_fades)
+
+    def reset(self):
+        self.displayed_items = []
+        LedDrawer.reset(self)
+
+    def next(self):
+        """
+        Draw the next frame in the animation
+        """
+        #Create new patterns on the strip
+        for x in range(len(self.displayed_items),self.max_n):
+            start_index = random.randint(0,self.strip_lenght)
+            pattern_index = random.randint(0,len(self.patterns)-1)
+            self.displayed_items.append(start_index,pattern_index,0)
+
+        for item in self.displayed_items():
+            fade_index = item[2]
+            if fade_index == 11:
+                self.displayed_items.remove(item)
+
+            start_index = item[0]
+            pattern = self.faded_patterns[item[1]]
+            for p in range(0,len(pattern)):
+                self.strip.setPixelColor(start_index + p , pattern[p][fade_index][p])
+            self.displayed_items[2] += 1 # Increment the fade index
+
+            
+            
+            
+
+
+
+        
+
+
+
+        

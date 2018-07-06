@@ -88,3 +88,29 @@ def repeatingPatterns(run_for_seconds, frame_duration=100):
     time.sleep(run_for_seconds + 1)
     lc.stop()
     print("end of repeating patterns test")
+
+def patternfade(run_for_seconds, frame_duration=100):
+    import time
+    from ...nebula.light.led_controller import LedController
+    from ...nebula.light.led_strip import NeoPixelLedStrip, Color
+    from ...nebula.light.led_drawing import RandomFade
+    from ...nebula.light.light_animation import LightAnimation
+    from ...nebula.animation.animation_loop_mode import LoopMode
+
+    print("starting patternfade patterns test")
+    patterns = [[Color(80,80,80),Color(160,160,160)],[Color(80,80,80)],[Color(80,0,0),Color(160,0,0)],[Color(80,0,0)]]
+    length_strip = 300
+    led_sections = [[0,300,300]]
+
+    strip = NeoPixelLedStrip(length_strip, 18,800000,5,False)
+    lc = LedController(strip,led_sections)
+    max_n = 100
+    la = RandomFade(patterns,max_n)
+    #Start
+    lc.start()
+    run_for_seconds = 10
+    lc.setAnimation(LightAnimation(la,frame_duration,LoopMode.DURATION, run_for_seconds * 1000))
+
+    time.sleep(run_for_seconds + 1)
+    lc.stop()
+    print("end of patternfade test")
