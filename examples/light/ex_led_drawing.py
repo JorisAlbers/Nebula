@@ -104,7 +104,7 @@ def patternfade(run_for_seconds, frame_duration=100):
 
     strip = NeoPixelLedStrip(length_strip, 18,800000,5,False)
     lc = LedController(strip,led_sections)
-    max_n = 100
+    max_n = 10
     la = RandomFade(patterns,max_n)
     #Start
     lc.start()
