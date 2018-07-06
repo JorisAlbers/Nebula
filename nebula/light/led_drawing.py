@@ -148,7 +148,6 @@ class RandomFade(LedDrawer):
                 step_G = (patterns[pattern_index][p][1]) / self.fade_steps
                 step_B = (patterns[pattern_index][p][2]) / self.fade_steps
                 for x in range(0,self.fade_steps +1):
-                    print("Adding pixel with color : R{0} G{1} B{2}".format(step_R * x, step_G* x,step_B * x))
                     pattern_fades[x].append(Color(step_R * x, step_G* x,step_B * x))
             self.faded_patterns.append(pattern_fades)
 
