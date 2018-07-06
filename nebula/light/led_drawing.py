@@ -162,7 +162,7 @@ class RandomFade(LedDrawer):
             pattern_index = random.randint(0,len(self.patterns)-1)
             self.displayed_items.append([start_index,pattern_index,0])
 
-        for item in self.displayed_items():
+        for item in self.displayed_items:
             fade_step = item[2]
             if fade_step > self.fade_steps * 2:
                 self.displayed_items.remove(item)
