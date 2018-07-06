@@ -177,7 +177,7 @@ class RandomFade(LedDrawer):
             for p in range(0,len(self.patterns[pattern_index])):
                     self.strip.setPixelColor(start_index + p , self.faded_patterns[pattern_index][fade_index][p])
             
-            self.displayed_items[2] += 1 # Increment the fade index
+            item[2] += 1 # Increment the fade index
 
             
             
