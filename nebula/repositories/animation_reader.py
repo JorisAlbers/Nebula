@@ -94,7 +94,10 @@ class AnimationReader(object):
                 patterns = []
                 for p in j_lightAnimation["patterns"]:
                     patterns.append(self.stringArray_to_ColorArray(p))
-                drawer = SlidingPatterns(patterns)
+                margin = None
+                if "margin" in j_lightAnimation:
+                    margin = j_lightAnimation["margin"]
+                drawer = SlidingPatterns(patterns,margin)
             elif drawer_string == "repeatingpatterns":
                 patterns = []
                 for p in j_lightAnimation["patterns"]:

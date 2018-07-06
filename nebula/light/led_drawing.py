@@ -55,7 +55,7 @@ class SlidingPatterns(LedDrawer):
     """
     One pattern sliding over the ledstrip
     """
-    def __init__(self, patterns):
+    def __init__(self, patterns,margin):
         """
         array patterns - the patterns to slide. A pattern is an array of rgb vaues
         [pattern1, patter2]
@@ -63,23 +63,26 @@ class SlidingPatterns(LedDrawer):
         """
         LedDrawer.__init__(self)
         self.patterns = patterns
+        self.margin = margin
         
     def next(self):
         """
         Draw the next frame in the animation
         """
         # Each iteration draws the patterns a position further on the strip
+        pattern_start = self.iteration
         for i in range(0, len(self.patterns)):
             # draw a pattern
             # TODO add spacing between patterns
             for j in range(0, len(self.patterns[i])):
                 for k in range(0,len(self.led_sections)):
                      # Get the pixel index in the section k
-                    p_section = (self.iteration + j) % self.led_sections[k][2]
+                    p_section = (pattern_start + j) % self.led_sections[k][2]
                     # Get the actual pixel index on the strip
                     p_strip = super(SlidingPatterns,self).section_index_to_strip_index(p_section,k)
                     # Draw the pixel
                     self.strip.setPixelColor(p_strip, self.patterns[i][j])
+            pattern_start += len(self.patterns[i]) + self.margin
         self.iteration += 1
 
 class RepeatingPatterns(LedDrawer):

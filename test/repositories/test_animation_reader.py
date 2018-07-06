@@ -22,9 +22,10 @@ def test_loadAnimation_file_returnsCorrectAnimation():
     ex_loops = False
     #First light animation
     ex1_drawer = SlidingPatterns([[]])
-    ex1_patterns = [[Color(255,0,0),Color(0,0,0)]]
+    ex1_patterns = [[Color(255,0,0),Color(0,0,0)],[Color(0,0,0),Color(255,255,0)]]
     ex1_loop_mode = LoopMode.DURATION
     ex1_loop_value = 100000
+    ex1_margin = 100
     ex1_frame_duration = 200
     #Second light animation
     ex2_wait = 1000
@@ -49,6 +50,7 @@ def test_loadAnimation_file_returnsCorrectAnimation():
     la = animation.lightAnimations[0]
     assert(type(ex1_drawer) == type(la.drawer))
     assert(len(ex1_patterns) == len(la.drawer.patterns))
+    assert(len(ex1_margin) == len(la.drawer.margin))
     assert all([a == b for a, b in zip(ex1_patterns[0], la.drawer.patterns[0])])
     assert(type(ex1_loop_mode) == type(la.loop_mode))
     assert(ex1_loop_value == la.loop_value)

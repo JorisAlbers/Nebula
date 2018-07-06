@@ -19,12 +19,12 @@ def sliding_pattern(run_for_seconds, frame_duration=100):
     #Start
     lc.start()
     run_for_seconds = 10
-    lc.setAnimation(LightAnimation(SlidingPatterns(patterns),frame_duration, LoopMode.DURATION, run_for_seconds * 1000))
+    lc.setAnimation(LightAnimation(SlidingPatterns(patterns,0),frame_duration, LoopMode.DURATION, run_for_seconds * 1000))
 
     time.sleep(run_for_seconds + 1)
 
     patterns = [[Color(0,0,0),Color(0,0,255)]]
-    lc.setAnimation(LightAnimation(SlidingPatterns(patterns),frame_duration,LoopMode.DURATION, run_for_seconds * 1000))
+    lc.setAnimation(LightAnimation(SlidingPatterns(patterns,0),frame_duration,LoopMode.DURATION, run_for_seconds * 1000))
 
     time.sleep(run_for_seconds + 1)
 

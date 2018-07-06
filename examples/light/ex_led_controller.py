@@ -18,7 +18,7 @@ def set_frame_duration():
     lc.start()
 
     total_iterations = 1000
-    lc.setAnimation(LightAnimation(SlidingPatterns(patterns),1000,LoopMode.ITERATIONS, total_iterations))
+    lc.setAnimation(LightAnimation(SlidingPatterns(patterns,0),1000,LoopMode.ITERATIONS, total_iterations))
     for x in range(1000,0,-100):
         time.sleep(1)
         lc.set_frame_duration(x)
@@ -47,7 +47,7 @@ def inversed_led_sections(run_for_seconds):
     lc = LedController(strip,led_sections)
     lc.start()
 
-    lc.setAnimation(LightAnimation(SlidingPatterns(patterns),500,LoopMode.DURATION, run_for_seconds * 1000))
+    lc.setAnimation(LightAnimation(SlidingPatterns(patterns,0),500,LoopMode.DURATION, run_for_seconds * 1000))
     time.sleep(run_for_seconds + 1)        
     lc.stop()
     print("end of set_frame_duration test")
@@ -72,7 +72,7 @@ def loopMode_duration_test():
     run_for_seconds = 10
 
     start = time.time()
-    lc.setAnimation(LightAnimation(SlidingPatterns(patterns),500,LoopMode.DURATION, run_for_seconds * 1000))
+    lc.setAnimation(LightAnimation(SlidingPatterns(patterns,0),500,LoopMode.DURATION, run_for_seconds * 1000))
     while lc.current_animation is not None:
         time.sleep(0.1)
     print("Took {0} miliseconds".format(int(round((time.time()-start) * 1000))))
@@ -100,7 +100,7 @@ def loopMode_iterations_test():
     iterations = 10
 
     start = time.time()
-    la = LightAnimation(SlidingPatterns(patterns),500,LoopMode.ITERATIONS, iterations)
+    la = LightAnimation(SlidingPatterns(patterns,0),500,LoopMode.ITERATIONS, iterations)
     print("The lightAnimation loop_value at start is {0}".format(la.loop_value))
     lc.setAnimation(la)
     while lc.current_animation is not None:
@@ -130,12 +130,12 @@ def clear_strip():
     duration = 3000
 
     start = time.time()
-    la = LightAnimation(SlidingPatterns(patterns),50,LoopMode.DURATION, duration)
+    la = LightAnimation(SlidingPatterns(patterns,0),50,LoopMode.DURATION, duration)
     lc.setAnimation(la)
     time.sleep(2)
     lc.setWait(time.time() + 5, True)
     time.sleep(2)
-    la = LightAnimation(SlidingPatterns(patterns),50,LoopMode.DURATION, duration)
+    la = LightAnimation(SlidingPatterns(patterns,0),50,LoopMode.DURATION, duration)
     lc.setAnimation(la)
     time.sleep(2)
     lc.stop()
