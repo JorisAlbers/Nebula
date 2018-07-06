@@ -158,7 +158,7 @@ class RandomFade(LedDrawer):
         """
         #Create new patterns on the strip
         for x in range(len(self.displayed_items),self.max_n):
-            start_index = random.randint(0,self.strip_lenght)
+            start_index = random.randint(0,self.strip_lenght)-1
             pattern_index = random.randint(0,len(self.patterns)-1)
             self.displayed_items.append([start_index,pattern_index,0])
 
@@ -175,7 +175,7 @@ class RandomFade(LedDrawer):
                  fade_index = self.fade_steps - fade_step
             
             for p in range(0,len(self.patterns[pattern_index])):
-                    self.strip.setPixelColor(start_index + p , self.faded_patterns[pattern_index][fade_index][p])
+                    self.strip.setPixelColor((start_index + p) % self.strip_lenght , self.faded_patterns[pattern_index][fade_index][p])
             
             item[2] += 1 # Increment the fade index
 
