@@ -126,7 +126,7 @@ class RandomFade(LedDrawer):
     """
     def __init__(self,patterns, max_n):
         """
-        list patterns - the patterns to randomly fade
+        list patterns - the patterns to randomly fade, NOT WITH COLORS, BUT WITH LISTS OF RGB!
         max_n - the manimum number of patterns
         """
         LedDrawer.__init__(self)
