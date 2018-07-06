@@ -182,7 +182,8 @@ class RandomFade(LedDrawer):
             fade_index = fade_step
             if fade_step > self.fade_steps:
                 # Fade out, override fade_index
-                 fade_index = self.fade_steps - (self.fade_steps -fade_step)
+
+                 fade_index = self.fade_steps - (fade_step-self.fade_steps)
             
             for p in range(0,len(self.patterns[pattern_index])):
                     try:
