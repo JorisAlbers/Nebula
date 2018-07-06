@@ -172,7 +172,7 @@ class RandomFade(LedDrawer):
             fade_step = item[2]
             pattern_index = item[1]
             start_index = item[0]
-            if fade_step > self.fade_steps * 2:  #TODO check if this is correct, maybe 1 off
+            if fade_step > self.fade_steps * 2 -1:  #TODO check if this is correct, maybe 1 off
                 self.displayed_items.remove(item)
                 # clear the pattern from the strip
                 for p in range(0,len(self.patterns[pattern_index])):
@@ -182,7 +182,6 @@ class RandomFade(LedDrawer):
             fade_index = fade_step
             if fade_step > self.fade_steps:
                 # Fade out, override fade_index
-
                  fade_index = self.fade_steps - (fade_step-self.fade_steps)
             
             for p in range(0,len(self.patterns[pattern_index])):
