@@ -18,15 +18,17 @@ class LedDrawer(Iterator):
         if len(led_sections) < 1:
             raise ValueError("There must be at least 1 defined led section")
 
+        strip_length = 0
         for x in range(0,len(led_sections)):
             if (len(led_sections[x]) != 3 ):
                 raise ValueError("The led section at index {0} must have 3 items!".format(x))
             for y in range(0,len(led_sections[x])):
                 if not isinstance(led_sections[x][y],int):
                     raise ValueError("The element at index {0} in led_section {1} must be an int, was {2}!".format(y,x, type(led_sections[x][y])))
+            strip_length += led_sections[x][2]
         self.strip = strip        
         self.led_sections = led_sections
-        self.strip_lenght = strip.numPixels()
+        self.strip_lenght = strip_length
 
     def iter(self):
         return self
