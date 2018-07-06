@@ -162,7 +162,8 @@ class RandomFade(LedDrawer):
         Draw the next frame in the animation
         """
         #Create new patterns on the strip
-        for x in range(len(self.displayed_items),self.max_n):
+        
+        for x in range(0,random.randint(1,self.max_n - len(self.displayed_items))):
             start_index = random.randint(0,self.strip_lenght)-1
             pattern_index = random.randint(0,len(self.patterns)-1)
             self.displayed_items.append([start_index,pattern_index,0])
