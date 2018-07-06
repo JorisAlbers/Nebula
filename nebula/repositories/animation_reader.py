@@ -103,6 +103,12 @@ class AnimationReader(object):
                 for p in j_lightAnimation["patterns"]:
                     patterns.append(self.stringArray_to_ColorArray(p))
                 drawer = RepeatingPatterns(patterns)
+            elif drawer_string == "randomfade":
+                patterns = []
+                for p in j_lightAnimation["patterns"]:
+                    patterns.append(self.stringArray_to_RGBArray(p))
+                max_n = j_lightAnimation["max_n"]
+                drawer = RandomFade(patterns,max_n)
             
             la = LightAnimation(drawer,frame_duration,loop_mode,loop_value)
             animation.addLightAnimation(la)
@@ -132,8 +138,28 @@ class AnimationReader(object):
         blue = int(split[2])
         return Color(red,green,blue)
 
+    def stringToRGBArray(self,string):
+        """
+        Convert a rgb string to a rgb array.
+        The rgb values can be separated by . or , 
+        """
+        split = string.split('.')
+        if len(split) == 1:
+            split = string.split(",")
+        
+        red = int(split[0])
+        green = int(split[1])
+        blue = int(split[2])
+        return [red,green,blue]
+
     def stringArray_to_ColorArray(self,array):
         pattern =  []
         for s in array:
             pattern.append(self.stringToColor(s))
+        return pattern
+
+    def stringArray_to_RGBArray(self,array):
+        pattern = []
+        for s in array:
+            pattern.append(self.stringArray_to_RGBArray(s))
         return pattern
