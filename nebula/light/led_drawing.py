@@ -186,8 +186,7 @@ class RandomFade(LedDrawer):
             
             for p in range(0,len(self.patterns[pattern_index])):
                     try:
-                        self.strip.setPixelColor((start_index + p) % self.strip_lenght , self.faded_patterns[pattern_index][fade_index][p])
-                    except Exception,e:
+                        print("-----")
                         print("start index = " +str(start_index))
                         print("p = " +str(p))
                         print("p + start_index % modulo strip length = " +str((start_index + p )% self.strip_lenght))
@@ -195,6 +194,9 @@ class RandomFade(LedDrawer):
                         print("fade index = " +str(fade_index))
                         print("p = " +str(p))
                         print("start index = " +str(start_index))
+                        self.strip.setPixelColor((start_index + p) % self.strip_lenght , self.faded_patterns[pattern_index][fade_index][p])
+                    except Exception,e:
+
                         raise e
 
 
