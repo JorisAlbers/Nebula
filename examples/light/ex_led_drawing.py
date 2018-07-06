@@ -89,7 +89,7 @@ def repeatingPatterns(run_for_seconds, frame_duration=100):
     lc.stop()
     print("end of repeating patterns test")
 
-def patternfade(run_for_seconds, frame_duration=100):
+def patternfade(run_for_seconds, max_n,frame_duration=100):
     import time
     from ...nebula.light.led_controller import LedController
     from ...nebula.light.led_strip import NeoPixelLedStrip, Color
@@ -104,7 +104,6 @@ def patternfade(run_for_seconds, frame_duration=100):
 
     strip = NeoPixelLedStrip(length_strip, 18,800000,5,False)
     lc = LedController(strip,led_sections)
-    max_n = 1
     la = RandomFade(patterns,max_n)
     #Start
     lc.start()
