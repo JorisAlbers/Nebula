@@ -140,7 +140,7 @@ class RandomFade(LedDrawer):
             # Creates a list with all fades of a pattern
             for x in range(0,self.fade_steps/2):
                 pattern_fades.append([])
-            for p in range(0,len(patterns[patterns[pattern_index]])): 
+            for p in range(0,len(patterns[pattern_index])): 
                 step_R = (patterns[pattern_index][p][0]-1) / self.fade_steps/2
                 step_G = (patterns[pattern_index][p][1]-1) / self.fade_steps/2
                 step_B = (patterns[pattern_index][p][2]-1) / self.fade_steps/2
