@@ -166,7 +166,7 @@ class RandomFade(LedDrawer):
         for x in range(0,random.randint(1,self.max_n - len(self.displayed_items))):
             start_index = random.randint(0,self.strip_lenght)-1
             pattern_index = random.randint(0,len(self.patterns)-1)
-            self.displayed_items.append([start_index,pattern_index,0])
+            self.displayed_items.append([start_index,pattern_index,random.randint(0,self.fade_steps * 2)-1])
 
         for item in self.displayed_items:
             fade_step = item[2]
