@@ -130,7 +130,7 @@ class RandomFade(LedDrawer):
         max_n - the manimum number of patterns
         """
         LedDrawer.__init__(self)
-        self.fade_steps = 10
+        self.fade_steps = 5
         self.patterns = patterns
         self.max_n = max_n
         self.displayed_items = [] #start_index, patternINdex , fadeStep index
@@ -138,13 +138,13 @@ class RandomFade(LedDrawer):
         for pattern_index in range(0,len(patterns)):
             pattern_fades = []
             # Creates a list with all fades of a pattern
-            for x in range(0,self.fade_steps/2):
+            for x in range(0,self.fade_steps):
                 pattern_fades.append([])
             for p in range(0,len(patterns[pattern_index])): 
-                step_R = (patterns[pattern_index][p][0]-1) / self.fade_steps/2
-                step_G = (patterns[pattern_index][p][1]-1) / self.fade_steps/2
-                step_B = (patterns[pattern_index][p][2]-1) / self.fade_steps/2
-                for x in range(0,(self.fade_steps/2) + 1):
+                step_R = (patterns[pattern_index][p][0]-1) / self.fade_steps
+                step_G = (patterns[pattern_index][p][1]-1) / self.fade_steps
+                step_B = (patterns[pattern_index][p][2]-1) / self.fade_steps
+                for x in range(0,self.fade_steps):
                     pattern_fades[x].append(Color(step_R * x, step_G* x,step_B * x))
             self.faded_patterns.append(pattern_fades)
 
@@ -163,14 +163,20 @@ class RandomFade(LedDrawer):
             self.displayed_items.append(start_index,pattern_index,0)
 
         for item in self.displayed_items():
-            fade_index = item[2]
-            if fade_index == 11:
+            fade_step = item[2]
+            if fade_step > self.fade_steps * 2:
                 self.displayed_items.remove(item)
 
             start_index = item[0]
-            pattern = self.faded_patterns[item[1]]
-            for p in range(0,len(pattern)):
-                self.strip.setPixelColor(start_index + p , pattern[p][fade_index][p])
+            pattern_index = item[1]
+            fade_index = fade_step
+            if fade_step > self.fade_steps:
+                # Fade out, override fade_index
+                 fade_index = self.fade_steps - fade_step
+            
+            for p in range(0,len(self.patterns[pattern_index])):
+                    self.strip.setPixelColor(start_index + p , self.faded_patterns[pattern_index][fade_index][p])
+            
             self.displayed_items[2] += 1 # Increment the fade index
 
             
