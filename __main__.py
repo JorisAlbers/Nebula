@@ -50,6 +50,11 @@ class NebulaMaster(object):
                 elif option == 3:
                     self.animationContoller.clear()
                     self.server.sendClear()
+                elif option == 4:
+                    b = self.getSetBrightnessTerminalInput()
+                    if b is not None:
+                        self.server.sendSetBrightness(b)
+                        self.animationContoller.setBrightness(b)
 
             except KeyboardInterrupt:
                 print("Manual stop event set.")
@@ -69,6 +74,7 @@ class NebulaMaster(object):
         print("1 - Stop")
         print("2 - Start an animation")
         print("3 - Clear all animations")
+        print("4 - Set brightness")
         return int(raw_input())
 
     def getTerminalAnimationInput(self,animations):
@@ -79,6 +85,18 @@ class NebulaMaster(object):
             return animations[i-1]
         else:
             return None
+    
+    def getSetBrightnessTerminalInput(self):
+        print("Enter the brightness, 0 to 255")
+        try:
+            b = int(raw_input)
+            if b < 0 or b > 255:
+                print("Brightness must be in the range of 0 and  255")
+            else:
+                return b
+        except:
+            print("Brightness must be an integer")
+        return None
     
 class NebulaClient(object):
     def __init__(self,config,animationReader,animationController,client):
@@ -95,7 +113,7 @@ class NebulaClient(object):
         self.animationReader = animationReader
         self.animationContoller = animationController
         self.client = client
-        self.client.init_callbacks(self.startAnimationCallback,self.clearAnimationCallBack)
+        self.client.init_callbacks(self.startAnimationCallback,self.clearAnimationCallBack,self.setBrightnessCallback)
 
     def start(self):
         self.client.start()
@@ -140,6 +158,16 @@ class NebulaClient(object):
             self.animationContoller.clear()
         except Exception, e:
             print("Failed to clear animation as requested by server., exception = ({0}), message = ({1})".format(type(e), e.message))
+
+    def setBrightnessCallback(self,brightness):
+        """
+        The client calls this callback if a SET BRIGHTNESS message was send from the server
+        """
+        try:
+            self.animationContoller.setBrightness(brightness)
+        except Exception, e:
+            print("Failed to set the brightness  as requested by server., exception = ({0}), message = ({1})".format(type(e), e.message))
+
 
     def getTerminalInput(self):
         print("1 - Stop")

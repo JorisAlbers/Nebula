@@ -30,10 +30,12 @@ class Client(threading.Thread):
         #CallBacks
         self.startAnimationCallback = None
         self.clearCallback = None
+        self.setBrightnessCallback = None
     
-    def init_callbacks(self,startAnimationCallback, clearCallback):
+    def init_callbacks(self,startAnimationCallback, clearCallback, brightnessCallback):
         self.startAnimationCallback = startAnimationCallback
         self.clearCallback = clearCallback
+        self.setBrightnessCallback = brightnessCallback
 
     def run(self):
         # A quick inital connection for logging purposes
@@ -96,6 +98,11 @@ class Client(threading.Thread):
                     self.clearCallback()
                 else:
                     print("Can't clear, callback was not set.")
+            if messageType == MessageType.SET_BRIGHTNESS:
+                brightness = int(split[1])
+                print("Server wants me to set the brightness to {0}".format(brightness))
+                if self.setBrightnessCallback is not None:
+                    self.setBrightnessCallback()
             else:
                 raise ValueError("Unknown or not implemented message type ({0})".format(messageType))
         except Exception,e:
