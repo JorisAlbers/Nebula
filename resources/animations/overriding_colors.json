@@ -1,0 +1,94 @@
+{
+  "title": "blue_dot",
+  "author": "Joris",
+  "description" : "overriding colors",
+  "animations_per_ring" : 
+    { "ring_1" : 
+      { "intial_start_delay_ms" : 0,
+        "loops" : true,
+        "light_animations":
+        [
+          {
+          "drawer"   : "SlidingPatterns",
+          "patterns" : [["0.255.0"]],
+          "loop_mode" : "iteration",
+          "loop_value": 600,
+          "frame_duration" : 20
+          },
+          {
+            "drawer"   : "SlidingPatterns",
+            "patterns" : [["180.180.180"]],
+            "loop_mode" : "iteration",
+            "loop_value": 600,
+            "frame_duration" : 20
+          },
+          {
+              "drawer"   : "SlidingPatterns",
+              "patterns" : [["0.0.255"]],
+              "loop_mode" : "iteration",
+              "loop_value": 600,
+              "frame_duration" : 20
+          }
+
+        ]
+      },
+
+      "ring_2" : 
+      { "intial_start_delay_ms" : 1000,
+        "loops" : true,
+        "light_animations":
+        [
+          {
+          "drawer"   : "SlidingPatterns",
+          "patterns" : [["0.255.0"]],
+          "loop_mode" : "iteration",
+          "loop_value": 600,
+          "frame_duration" : 20
+          },
+          {
+            "drawer"   : "SlidingPatterns",
+            "patterns" : [["180.180.180"]],
+            "loop_mode" : "iteration",
+            "loop_value": 600,
+            "frame_duration" : 20
+          },
+          {
+              "drawer"   : "SlidingPatterns",
+              "patterns" : [["0.0.255"]],
+              "loop_mode" : "iteration",
+              "loop_value": 600,
+              "frame_duration" : 20
+          }
+
+        ]
+      },
+      "ring_3" : 
+      { "intial_start_delay_ms" : 2000,
+        "loops" : true,
+        "light_animations":
+        [
+          {
+          "drawer"   : "SlidingPatterns",
+          "patterns" : [["0.255.0"]],
+          "loop_mode" : "iteration",
+          "loop_value": 600,
+          "frame_duration" : 20
+          },
+          {
+            "drawer"   : "SlidingPatterns",
+            "patterns" : [["180.180.180"]],
+            "loop_mode" : "iteration",
+            "loop_value": 600,
+            "frame_duration" : 20
+          },
+          {
+              "drawer"   : "SlidingPatterns",
+              "patterns" : [["0.0.255"]],
+              "loop_mode" : "iteration",
+              "loop_value": 600,
+              "frame_duration" : 20
+          }
+        ]
+      }
+    }
+}

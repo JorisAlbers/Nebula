@@ -10,8 +10,8 @@ def lightAnimation_callback():
     from ...nebula.light.light_animation import LightAnimation
     from ...nebula.animation.animation_loop_mode import LoopMode
 
-    lightAnimation1 = LightAnimation(SlidingPatterns([[Color(0,0,255),Color(0,0,0)]]),100,LoopMode.ITERATIONS,10)
-    lightAnimation2 = LightAnimation(SlidingPatterns([[Color(0,255,255),Color(0,0,0)]]),100,LoopMode.ITERATIONS,10)
+    lightAnimation1 = LightAnimation(SlidingPatterns([[Color(0,0,255),Color(0,0,0)]],0),100,LoopMode.ITERATIONS,10)
+    lightAnimation2 = LightAnimation(SlidingPatterns([[Color(0,255,255),Color(0,0,0)]],0),100,LoopMode.ITERATIONS,10)
     
     animation = Animation(False)
     animation.addLightAnimation(lightAnimation1)
@@ -39,8 +39,8 @@ def wait_in_animation(wait_seconds):
     from ...nebula.light.light_animation import LightAnimation
     from ...nebula.animation.animation_loop_mode import LoopMode
 
-    lightAnimation1 = LightAnimation(SlidingPatterns([[Color(0,0,255),Color(0,0,0)]]),100,LoopMode.ITERATIONS,20)
-    lightAnimation2 = LightAnimation(SlidingPatterns([[Color(0,255,255),Color(0,0,0)]]),100,LoopMode.ITERATIONS,20)
+    lightAnimation1 = LightAnimation(SlidingPatterns([[Color(0,0,255),Color(0,0,0)]],0),100,LoopMode.ITERATIONS,20)
+    lightAnimation2 = LightAnimation(SlidingPatterns([[Color(0,255,255),Color(0,0,0)]],0),100,LoopMode.ITERATIONS,20)
     
     animation = Animation(False)
     animation.addLightAnimation(lightAnimation1)
@@ -69,8 +69,8 @@ def loop_example(seconds_per_light_animation):
     from ...nebula.light.light_animation import LightAnimation
     from ...nebula.animation.animation_loop_mode import LoopMode
 
-    lightAnimation1 = LightAnimation(SlidingPatterns([[Color(0,0,255),Color(0,0,0)]]),100,LoopMode.DURATION,seconds_per_light_animation * 1000)
-    lightAnimation2 = LightAnimation(SlidingPatterns([[Color(0,255,255),Color(0,0,0)]]),100,LoopMode.DURATION,seconds_per_light_animation* 1000)
+    lightAnimation1 = LightAnimation(SlidingPatterns([[Color(0,0,255),Color(0,0,0)]],0),100,LoopMode.DURATION,seconds_per_light_animation * 1000)
+    lightAnimation2 = LightAnimation(SlidingPatterns([[Color(0,255,255),Color(0,0,0)]],0),100,LoopMode.DURATION,seconds_per_light_animation* 1000)
     
     animation = Animation(True)
     animation.addLightAnimation(lightAnimation1)
@@ -121,8 +121,8 @@ def clear_animation_test():
     from ...nebula.light.light_animation import LightAnimation
     from ...nebula.animation.animation_loop_mode import LoopMode
 
-    lightAnimation1 = LightAnimation(SlidingPatterns([[Color(0,0,255),Color(0,0,0)]]),100,LoopMode.ITERATIONS,10)
-    lightAnimation2 = LightAnimation(SlidingPatterns([[Color(0,255,255),Color(0,0,0)]]),100,LoopMode.ITERATIONS,10)
+    lightAnimation1 = LightAnimation(SlidingPatterns([[Color(0,0,255),Color(0,0,0)]],0),100,LoopMode.ITERATIONS,10)
+    lightAnimation2 = LightAnimation(SlidingPatterns([[Color(0,255,255),Color(0,0,0)]],0),100,LoopMode.ITERATIONS,10)
     
     animation = Animation(False)
     animation.addLightAnimation(lightAnimation1)

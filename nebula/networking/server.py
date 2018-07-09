@@ -150,6 +150,12 @@ class Server(threading.Thread):
         """
         self.broadcast(MessageType.CLEAR,"clear")
 
+    def sendSetBrightness(self,brightness):
+        """
+        Send a SEND_BRIGHTNESS to all connected clients
+        """
+        self.broadcast(MessageType.SET_BRIGHTNESS,brightness)
+
     def closeSocket(self,socket,reason):
         """
         Tell the socket that the connection will be closed and close the socket

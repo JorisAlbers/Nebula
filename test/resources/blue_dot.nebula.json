@@ -10,7 +10,8 @@
         [
           {
           "drawer"   : "SlidingPatterns",
-          "patterns" : [["255,0,0","0,0,0"]],
+          "patterns" : [["255,0,0","0,0,0"],["0,0,0","255,255,0"]],
+          "margin" : 100,
           "loop_mode" : "duration",
           "loop_value": 100000,
           "frame_duration" : 200
