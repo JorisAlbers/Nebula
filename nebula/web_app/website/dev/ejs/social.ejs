@@ -32,12 +32,27 @@
         </div> <!--end header-->
       </div> <!--end content-->
     </div> <!--end wrapper-->
-       
+
     <div id="page-header">
       <div class="header-nav">
         <ul class="buttons">
-          <li class="active"> <a href="../../index.html" style="text-decoration : none"><h7>Ledjes</h7></a> </li>
-            <li id="adviesbutton"><a href="../../social.html" style="text-decoration : none"><h7>Social Feed</h7></a></li>
+          <li> <a href="../../index.html" style="text-decoration : none"><h7>Ledjes</h7></a> </li>
+            <li class="active"><a href="../../social.html" style="text-decoration : none"><h7>Social Feed</h7></a></li>
         </ul>
       </div><!--end header-wrapper-->
-    </div> <!--end page-header-->
+    </div> <!--end page-header--> 
+
+    <div class="container">
+        <div class="column column--half btn--stop">
+            <div id="fb-root"></div>
+            <script>(function(d, s, id) {
+              var js, fjs = d.getElementsByTagName(s)[0];
+              if (d.getElementById(id)) return;
+              js = d.createElement(s); js.id = id;
+              js.src = 'https://connect.facebook.net/nl_NL/sdk.js#xfbml=1&version=v3.0&appId=189038304919308&autoLogAppEvents=1';
+              fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));</script>
+            <div class="fb-page" data-href="https://www.facebook.com/Cloud-7-819871958039742/" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/Cloud-7-819871958039742/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/Cloud-7-819871958039742/">Cloud 7</a></blockquote></div>
+        </div>
+    </div>
+<% include partials/footer %> 
